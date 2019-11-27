@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29403.142
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fundoo", "Fundoo.csproj", "{35D30839-6085-4C0B-B705-DDC775313141}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BussinessLayer", "..\BussinessLayer\BussinessLayer.csproj", "{710AB007-687D-4658-9AEA-6F04E950D382}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "..\Common\Common.csproj", "{418B22FC-B263-4265-9FB6-6CA7EF56A7C0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepositoryLayer", "..\RepositoryLayer\RepositoryLayer.csproj", "{EC58E7D6-796E-484E-8B7B-09B796533459}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FundooTestCases", "..\FundooTestCases\FundooTestCases.csproj", "{C252FCC0-C41F-4F0E-8F9F-14E5DDFE50C8}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "fundooDB", "..\fundooDB\fundooDB.sqlproj", "{B6618694-DE4D-4281-9A37-068EE00DC4F7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35D30839-6085-4C0B-B705-DDC775313141}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35D30839-6085-4C0B-B705-DDC775313141}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35D30839-6085-4C0B-B705-DDC775313141}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35D30839-6085-4C0B-B705-DDC775313141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{710AB007-687D-4658-9AEA-6F04E950D382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{710AB007-687D-4658-9AEA-6F04E950D382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{710AB007-687D-4658-9AEA-6F04E950D382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{710AB007-687D-4658-9AEA-6F04E950D382}.Release|Any CPU.Build.0 = Release|Any CPU
+		{418B22FC-B263-4265-9FB6-6CA7EF56A7C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{418B22FC-B263-4265-9FB6-6CA7EF56A7C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{418B22FC-B263-4265-9FB6-6CA7EF56A7C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{418B22FC-B263-4265-9FB6-6CA7EF56A7C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC58E7D6-796E-484E-8B7B-09B796533459}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC58E7D6-796E-484E-8B7B-09B796533459}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC58E7D6-796E-484E-8B7B-09B796533459}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC58E7D6-796E-484E-8B7B-09B796533459}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C252FCC0-C41F-4F0E-8F9F-14E5DDFE50C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C252FCC0-C41F-4F0E-8F9F-14E5DDFE50C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C252FCC0-C41F-4F0E-8F9F-14E5DDFE50C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C252FCC0-C41F-4F0E-8F9F-14E5DDFE50C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6618694-DE4D-4281-9A37-068EE00DC4F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6618694-DE4D-4281-9A37-068EE00DC4F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6618694-DE4D-4281-9A37-068EE00DC4F7}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B6618694-DE4D-4281-9A37-068EE00DC4F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6618694-DE4D-4281-9A37-068EE00DC4F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6618694-DE4D-4281-9A37-068EE00DC4F7}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5E087B27-BE46-44EF-AC99-CDBFAE576D13}
+	EndGlobalSection
+EndGlobal
