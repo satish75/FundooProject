@@ -218,7 +218,7 @@ namespace FundooTestCases
         {
             var mock = new Mock<IRepositoryNotes>();
             var bussiness = new BussinessNotes(mock.Object);          
-            var data = bussiness.Search("notes");
+          ///  var data = bussiness.Search("notes");
             Assert.NotNull(data);
         }
         

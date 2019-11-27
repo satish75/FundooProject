@@ -140,9 +140,9 @@ namespace Fundoo.Controllers
         [HttpDelete]
         [AllowAnonymous]
          [Route("forever")]
-        public async Task<IActionResult> DeleteForever(List<int> id, string UserId)
+        public async Task<IActionResult> DeleteForever(List<int> id,string UserId)
         {
-            var results = await _bussinessRegister.DeleteForever(id,  UserId);
+            var results = await _bussinessRegister.DeleteForever(id, UserId);
             return Ok(new { results });
         }
 

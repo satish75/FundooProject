@@ -4,20 +4,17 @@
 // </copyright>
 // <creator name="Satish Dodake"/>
 // -------------------------------------------------------------------------------------------------
+using BussinessLayer.Interface;
+using Common.Models;
+using Microsoft.AspNetCore.Http;
+using RepositoryLayer.Interface;
+using ServiceStack.Redis;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 namespace BussinessLayer.Services
 {
-    using BussinessLayer.Interface;
-    using Common.Enum;
-    using Common.Models;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
-    using RepositoryLayer.Interface;
-    using RepositoryLayer.Services;
-    using ServiceStack.Redis;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Threading.Tasks;
     public class BussinessNotes : IBussinessNotes
     {
         private readonly IRepositoryNotes _repository;
@@ -56,7 +53,7 @@ namespace BussinessLayer.Services
             }
         }
 
-     
+
         /// <summary>
         /// Deletes the notes.
         /// </summary>
@@ -67,14 +64,14 @@ namespace BussinessLayer.Services
         {
             try
             {
-                    if (id != null)
-                    {
-                       return await _repository.DeleteNotes(id, UserId);
-                    }
-                    else
-                    {
-                        throw new Exception("Notes Not Found");
-                    }  
+                if (id != null)
+                {
+                    return await _repository.DeleteNotes(id, UserId);
+                }
+                else
+                {
+                    throw new Exception("Notes Not Found");
+                }
             }
             catch (Exception exception)
             {
@@ -94,7 +91,7 @@ namespace BussinessLayer.Services
             {
                 if (id != null)
                 {
-                    return  _repository.GetNotes(id);
+                    return _repository.GetNotes(id);
                 }
                 else
                 {
@@ -107,7 +104,7 @@ namespace BussinessLayer.Services
             }
         }
 
-      
+
 
         /// <summary>
         /// Updates the notes.
@@ -116,38 +113,37 @@ namespace BussinessLayer.Services
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<bool>UpdateNotes(NotesModel model, int id)
+        public async Task<bool> UpdateNotes(NotesModel model, int id)
+        {
+
+            try
             {
-                
-                    try
+                var result = await this._repository.UpdateNotes(model, id);
+
+                ////key to store value in redis
+                var cacheKey = "data" + model.UserId;
+                using (var redis = new RedisClient())
+                {
+                    ////removing the cache from redis
+                    redis.Remove(cacheKey);
+
+                    ////condtion to check if there are record or not in redis
+                    if (redis.Get(cacheKey) == null)
                     {
-                        var result = await this._repository.UpdateNotes(model, id);
-
-                        ////key to store value in redis
-                        var cacheKey = "data" + model.UserId;
-                        using (var redis = new RedisClient())
+                        if (result == true)
                         {
-
-                            ////removing the cache from redis
-                            redis.Remove(cacheKey);
-
-                            ////condtion to check if there are record or not in redis
-                            if (redis.Get(cacheKey) == null)
-                            {
-                                if (result == true)
-                                {
-                                    ////sets the data to the redis
-                                    redis.Set(cacheKey, result);
-                                }
-                            }
-                        return result;
+                            ////sets the data to the redis
+                            redis.Set(cacheKey, result);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        throw new Exception(ex.Message);
-                    }
+                    return result;
+                }
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
         public async Task<int> DeleteForever(List<int> id, string UserId)
         {
@@ -170,24 +166,24 @@ namespace BussinessLayer.Services
         }
 
 
-  public async Task<bool> Trash(int id)
+        public async Task<bool> Trash(int id)
         {
-                try
+            try
+            {
+                var result = await this._repository.Trash(id);
+                if (id != 0)
                 {
-                  var result = await this._repository.Trash(id);
-                    if (id != 0)
-                    {
-                        return result;
-                    }
-                    else
-                    {
-                        throw new Exception("Notes Not Found");
-                    }      
+                    return result;
                 }
-                catch (Exception exception)
+                else
                 {
-                    throw exception;
-                }             
+                    throw new Exception("Notes Not Found");
+                }
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
         }
 
         public async Task<bool> TrashRestore(int id)
@@ -224,14 +220,12 @@ namespace BussinessLayer.Services
                     throw new Exception("Notes Not Found");
                 }
             }
-                catch (Exception exception)
+            catch (Exception exception)
             {
                 throw exception;
             }
 
         }
-
-     
 
         public async Task<bool> Pin(int id)
         {
@@ -251,10 +245,7 @@ namespace BussinessLayer.Services
             {
                 throw exception;
             }
-
         }
-
-      
 
         public string UploadImage(string userid, int id, IFormFile file)
         {
@@ -279,9 +270,9 @@ namespace BussinessLayer.Services
 
         public async Task<bool> Collaborate(IList<string> id, int noteId)
         {
-           if(id != null)
+            if (id != null)
             {
-                return await _repository.Collaborate(id,noteId);
+                return await _repository.Collaborate(id, noteId);
             }
             else
             {
@@ -291,14 +282,13 @@ namespace BussinessLayer.Services
 
         public IList<NotesModel> Search(string word)
         {
-           if(word != null)
+            if (word != null)
             {
                 return _repository.Search(word);
-                
             }
             else
             {
-                throw new Exception ("Not Found");
+                throw new Exception("Not Found");
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Common;
 using Common.Enum;
 using Common.Models;
+using Dapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,7 @@ namespace RepositoryLayer.Services
 
         private readonly IConfiguration _configuration;
 
+        private readonly IDbConnection _dbConnection = null;
         /// <summary>
         /// Create the parameterized Constructor of class and pass the UserManager
         /// </summary>
@@ -32,7 +34,9 @@ namespace RepositoryLayer.Services
         {
             _configuration = configuration;
             _contextData = contextData;
-           
+            _dbConnection = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]);
+
+
         }
 
         /// <summary>
@@ -42,7 +46,7 @@ namespace RepositoryLayer.Services
         /// <returns></returns>
         public async Task<bool> CreateNotes(NotesModel notes)
         {
-         
+
             //// Create the instance of ApplicationUser and store the details
             try
             {
@@ -51,13 +55,13 @@ namespace RepositoryLayer.Services
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 ////  sqlCommand.Parameters.AddWithValue("@Id", user.Id);
                 sqlCommand.Parameters.AddWithValue("@UserId", notes.UserId);
-                 //  sqlCommand.Parameters.AddWithValue("@Image", notes.Image);
+                //  sqlCommand.Parameters.AddWithValue("@Image", notes.Image);
                 //sqlCommand.Parameters.AddWithValue("@IsArchive", notes.IsArchive);
                 //sqlCommand.Parameters.AddWithValue("@IsPin", notes.IsPin);
-               // sqlCommand.Parameters.AddWithValue("@IsTrash", notes.IsTrash);
+                // sqlCommand.Parameters.AddWithValue("@IsTrash", notes.IsTrash);
                 sqlCommand.Parameters.AddWithValue("@ModifiedDate", notes.ModifiedDate);
                 sqlCommand.Parameters.AddWithValue("@CreatedDate", notes.CreatedDate);
-               //  sqlCommand.Parameters.AddWithValue("@Reminder", notes.Reminder);
+                //  sqlCommand.Parameters.AddWithValue("@Reminder", notes.Reminder);
                 sqlCommand.Parameters.AddWithValue("@Title", notes.Title);
                 sqlCommand.Parameters.AddWithValue("@Description", notes.Description);
                 sqlCommand.Parameters.AddWithValue("@Color", notes.Color);
@@ -93,8 +97,8 @@ namespace RepositoryLayer.Services
                 sqlConnection.Open();
                 sqlCommand.Parameters.AddWithValue("@UserId", id);
                 SqlDataReader reader = sqlCommand.ExecuteReader();
-              
-                while(reader.Read())
+
+                while (reader.Read())
                 {
                     ////userList.Id = Convert.ToInt32(sdreader["Id"]);
                     NotesModel userList = new NotesModel();
@@ -114,11 +118,11 @@ namespace RepositoryLayer.Services
                 }
                 return notesModel;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                throw new Exception (e.Message.ToString());
+                throw new Exception(e.Message.ToString());
             }
-                     
+
         }
 
         /// <summary>
@@ -128,7 +132,7 @@ namespace RepositoryLayer.Services
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         public async Task<bool> UpdateNotes(NotesModel model, int id)
-          {
+        {
 
             try
             {
@@ -164,13 +168,13 @@ namespace RepositoryLayer.Services
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public async Task<int> DeleteNotes(List<int> id,string UserId)
+        public async Task<int> DeleteNotes(List<int> id, string UserId)
         {
-           /// var results =0;
+            /// var results =0;
             try
             {
                 SqlConnection sqlConnection = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]);
-               
+
 
                 foreach (int CurrentId in id)
                 {
@@ -180,18 +184,18 @@ namespace RepositoryLayer.Services
                     sqlCommand.Parameters.AddWithValue("@Id", CurrentId);
                     sqlCommand.Parameters.AddWithValue("@UserId", UserId);
                     ////linq for delete notes...it storing the information in delete variable for perticular id
-                     await sqlCommand.ExecuteNonQueryAsync();
+                    await sqlCommand.ExecuteNonQueryAsync();
                     sqlConnection.Close();
 
                 }
-               
+
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
-             
-                return 0;
+
+            return 0;
         }
 
         /// <summary>
@@ -212,7 +216,7 @@ namespace RepositoryLayer.Services
             while (reader.Read())
             {
                 ////userList.Id = Convert.ToInt32(sdreader["Id"]);
-             
+
                 userList.Id = Convert.ToInt32(reader["Id"]);
                 userList.IsTrash = Convert.ToBoolean(reader["IsTrash"].ToString());
             }
@@ -221,21 +225,21 @@ namespace RepositoryLayer.Services
             SqlCommand sqlCmd = new SqlCommand("SpTrashUpdate", sqlConnection);
             sqlCmd.CommandType = CommandType.StoredProcedure;
             sqlConnection.Open();
-          
-         
+
+
             ////if notes data have records then it will update the records
             if (id != 0)
             {
 
                 if (userList.IsTrash == false)
                 {
-                   // userList.IsTrash = true;
+                    // userList.IsTrash = true;
                     sqlCmd.Parameters.AddWithValue("@Id", id);
                     sqlCmd.Parameters.AddWithValue("@IsTrash", true);
                 }
                 else
                 {
-                   // userList.IsTrash = true;
+                    // userList.IsTrash = true;
                     sqlCmd.Parameters.AddWithValue("@Id", id);
                     sqlCmd.Parameters.AddWithValue("@IsTrash", false);
                 }
@@ -256,7 +260,7 @@ namespace RepositoryLayer.Services
         /// <returns></returns>
         public async Task<bool> TrashRestore(int id)
         {
-            if(id != 0)
+            if (id != 0)
             {
                 await Trash(id);
                 return true;
@@ -274,8 +278,8 @@ namespace RepositoryLayer.Services
         /// <returns></returns>
         public async Task<int> DeleteForever(List<int> id, string UserId)
         {
-              return await DeleteNotes(id,  UserId);
-            
+            return await DeleteNotes(id, UserId);
+
         }
 
         /// <summary>
@@ -416,105 +420,73 @@ namespace RepositoryLayer.Services
             }
         }
 
-        public async Task<bool> Collaborate(IList<string> id,int noteId)
+        public async Task<bool> Collaborate(IList<string> id, int noteId)
         {
 
-            var resultsFromNotes = (from notes in _contextData.notesUser
-                                    where notes.Id == noteId
-                                    select notes).FirstOrDefault();
-            try
-            { 
+            NotesModel groupMeeting = new NotesModel();
+            NotesModel insertNotes = new NotesModel();
+            if (id == null)
+                return true;
+
+            using (IDbConnection conn = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]))
+            {
+                if (conn.State == ConnectionState.Closed)
+                    conn.Open();
+                DynamicParameters parameter = new DynamicParameters();
+                parameter.Add("@noteId", noteId);
+                groupMeeting = conn.Query<NotesModel>("SpGetNoteForColaborate", parameter, commandType: CommandType.StoredProcedure).FirstOrDefault();
+            }
+
+            using (IDbConnection conn = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]))
+            {
+                if (conn.State == ConnectionState.Closed)
+                    conn.Open();
                 foreach (string UserId in id)
                 {
                     var collabarate = new CollaboratorModel();
                     collabarate.UserID = UserId;
                     collabarate.NotesID = noteId;
-                    collabarate.CollaborateById = resultsFromNotes.UserId;
-                    _contextData.CollaborateUser.Add(collabarate);
-                    var resultsOfOpearation = await _contextData.SaveChangesAsync();
+                    collabarate.CollaborateById = groupMeeting.UserId;
+                    DynamicParameters parameter = new DynamicParameters();
+                    parameter.Add("@noteId", collabarate.NotesID);
+                 ///   parameter.Add("@Id", collabarate.Id);
+                    parameter.Add("@CollaborateById", collabarate.CollaborateById);
+                    parameter.Add("@UserID", collabarate.UserID);
+                    ///  _contextData.CollaborateUser.Add(collabarate);
+                    /// 
+
+                    insertNotes = conn.Query<NotesModel>("SpInsertIntoCollabarate", parameter, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 }
-                return true;
             }
-            catch(Exception e)
-            {
-                throw new Exception(e.Message.ToString());
-            }
+            return true;
         }
 
-        public  IList<NotesModel> Search(string word)
+        public IList<NotesModel> Search(string word)
         {
-            IList<NotesModel> listResults = new List<NotesModel>();
-            try
-            {
-
-                var resultsFromLabel = (from lable in _contextData.labelUser
-                                        where lable.Label == word
-                                        select lable);
-             ///  this loop used to serach into the label table 
-                if (resultsFromLabel != null)
-                {
-                  foreach (LabelModel model in resultsFromLabel)
-                    {
-                        var resultLabel = (from note in _contextData.notesUser
-                                   where note.UserId == model.UserId
-                                   select note);
-
-                        ///  take one by one record
-                        foreach (NotesModel modelNote in resultLabel)
-                        {
-                            if(listResults.Contains(modelNote))
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                listResults.Add(modelNote);
-                            }
-                           
-                        }     
-                    }                   
-                }
-               
-                /// this code for take 10 record from database at a time if search is not found the it will 
-                /// take next 10 record from database table
-                    NotesModel notesModel1 = null;
-                    int x=0;
-
-                ///this label is used to jump if the record is not found in first ten record then it jump on
-                ///this label
-                  labelToNextRecord:                
-                    var resultsFromNotes = (from note in _contextData.notesUser
-                                            where note.Id > 0 + x && note.Id < 10 + x
-                                            select note);
-
-                    var lastItem = (from note in _contextData.notesUser
-                                    select note).Last();
-
-                    foreach (NotesModel notesModel in resultsFromNotes)
-                    {
-                        notesModel1 = notesModel;
-                        if (notesModel.Title.Equals(word) || notesModel.Description.Contains(word) || notesModel.Color.Equals(word))
-                        {                        
-                            listResults.Add(notesModel1);       
-                        }                                             
-                    }
-
-                    if (notesModel1 == lastItem)
-                    {
-                        return listResults;
-                      
-                    }
-                    else
-                    {
-                        x = x + 5;
-                        goto labelToNextRecord;
-                    }                         
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message.ToString());
-            }
+            throw new NotImplementedException();
         }
     }
-}
+            /*
+                        var resultsFromNotes = (from notes in _contextData.notesUser
+                                                where notes.Id == noteId
+                                                select notes).FirstOrDefault();
+                        try
+                        { 
+                            foreach (string UserId in id)
+                            {
+                                var collabarate = new CollaboratorModel();
+                                collabarate.UserID = UserId;
+                                collabarate.NotesID = noteId;
+                                collabarate.CollaborateById = resultsFromNotes.UserId;
+                                _contextData.CollaborateUser.Add(collabarate);
+                                var resultsOfOpearation = await _contextData.SaveChangesAsync();
+                            }
+                            return true;
+                        }
+                        catch(Exception e)
+                        {
+                            throw new Exception(e.Message.ToString());
+                        }*/
+          
 
+    }
