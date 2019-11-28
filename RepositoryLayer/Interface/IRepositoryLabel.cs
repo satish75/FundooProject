@@ -18,7 +18,7 @@ namespace RepositoryLayer.Interface
         /// </summary>
         /// <param name="label">The label.</param>
         /// <returns></returns>
-        Task<bool> Add(LabelModel label);
+        Task<bool> Add(IList<string> label, int noteId, string userId);
 
         /// <summary>
         /// Gets the label.
@@ -33,7 +33,7 @@ namespace RepositoryLayer.Interface
         /// <param name="model">The model.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        Task<bool> UpdateLabel(LabelModel model, int id);
+        Task<bool> UpdateLabel(string model, int id);
 
         /// <summary>
         /// Deletes the label.
@@ -41,6 +41,6 @@ namespace RepositoryLayer.Interface
         /// <param name="model">The model.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        Task<string> DeleteLabel(int id);
+        Task<string> DeleteLabel(int id, string UserId);
     }
 }

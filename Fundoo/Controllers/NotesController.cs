@@ -216,11 +216,11 @@ namespace Fundoo.Controllers
         [HttpPost]
         [Route("Search")]
         [AllowAnonymous]
-        public IList<NotesModel> Search(string word)
+        public IList<NotesModel> Search(string word, string Id)
         {
             try
             {
-                var results = _bussinessRegister.Search(word);
+                var results = _bussinessRegister.Search(word, Id);
                 if (results != null)
                 {
                     return  results ;

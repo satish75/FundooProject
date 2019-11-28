@@ -33,13 +33,13 @@ namespace BussinessLayer.Services
         /// <param name="label">The label.</param>
         /// <returns></returns>
         /// <exception cref="Exception">Empty</exception>
-        public async Task<bool> Add(LabelModel label)
+        public async Task<bool> Add(IList<string> label, int noteId, string userId)
         {
             try
             {
                 if (label != null)
                 {
-                    return await _repository.Add(label);
+                    return await _repository.Add(label, noteId, userId);
                 }
                 else
                 {
@@ -59,14 +59,14 @@ namespace BussinessLayer.Services
         /// <param name="model">The model.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public Task<string> DeleteLabel(int id)
+        public Task<string> DeleteLabel(int id, string UserId)
         {
 
             try
             {
                 if (id > 0)
                 {
-                    return _repository.DeleteLabel(id);
+                    return _repository.DeleteLabel(id, UserId);
                 }
                 else
                 {
@@ -111,14 +111,14 @@ namespace BussinessLayer.Services
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<bool> UpdateLabel(LabelModel model, int id)
+        public async Task<bool> UpdateLabel(string model, int id)
         {
             try
             {
                 var result = await this._repository.UpdateLabel(model, id);
 
                 ////key to store value in redis
-                var cacheKey = "data" + model.UserId;
+                var cacheKey = "data" + model;
                 using (var redis = new RedisClient())
                 {
 

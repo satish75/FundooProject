@@ -62,5 +62,6 @@
   <ItemGroup>
     <Build Include="Table\Notes.sql" />
     <Build Include="StoreProcedures\SpAddNotes.sql" />
+    <Build Include="Table\Collaborate.sql" />
   </ItemGroup>
 </Project>

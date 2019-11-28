@@ -402,17 +402,20 @@ namespace RepositoryLayer.Services
         /// <returns></returns>
         public string UploadImage(string url, string userid, int id, IFormFile file)
         {
-            var image = (from notes in _contextData.notesUser
-                         where notes.Id == id
-                         select notes).FirstOrDefault();
+            ImageCloudinary cloudinary = new ImageCloudinary();
+            var urlImage = cloudinary.ImgaeUrl(file);
+            SqlConnection con = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]);
+            SqlCommand sqlCommand = new SqlCommand("SPAddImage", con);
+            sqlCommand.Parameters.AddWithValue("@Id", id);
+            sqlCommand.Parameters.AddWithValue("@UserId", userid);
+            sqlCommand.Parameters.AddWithValue("@Image", url);
+            con.Open();
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            var result =  sqlCommand.ExecuteNonQuery();
 
-            image.Image = url;
-            var result = _contextData.SaveChanges();
-
-
-            if (result > 0)
+            if (result != 0)
             {
-                return url;
+                return urlImage;
             }
             else
             {
@@ -449,7 +452,7 @@ namespace RepositoryLayer.Services
                     collabarate.CollaborateById = groupMeeting.UserId;
                     DynamicParameters parameter = new DynamicParameters();
                     parameter.Add("@noteId", collabarate.NotesID);
-                 ///   parameter.Add("@Id", collabarate.Id);
+                    ///   parameter.Add("@Id", collabarate.Id);
                     parameter.Add("@CollaborateById", collabarate.CollaborateById);
                     parameter.Add("@UserID", collabarate.UserID);
                     ///  _contextData.CollaborateUser.Add(collabarate);
@@ -461,11 +464,54 @@ namespace RepositoryLayer.Services
             return true;
         }
 
-        public IList<NotesModel> Search(string word)
+        public IList<NotesModel> Search(string word, string Id)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                IList<NotesModel> notesModel = new List<NotesModel>();
+                SqlConnection sqlConnection = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]);
+                SqlCommand sqlCommand = new SqlCommand("SpNoteSearch", sqlConnection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlConnection.Open();
+                sqlCommand.Parameters.AddWithValue("@UserId", Id);
+                sqlCommand.Parameters.AddWithValue("@word", word);
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    ////userList.Id = Convert.ToInt32(sdreader["Id"]);
+                    NotesModel userList = new NotesModel();
+                    userList.Id = Convert.ToInt32(reader["Id"]);
+                    userList.UserId = reader["UserId"].ToString();
+                    userList.Image = reader["Image"].ToString();
+                    userList.IsArchive = (bool)reader["IsArchive"];
+                    userList.IsPin = Convert.ToBoolean(reader["IsPin"].ToString());
+                    userList.IsTrash = Convert.ToBoolean(reader["IsTrash"].ToString());
+                    userList.ModifiedDate = Convert.ToDateTime(reader["ModifiedDate"].ToString());
+                    userList.CreatedDate = Convert.ToDateTime(reader["CreatedDate"].ToString());
+                    userList.Color = reader["Color"].ToString();
+                    userList.Description = reader["Description"].ToString();
+                    userList.Reminder = Convert.ToDateTime(reader["Reminder"].ToString());
+                    userList.Title = reader["Title"].ToString();
+                    notesModel.Add(userList);
+                }
+                return notesModel;
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            
         }
+           
+
+
+   
     }
+
+}
+    
             /*
                         var resultsFromNotes = (from notes in _contextData.notesUser
                                                 where notes.Id == noteId
@@ -489,4 +535,4 @@ namespace RepositoryLayer.Services
                         }*/
           
 
-    }
+    

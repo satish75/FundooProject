@@ -280,11 +280,11 @@ namespace BussinessLayer.Services
             }
         }
 
-        public IList<NotesModel> Search(string word)
+        public IList<NotesModel> Search(string word, string Id)
         {
             if (word != null)
             {
-                return _repository.Search(word);
+                return _repository.Search(word,Id);
             }
             else
             {

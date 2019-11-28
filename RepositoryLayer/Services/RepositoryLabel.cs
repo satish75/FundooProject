@@ -7,10 +7,13 @@
 namespace RepositoryLayer.Services
 {
     using Common.Models;
+    using Microsoft.Extensions.Configuration;
     using RepositoryLayer.Context;
     using RepositoryLayer.Interface;
     using System;
     using System.Collections.Generic;
+    using System.Data;
+    using System.Data.SqlClient;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
@@ -23,50 +26,46 @@ namespace RepositoryLayer.Services
     {
 
         private readonly ContextData _contextData;
-
+        private readonly IConfiguration _configuration;
         //private IConfiguration _configuration;
 
         /// <summary>
         /// Create the parameterized Constructor of class and pass the UserManager
         /// </summary>
         /// <param name="userManager"></param>
-        public RepositoryLabel(ContextData contextData)
+        public RepositoryLabel(ContextData contextData, IConfiguration configuration)
         {
-
+            _configuration = configuration;
             _contextData = contextData;
 
         }
 
-        /// <summary>
-        /// Adds the specified label.
-        /// </summary>
-        /// <param name="label">The label.</param>
-        /// <returns></returns>
-        public async Task<bool> Add(LabelModel label)
+        public async Task<bool> Add(IList<string> label, int noteId, string userId)
         {
-            var applicationLabel = new LabelModel()
+            try
             {
+                SqlConnection sqlConnection = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]);
+              
 
-
-                UserId = label.UserId,
-                Label = label.Label,
-                CreatedDate = DateTime.Now,
-                ModifiedDate = DateTime.Now
-               
-            };
-
-            _contextData.Add(applicationLabel);
-            var results = await _contextData.SaveChangesAsync();
-
-            if (results >0)
-            {
+                foreach (string labelModel in label)
+                {
+                    SqlCommand sqlCommand = new SqlCommand("InsertLabel", sqlConnection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@NoteId", noteId);
+                    sqlCommand.Parameters.AddWithValue("@UserId", userId);
+                    sqlCommand.Parameters.AddWithValue("@Label", labelModel);
+                    sqlConnection.Open();
+                    await sqlCommand.ExecuteNonQueryAsync();
+                    sqlConnection.Close();
+                }
                 return true;
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+                throw new Exception(ex.Message);
             }
         }
+
 
         /// <summary>
         /// Deletes the label.
@@ -74,25 +73,32 @@ namespace RepositoryLayer.Services
         /// <param name="model">The model.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public async Task<string> DeleteLabel(int id)
+        public async Task<string> DeleteLabel(int id, string UserId)
         {
-            ////linq for delete notes...it storing the information in delete variable for perticular id
-            var deleteNotes = this._contextData.labelUser.Where(s => s.Id == id).FirstOrDefault();
-
-
-            if (deleteNotes != null)
+            try
             {
-                ////removing the information from the database
-                this._contextData.Remove(deleteNotes);
+                SqlConnection sqlConnection = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]);
 
-                ////saving the changes to the database
-                await this._contextData.SaveChangesAsync();
-                return "Successfully Deleted";
+
+               
+                    SqlCommand sqlCommand = new SqlCommand("DeleteLabel", sqlConnection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlConnection.Open();
+                    sqlCommand.Parameters.AddWithValue("@Id", id);
+                  sqlCommand.Parameters.AddWithValue("@UserId", UserId);
+
+                ////linq for delete notes...it storing the information in delete variable for perticular id
+                await sqlCommand.ExecuteNonQueryAsync();
+                    sqlConnection.Close();
+
+                return "Deleted";
+
             }
-            else
+            catch (Exception e)
             {
-                return "Unsuccessfull";
+                throw new Exception(e.Message);
             }
+
 
         }
 
@@ -106,11 +112,27 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                var getUserLabels = from getUser in _contextData.labelUser
-                              .Where(s => s.UserId == id)
-                                   select getUser;
 
-                return getUserLabels.ToList();
+                IList<LabelModel> notesModel = new List<LabelModel>();
+                SqlConnection sqlConn = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]);
+                SqlCommand sqlComma = new SqlCommand("GetAllLabel", sqlConn);
+                sqlComma.CommandType = CommandType.StoredProcedure;
+                sqlConn.Open();
+                sqlComma.Parameters.AddWithValue("@UserId", id);
+                SqlDataReader reader = sqlComma.ExecuteReader();
+                
+                while (reader.Read())
+                {
+                    ////userList.Id = Convert.ToInt32(sdreader["Id"]);
+                    LabelModel userList = new LabelModel();
+                    userList.Id = Convert.ToInt32(reader["Id"]);
+                    userList.UserId = reader["UserId"].ToString();
+                    userList.Label = reader["Label"].ToString();
+                    userList.CreatedDate = Convert.ToDateTime(reader["CreatedDate"].ToString());
+                    userList.ModifiedDate = Convert.ToDateTime(reader["ModifiedDate"].ToString());
+                    notesModel.Add(userList);
+                }
+                return notesModel;
             }
             catch (Exception e)
             {
@@ -124,32 +146,22 @@ namespace RepositoryLayer.Services
         /// <param name="model">The model.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public async Task<bool> UpdateLabel(LabelModel model, int id)
+        public async Task<bool> UpdateLabel(string model, int id)
         {
+            try
             {
-
-                ////getting the records by id
-                var labelData = (from label in _contextData.labelUser
-                                 where label.Id == id
-                                 select label).FirstOrDefault();
-
-                ////if notes data have records then it will update the records
-                if (labelData != null)
-                {
-                    if (model.Label != "string" || model.Label != null)
-                    {
-                        labelData.Label = model.Label;
-                    }
-
-                    labelData.ModifiedDate = DateTime.Now;
-                    ////save changes to the database
-                    await this._contextData.SaveChangesAsync();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                SqlConnection sqlConnection = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]);
+                SqlCommand sqlCommand = new SqlCommand("UpdateLabel", sqlConnection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@Id", id);
+                sqlCommand.Parameters.AddWithValue("@Label", model);             
+                sqlConnection.Open();
+                var respone = await sqlCommand.ExecuteNonQueryAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
 
         }

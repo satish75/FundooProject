@@ -250,17 +250,20 @@ namespace RepositoryLayer.Services
 
         public string UploadImage(string url, string userid, IFormFile file)
         {
-            var image = (from notes in _contextData.User
-                         where notes.Id == userid
-                         select notes).FirstOrDefault();
+            ImageCloudinary cloudinary = new ImageCloudinary();
+            var urlImage = cloudinary.ImgaeUrl(file);
+            SqlConnection con = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]);
+            SqlCommand sqlCommand = new SqlCommand("SpAddProfileUser", con);
+           
+            sqlCommand.Parameters.AddWithValue("@UserId", userid);
+            sqlCommand.Parameters.AddWithValue("@Image", url);
+            con.Open();
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            var result = sqlCommand.ExecuteNonQuery();
 
-            image.ProfileImage = url;
-            var result = _contextData.SaveChanges();
-
-
-            if (result > 0)
+            if (result != 0)
             {
-                return url;
+                return urlImage;
             }
             else
             {
