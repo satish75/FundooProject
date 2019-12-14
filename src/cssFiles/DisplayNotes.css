@@ -1,0 +1,9 @@
+#card-content-item
+{
+    width: 250px;
+    height: 100px;
+    border: 0.5px groove;
+  
+    border-radius: 7px;
+  
+}

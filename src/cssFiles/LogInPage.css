@@ -1,0 +1,65 @@
+
+.div-log
+{
+  width: 40%;
+    height: 70%;
+    left: 30%;
+   text-align: center;
+    border: 0.5px gray;
+    border-radius: 8px;
+    position: absolute;
+   margin-top: 10%;
+   padding-top: 15px;
+
+}
+#text-log-in
+{
+width: 300px;
+  height: 12px;
+  position: relative;
+  display: flex;
+ 
+ 
+}
+h2{
+  font: italic bold 30px Georgia, serif;
+  color: dodgerblue;
+ 
+  
+}
+
+h5{
+  font: italic 20px Georgia, serif;
+  margin-top: 10px;
+}
+.h-div-log-in
+{
+  margin-bottom: 10px;
+}
+#button-log
+{
+  background-color: dodgerblue;
+  color: aliceblue;
+}
+#link-forget
+{
+ color: dodgerblue;
+ padding-left: 15px;
+ font: 25 bold;
+}
+.div-log-forget
+{
+ margin-left: 70px;
+ 
+}
+#label-item
+{
+  font: 15;
+}
+@media (max-width:950px)
+{
+  #text-log-in{
+    width: 100px;
+    height: 15px;
+  }
+}

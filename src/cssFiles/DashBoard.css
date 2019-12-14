@@ -1,0 +1,151 @@
+.toolBar
+{
+    background-color: rgb(211, 222, 231);
+}
+.Search
+{
+   background-color: whitesmoke;
+   width: 600px;
+   height: 40px;
+   border-radius: 10px;
+}
+
+.searchIcon
+{
+    
+    height: '100%';
+    color: lightslategray;
+   background-color:whitesmoke ;  
+   border-radius: 7px;
+}
+
+.mainDiv
+{
+    justify-content: center;
+    padding-left: 100px;
+ 
+}
+
+.left-section
+{
+    position: absolute;
+    left: 90%;
+  
+} 
+
+.notes-remanider-div
+{
+    width: 350px;  
+    height: 800px;
+}
+
+#add-alert-icon
+{
+    padding-right: 40px;  
+}
+#label-id
+{
+    font-size: 30;
+    color: rgb(218, 4, 4);
+    padding-left: 50px;
+}
+
+.middle-div{
+    width: 100%;
+    background-color: blue;
+    position: absolute;
+    justify-content: center;
+}
+
+.right-div
+{
+    position: absolute;
+    width: 70%;
+    height: 455px;
+    top:13%;
+    bottom:10%;
+    right: 0%;
+    background-color:rgb(36, 165, 165);  
+    float: left;   
+}
+
+#reminder-notes-btn
+{
+   width: 220px;
+   height: 45px;
+   justify-content: left;
+   background-color:whitesmoke;
+   border-bottom-right-radius: 15px;
+   border-top-right-radius: 15px;
+   padding-left: 40px;
+   font-size: 10px;
+}
+#noteIcon
+{
+    margin-right: 50px;
+  
+}
+
+.TextSpan
+{
+opacity: 1;
+text-rendering: optimizeLegibility;
+}
+
+.LeftDiv
+{
+    position: absolute;
+    background-color: rgb(187, 187, 187);
+    height: 90%;
+    left:0%;
+    width: 20%;
+}
+.ListButtons
+{
+    width: 270px;
+}
+.MuiDrawer-paper {
+    top: 66px !important;
+    /* flex: 1 0 auto;
+    height: 100%;
+    display: flex;
+    outline: 0;
+    z-index: 1200;
+    position: fixed;
+    overflow-y: auto;
+    flex-direction: column; */
+}
+#span-label
+{
+    padding: 20px;
+}
+.MuiAppBar-colorPrimary {
+    color: black !important;
+    background-color: whitesmoke !important;
+}
+.header-div
+{
+    justify-content: center;
+    
+}
+#search-icon
+{
+  
+}
+.left-icon-setting
+{
+    left:230px;
+}   
+.Search
+{
+  
+}
+.MuiInputBase-root {
+height: 50px;
+}
+.Search-icon-div
+{
+    margin-left: 140px;
+    border: 1px groove;   
+    border-radius: 8px;
+}

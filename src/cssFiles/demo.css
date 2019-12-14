@@ -1,0 +1,73 @@
+#icon-btn-left-side
+{
+    width: 250px;
+    padding-right: 10px;
+
+
+}
+#icon-img-btn
+{ 
+    margin-right: 50px;
+}
+.note-reminder-div
+{
+  
+}
+#note-icon-btn-left-side
+{
+font-size: 18px;
+margin-left: 10px;
+}
+#reminder-icon-btn-left-side
+{
+font-size: 18px;
+margin-left: 10px;
+}
+.label-div-drawer
+{
+    padding: 20px;
+    z-index: -1px;
+}
+#edit-icon-label
+{
+   
+    font-size: 18px;
+    padding-left: 0px;
+}
+#icon-edirlabel-btn
+{
+    margin-right: 40px;
+    padding-left: 0px;
+   
+}
+.note-middle-div
+{
+    position: relative;
+    width: 100%;
+    height: 50%;
+    top:30%;
+    word-wrap: break-word;
+     background-color:aqua;  
+}
+
+.noteCreateDiv
+{
+    position: relative;
+    top:20%;
+    width: 100%;
+    height: 23vh;
+   
+  
+    
+}
+.second-div
+{
+    position: absolute;
+    height: 100%;
+   
+   
+   
+  
+    width: 50%;
+    left: 22%;
+}

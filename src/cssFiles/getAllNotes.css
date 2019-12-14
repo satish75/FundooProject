@@ -1,0 +1,14 @@
+.notes-top-create
+{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  top:100px;
+  align-items: center;
+  justify-content: center;
+}
+.card-content-item
+{
+    width: 150px;
+    height: 100px;
+}

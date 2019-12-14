@@ -1,0 +1,80 @@
+
+*{
+    padding: 0px;
+    margin:0px;
+  }
+  
+  
+  
+  .div-log-in
+  {
+    width: 60%;
+    height: 70%;
+    left: 20%;
+   text-align: center;
+    border: 0.5px solid;
+    border-radius: 8px;
+    position: absolute;
+   margin-top: 10%;
+   padding-top: 15px;
+  }
+  #text-log-in
+  {
+  width: 300px;
+  height: 5px;
+  }
+  h2{
+    font: italic bold 30px Georgia, serif;
+    color: dodgerblue;
+   
+    
+  }
+  
+  h5{
+    font: italic 20px Georgia, serif;
+    margin-top: 10px;
+  }
+  .h-div-log-in
+  {
+    margin-bottom: 10px;
+  }
+ 
+  .email
+  {
+     
+      color: wheat;
+    
+    
+  }
+  #link-forget
+  {
+   color: dodgerblue;
+   padding: 10px;
+   font: 25 bold;
+  }
+  .div-log-forget
+  {
+    padding-top: 40px;
+  }
+  #label-item
+  {
+    font: 15;
+  }
+
+  #service-type
+  {
+   position: relative;
+   left: 23%;
+}
+  .div-log-forget
+  {
+      padding-right: 200px;
+        
+  }
+  @media (max-width:950px)
+  {
+    #text-log-in{
+      width: 100px;
+      height: 15px;
+    }
+  }
