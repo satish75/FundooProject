@@ -38,10 +38,12 @@ namespace Fundoo.Controllers
         /// <returns></returns>
         [HttpPost]
         //  [Route("Notes")]
-        [AllowAnonymous]
+       
+       [AllowAnonymous]
         public async Task<IActionResult> CreateNotes(NotesModel details)
         {
-            var results = await _bussinessRegister.CreateNotes(details);    
+            var id = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+            var results = await _bussinessRegister.CreateNotes(details,"45");    
             if(results)
             {
                 return Ok(new { results = "Added Successfully" });
@@ -60,10 +62,10 @@ namespace Fundoo.Controllers
         /// <returns></returns>
         [HttpGet]
        [Route("{id}")]
-        [AllowAnonymous]
-        public IList<NotesModel> GetNotes(string id)
+        //[AllowAnonymous]
+        public IList<NotesModel> GetNotes()
         {
-            var results = _bussinessRegister.GetNotes(id);
+            var results = _bussinessRegister.GetNotes();
             return results;
         }
 
@@ -74,7 +76,7 @@ namespace Fundoo.Controllers
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpPut]
-        [AllowAnonymous]
+        //[AllowAnonymous]
       
         public async Task<IActionResult> UpdateNotes(NotesModel details,int id)
         {
@@ -98,7 +100,7 @@ namespace Fundoo.Controllers
         /// <returns></returns>
         [HttpDelete]
        // [Route("Notes")]
-       [AllowAnonymous]
+      // [AllowAnonymous]
         public async Task<IActionResult> DeleteNotes(List<int> id,string UserId)
         {
             var results = await _bussinessRegister.DeleteNotes(id, UserId);
@@ -107,7 +109,7 @@ namespace Fundoo.Controllers
 
         [HttpPost]
         [Route("Trash")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Trash(int id)
         {
             var results = await _bussinessRegister.Trash(id);
@@ -123,7 +125,7 @@ namespace Fundoo.Controllers
 
         [HttpPost]
         [Route("Restored")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> TrashRestore(int id)
         {
             var results = await _bussinessRegister.TrashRestore(id);
@@ -138,7 +140,7 @@ namespace Fundoo.Controllers
         }
 
         [HttpDelete]
-        [AllowAnonymous]
+        //[AllowAnonymous]
          [Route("forever")]
         public async Task<IActionResult> DeleteForever(List<int> id,string UserId)
         {
@@ -148,7 +150,7 @@ namespace Fundoo.Controllers
 
         [HttpPost]
         [Route("IsArchive")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Archive(int id)
         {
             var results = await _bussinessRegister.Archive(id);
@@ -165,7 +167,7 @@ namespace Fundoo.Controllers
 
         [HttpPost]
         [Route("IsPin")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Pin(int id)
         {
             var results = await _bussinessRegister.Pin(id);
@@ -181,7 +183,7 @@ namespace Fundoo.Controllers
        
         [HttpPost]
         [Route("Image")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IActionResult UploadImage(string userid, int id, IFormFile file)
         {
             var urlOfImage =  _bussinessRegister.UploadImage(userid, id, file);
@@ -191,7 +193,7 @@ namespace Fundoo.Controllers
 
         [HttpPost]
         [Route("Collaborate")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Collaborate(IList<string> id, int noteId)
         {
             try
@@ -215,7 +217,7 @@ namespace Fundoo.Controllers
 
         [HttpPost]
         [Route("Search")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IList<NotesModel> Search(string word, string Id)
         {
             try

@@ -32,7 +32,7 @@ namespace BussinessLayer.Interface
         /// <returns></returns>
         Task<string> ForgotPassword(ForgotPasswordModel loginModel);
 
-        Task<bool> ResetPassword(ResetPasswordModel resetPasswordModel,string token);
+        Task<bool> ResetPassword(ResetPasswordModel resetPasswordModel);
 
         string UploadImage(string userid, IFormFile file);
     }

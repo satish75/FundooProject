@@ -62,13 +62,11 @@ namespace RepositoryLayer.Services
                ////  sqlCommand.Parameters.AddWithValue("@Id", user.Id);
                 sqlCommand.Parameters.AddWithValue("@FirstName", user.FirstName);
                 sqlCommand.Parameters.AddWithValue("@LastName", user.LastName);
-                sqlCommand.Parameters.AddWithValue("@Mobile", user.Mobile);
-                sqlCommand.Parameters.AddWithValue("@Email", user.Email);
-                sqlCommand.Parameters.AddWithValue("@UserName", user.UserName);
-                sqlCommand.Parameters.AddWithValue("@Password", user.Password);
-                sqlCommand.Parameters.AddWithValue("@ProfileImage", user.ProfileImage);
-                sqlCommand.Parameters.AddWithValue("@UserType", user.UserType);
                 sqlCommand.Parameters.AddWithValue("@ServiceType", user.ServiceType);
+                sqlCommand.Parameters.AddWithValue("@Email", user.UserName + "@gmail.com");
+             sqlCommand.Parameters.AddWithValue("@UserName", user.UserName);
+                sqlCommand.Parameters.AddWithValue("@Password", user.Password);
+               
                 sqlConnection.Open();
                 var respone = await sqlCommand.ExecuteNonQueryAsync();
                 if (respone != 0)
@@ -100,6 +98,7 @@ namespace RepositoryLayer.Services
             sqlCommand.CommandType = CommandType.StoredProcedure;
             sqlCommand.Parameters.AddWithValue("@UserName", loginModel.UserName);
             sqlCommand.Parameters.AddWithValue("@Password", loginModel.Password);
+           
             sqlConnection.Open();
            
             SqlDataReader sdr = sqlCommand.ExecuteReader();
@@ -110,21 +109,30 @@ namespace RepositoryLayer.Services
                 userTypeData = new RegistrationModel();
                 userTypeData.UserName = sdr["UserName"].ToString();
                 userTypeData.Password = sdr["Password"].ToString();
+                userTypeData.Id = sdr["UserId"].ToString();
+
+
             }
             sdr.Close();
 
             //// check the username and password is matched in database or not
             if (userTypeData != null)
             {
-                string key = "EF4ABEAB56153D93D0E97048FC50215C0264CFF";
+                //string key = "EF4ABEAB56153D93D0E97048FC50215C0264CFF";
+
+               /// string key = "This is my SecretKey which is used for security purpose";
 
                 ////Here generate encrypted key and result store in security key
-                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["ApplicationSettings:Key"]));
 
                 //// here using securitykey and algorithm(security) the creadintails is generate(SigningCredentials present in Token)
                 var creadintials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
                 var claims = new[] {
                new Claim("UserName",userTypeData.UserName),
+               new Claim("UserId", userTypeData.Id),
+              
+
+
                 };
  
                 var token = new JwtSecurityToken("Security token", "https://Test.com",
@@ -132,11 +140,12 @@ namespace RepositoryLayer.Services
                     DateTime.UtcNow,
                     expires: DateTime.Now.AddDays(1),
                     signingCredentials: creadintials);
+
                 return new JwtSecurityTokenHandler().WriteToken(token);
             }
             else
-            {              
-                return "Invalid User";
+            {
+                return "Invalid User"; ;
             }
 
         }
@@ -150,63 +159,60 @@ namespace RepositoryLayer.Services
          {
             try
             {
-                ///  var user = await _userManager.FindByEmailAsync(forgotPasswordModel.Email);
-                ///  
-                SqlConnection sqlConnection = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]);
-                //// it confirms that user is avaiable in database or not
-                ///var user = await _userManager.FindByNameAsync(loginModel.UserName);
+                SqlConnection con = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]);
 
-
-                SqlCommand sqlCommand = new SqlCommand("SpGetUserEmail", sqlConnection);
+                SqlCommand sqlCommand = new SqlCommand("SpGetUserEmail", con);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@Email", forgotPasswordModel.Email);             
-                sqlConnection.Open();
+                sqlCommand.Parameters.AddWithValue("@Email", forgotPasswordModel.Email);
+                con.Open();
 
-                SqlDataReader sdr = sqlCommand.ExecuteReader();
-                 RegistrationModel user = new RegistrationModel();
-
-                while (sdr.Read())
+                SqlDataReader dataReader = sqlCommand.ExecuteReader();
+                ForgotPasswordModel model = null;
+                while (dataReader.Read())
                 {
-                    user = new RegistrationModel();
-                    user.Email = sdr["Email"].ToString();                  
+                    model = new ForgotPasswordModel();
+                    model.Email = dataReader["Email"].ToString();
                 }
-                sdr.Close();
 
-                if (user != null)
+                dataReader.Close();
+
+                if (model != null)
                 {
-                    ////msmq object
+                    ////here we create object of MsmqTokenSender which is present in Common-Layer
                     MsmqTokenSender msmq = new MsmqTokenSender();
+                    string key = "This is my SecretKey which is used for security purpose";
 
+                    ////Here generate encrypted key and result store in security key
+                    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
 
-                    ////it creates the SecurityTokenDescriptor
-                    var tokenDescripter = new SecurityTokenDescriptor
+                    //// here using securitykey and algorithm(security) the creadintails is generate(SigningCredentials present in Token)
+                    var creadintials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+                    var claims = new[]
                     {
-                        Subject = new ClaimsIdentity(new Claim[]
-                        {
-                        new Claim("Email", user.Email.ToString())
-                        }),
-                        Expires = DateTime.UtcNow.AddDays(1),
+                    new Claim("Email", model.Email),
+                };
 
-                    };
+                    var token = new JwtSecurityToken("Security token", "https://Test.com",
+                        claims,
+                        DateTime.UtcNow,
+                        expires: DateTime.Now.AddDays(1),
+                        signingCredentials: creadintials);
 
-                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var NewToken = new JwtSecurityTokenHandler().WriteToken(token);
 
-                    ////it creates the security token
-                    var securityToken = tokenHandler.CreateToken(tokenDescripter);
-
-                    ////it writes security token to the token variable.
-                    var token = tokenHandler.WriteToken(securityToken);
-                    msmq.SendTokenQueue(forgotPasswordModel.Email, token);
-                    return token;
+                    //// Send the email and password to Method in MsmqTokenSender
+                    msmq.SendTokenQueue(forgotPasswordModel.Email, NewToken.ToString());
+                    return NewToken;
                 }
                 else
                 {
                     return "Invalid user";
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                throw new Exception(e.Message.ToString()); 
+                throw new Exception(e.Message);
             }
         }
 
@@ -216,11 +222,11 @@ namespace RepositoryLayer.Services
         /// <param name="resetPasswordModel">The reset password model.</param>
         /// <param name="tokenString">The token string.</param>
         /// <returns></returns>
-        public async Task<bool> ResetPassword(ResetPasswordModel resetPasswordModel, string tokenString)
+        public async Task<bool> ResetPassword(ResetPasswordModel resetPasswordModel)
         {
             //  var jwtEncodedString = tokenString.Substring(7); // trim 'Bearer ' from the start since its just a prefix for the token string
 
-            var token = new JwtSecurityToken(jwtEncodedString: tokenString);
+            var token = new JwtSecurityToken(jwtEncodedString: resetPasswordModel.token);
             var Email = (token.Claims.First(c => c.Type == "Email").Value);
 
             /// To get Email From database -------------------------------

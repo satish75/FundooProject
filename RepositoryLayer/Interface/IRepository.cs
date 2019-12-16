@@ -41,7 +41,7 @@ namespace RepositoryLayer.Interface
         /// <param name="resetPasswordModel">The reset password model.</param>
         /// <param name="token">The token.</param>
         /// <returns></returns>
-        Task<bool> ResetPassword(ResetPasswordModel resetPasswordModel,string token);
+        Task<bool> ResetPassword(ResetPasswordModel resetPasswordModel);
 
         string UploadImage(string url, string userid, IFormFile file);
     }

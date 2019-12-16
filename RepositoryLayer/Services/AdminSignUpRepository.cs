@@ -103,7 +103,9 @@ namespace RepositoryLayer.Services
             //// check the username and password is matched in database or not
             if (userTypeData != null)
             {
-                string key = "EF4ABEAB56153D93D0E97048FC50215C0264CFF";
+                //string key = "EF4ABEAB56153D93D0E97048FC50215C0264CFF";
+
+                string key = "This is my SecretKey which is used for security purpose";
 
                 ////Here generate encrypted key and result store in security key
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
@@ -177,7 +179,7 @@ namespace RepositoryLayer.Services
                 RegistrationModel userList = new RegistrationModel();
                 userList.UserName = sdreader["UserName"].ToString();
                 userList.Password = sdreader["Password"].ToString();
-                userList.Id = Convert.ToInt32(sdreader["Id"]);
+                userList.Id = sdreader["Id"].ToString();
                 userList.FirstName = sdreader["FirstName"].ToString();
                 userList.LastName = sdreader["LastName"].ToString();
                 userList.Email = sdreader["Email"].ToString();

@@ -6,11 +6,13 @@ namespace Common.Models
 {
     public class ResetPasswordModel
     {
-        public string Email
+      
+        public string Password
         {
             get; set;
         }
-        public string Password
+
+        public string token
         {
             get; set;
         }

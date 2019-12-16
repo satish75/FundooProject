@@ -16,9 +16,9 @@ namespace BussinessLayer.Interface
 
     public interface IBussinessNotes
     {
-       Task<bool> CreateNotes(NotesModel user);
+       Task<bool> CreateNotes(NotesModel user,string id);
        Task<bool> UpdateNotes(NotesModel model, int id);
-       IList<NotesModel> GetNotes(string id);
+       IList<NotesModel> GetNotes();
         Task<int> DeleteNotes(List<int> id, string UserId);
 
         /// <summary>

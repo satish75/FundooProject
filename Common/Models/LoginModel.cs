@@ -15,11 +15,11 @@ namespace Common.Models
             /// user name 
             /// </summary>
             public string UserName;
-
-            /// <summary>
-            /// password
-            /// </summary>
-            public string Password;
+        
+        /// <summary>
+        /// password
+        /// </summary>
+        public string Password;
 
         }   
 }

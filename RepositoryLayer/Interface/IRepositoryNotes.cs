@@ -21,14 +21,14 @@ namespace RepositoryLayer.Interface
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns></returns>
-        Task<bool> CreateNotes(NotesModel user);
+        Task<bool> CreateNotes(NotesModel user,string id);
 
         /// <summary>
         /// Gets the notes.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        IList<NotesModel> GetNotes(string id);
+        IList<NotesModel> GetNotes();
 
         /// <summary>
         /// Updates the notes.

@@ -34,13 +34,13 @@ namespace BussinessLayer.Services
         /// <param name="notes">The notes.</param>
         /// <returns></returns>
         /// <exception cref="Exception">User is empty</exception>
-        public async Task<bool> CreateNotes(NotesModel notes)
+        public async Task<bool> CreateNotes(NotesModel notes,string id)
         {
             try
             {
                 if (notes != null)
                 {
-                    return await _repository.CreateNotes(notes);
+                    return await _repository.CreateNotes(notes,id);
                 }
                 else
                 {
@@ -85,13 +85,13 @@ namespace BussinessLayer.Services
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         /// <exception cref="Exception">Notes Not Found</exception>
-        public IList<NotesModel> GetNotes(string id)
+        public IList<NotesModel> GetNotes()
         {
             try
             {
-                if (id != null)
+                if (4 > 0)
                 {
-                    return _repository.GetNotes(id);
+                    return _repository.GetNotes();
                 }
                 else
                 {

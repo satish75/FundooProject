@@ -17,14 +17,18 @@ namespace Fundoo.Controllers
     using Nancy.Session;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Cors;
 
     /// <summary>
     /// This is Controller class which is used to specifies API
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+    /// 
+    [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+     [AllowAnonymous]
+  
     public class RegisterController : ControllerBase
     {
         private readonly IBussinessRegister _bussinessRegister;
@@ -57,13 +61,15 @@ namespace Fundoo.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginModel login)
         {
+            
+
             var token = await this._bussinessRegister.Login(login);
             if (token != null)
             {
                 ////subsrtring method to separate the token and login time
                 var lastlogin = token.Substring(token.IndexOf('+') + 1);
                 token = token.Substring(0, token.IndexOf('+'));
-                var status=  "Login Successfull";
+                var status = "Login Successfull";
                 ////returning the token and last login time                
                 return this.Ok(new { token, lastlogin, status });
             }
@@ -71,6 +77,7 @@ namespace Fundoo.Controllers
             {
                 return this.Unauthorized();
             }
+
         }
         /*  public async Task<string> Login(LoginModel loginModel)
           {
@@ -85,6 +92,7 @@ namespace Fundoo.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("forgetPassword")]
+        [AllowAnonymous]
         public async Task<IActionResult> ForgetPassword(ForgotPasswordModel model)
         {
             var result = await this._bussinessRegister.ForgotPassword(model);
@@ -99,10 +107,11 @@ namespace Fundoo.Controllers
         }
 
          [HttpPost]
-        [Route("resetPassword/{token}")]
-        public async Task<bool> ResetPassword(ResetPasswordModel model,string token)
+        [Route("resetPassword")]
+        [AllowAnonymous]
+        public async Task<bool> ResetPassword(ResetPasswordModel model)
         {
-            var result = await this._bussinessRegister.ResetPassword(model,token);
+            var result = await this._bussinessRegister.ResetPassword(model);
             return result;
         }
 

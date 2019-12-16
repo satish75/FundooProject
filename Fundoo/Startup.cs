@@ -35,7 +35,7 @@ namespace Fundoo
     /// using AutoMapper;
 
     // using AutoMapper;
-
+    
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -89,13 +89,35 @@ namespace Fundoo
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Welcome To Fundoo API", Version = "v1" });
-                c.OperationFilter<FileUploadedOperation>();
-                
+                // Your custom configuration
+                c.SwaggerDoc("v1", new Info { Title = "FundooNotes API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme()
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+               {
+               {"Bearer",new string[]{}}
+               });
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    .WithOrigins("http://localhost:3000")
+                    );
+            });
 
-           /// Authentication code
+            
+           
+            /// Authentication code
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -113,6 +135,7 @@ namespace Fundoo
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:Key"])),
+                   
                 };
 
             });
@@ -140,10 +163,12 @@ namespace Fundoo
             app.UseMvc();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
-              app.UseSwagger();
-              
+             
+
+            app.UseCors("CorsPolicy");
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fundoo Api");
@@ -152,32 +177,7 @@ namespace Fundoo
         }
     }
 
-    internal class OpenApiInfo : Info
-    {
-        new public string Title { get; set; }
-        new public string Version { get; set; }
-    }
-
-    public class FileUploadedOperation : IOperationFilter
-    {
-        public void Apply(Operation swaggerDocument, OperationFilterContext documentFilter)
-        {
-            if (swaggerDocument.Parameters == null)
-            {
-                swaggerDocument.Parameters = new List<IParameter>();
-            }
-
-            swaggerDocument.Parameters.Add(new NonBodyParameter
-            {
-
-                Name = "Authorization",
-                In = "header",
-                Type = "string",
-                Required = true
-            });
-        }
-
-    }
+   
 }
 
 

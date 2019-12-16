@@ -69,7 +69,7 @@ namespace BussinessLayer.Services
                 if (!loginModel.Equals(null))
                 {
                     var result = await this._repository.Login(loginModel);
-                    if (result != null)
+                    if (!loginModel.Equals(null))
                     {
                         ///storing the current time in the variable
                         var newLoginTime = DateTime.Now.ToString();
@@ -93,7 +93,7 @@ namespace BussinessLayer.Services
                         }
                     }
 
-                    return result + lastLoginTime;
+                    return result+" "+lastLoginTime;
                 }
                 else
                 {
@@ -124,13 +124,13 @@ namespace BussinessLayer.Services
         /// <param name="token">The token.</param>
         /// <returns></returns>
         /// <exception cref="Exception">loginModel is empty</exception>
-        public async Task<bool> ResetPassword(ResetPasswordModel resetPasswordModel, string token)
+        public async Task<bool> ResetPassword(ResetPasswordModel resetPasswordModel)
         {
             try
             {
                 if (resetPasswordModel != null)
                 {
-                    return await _repository.ResetPassword(resetPasswordModel, token);
+                    return await _repository.ResetPassword(resetPasswordModel);
                 }
                 else
                 {

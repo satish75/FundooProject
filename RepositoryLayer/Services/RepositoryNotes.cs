@@ -44,7 +44,7 @@ namespace RepositoryLayer.Services
         /// </summary>
         /// <param name="notes">The notes.</param>
         /// <returns></returns>
-        public async Task<bool> CreateNotes(NotesModel notes)
+        public async Task<bool> CreateNotes(NotesModel notes,string id)
         {
 
             //// Create the instance of ApplicationUser and store the details
@@ -54,13 +54,13 @@ namespace RepositoryLayer.Services
                 SqlCommand sqlCommand = new SqlCommand(StoreProcedureConstants.AddNotesStoreProcedure, sqlConnection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 ////  sqlCommand.Parameters.AddWithValue("@Id", user.Id);
-                sqlCommand.Parameters.AddWithValue("@UserId", notes.UserId);
+                sqlCommand.Parameters.AddWithValue("@UserId", id);
                 //  sqlCommand.Parameters.AddWithValue("@Image", notes.Image);
                 //sqlCommand.Parameters.AddWithValue("@IsArchive", notes.IsArchive);
                 //sqlCommand.Parameters.AddWithValue("@IsPin", notes.IsPin);
                 // sqlCommand.Parameters.AddWithValue("@IsTrash", notes.IsTrash);
-                sqlCommand.Parameters.AddWithValue("@ModifiedDate", notes.ModifiedDate);
-                sqlCommand.Parameters.AddWithValue("@CreatedDate", notes.CreatedDate);
+                sqlCommand.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
+                sqlCommand.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
                 //  sqlCommand.Parameters.AddWithValue("@Reminder", notes.Reminder);
                 sqlCommand.Parameters.AddWithValue("@Title", notes.Title);
                 sqlCommand.Parameters.AddWithValue("@Description", notes.Description);
@@ -85,7 +85,7 @@ namespace RepositoryLayer.Services
         /// <param name = "id" > The identifier.</param>
         /// <returns></returns>
         /// <exception cref = "Exception" ></ exception >
-        public IList<NotesModel> GetNotes(string id)
+        public IList<NotesModel> GetNotes()
         {
 
             try
@@ -95,7 +95,7 @@ namespace RepositoryLayer.Services
                 SqlCommand sqlCommand = new SqlCommand("SpGetNotesById", sqlConnection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlConnection.Open();
-                sqlCommand.Parameters.AddWithValue("@UserId", id);
+                sqlCommand.Parameters.AddWithValue("@UserId", 4);
                 SqlDataReader reader = sqlCommand.ExecuteReader();
 
                 while (reader.Read())
@@ -105,6 +105,7 @@ namespace RepositoryLayer.Services
                     userList.Id = Convert.ToInt32(reader["Id"]);
                     userList.UserId = reader["UserId"].ToString();
                     userList.Image = reader["Image"].ToString();
+
                     userList.IsArchive = (bool)reader["IsArchive"];
                     userList.IsPin = Convert.ToBoolean(reader["IsPin"].ToString());
                     userList.IsTrash = Convert.ToBoolean(reader["IsTrash"].ToString());
@@ -422,7 +423,6 @@ namespace RepositoryLayer.Services
                 return "Image not uploaded";
             }
         }
-
         public async Task<bool> Collaborate(IList<string> id, int noteId)
         {
 
