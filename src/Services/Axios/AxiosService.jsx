@@ -26,9 +26,9 @@ export default class AxiosService  {
         return axios.post(url,  data)
     }
     axiosGetAllNote(url,data){
-         
-        return axios.get(url,  data)
+         console.log("header axios ",data)
+         var token=localStorage.getItem('token')
+        return axios.get(url,{header :{Authorization: `beaer ${token}`}})
     }
-           
-            
+                   
     }

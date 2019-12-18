@@ -30,9 +30,17 @@ export default class UserService
         
         return axiosService.axiosPostAddNote(`https://localhost:44338/api/Notes`,  userData)
     }
-    GetNoteAll(userData){
-        console.log(" data in axios servuixe",userData);
-        
-        return axiosService.axiosGetAllNote(`https://localhost:44338/api/Notes`,  userData)
+    GetNotesService()
+    {
+        console.log("GetNotesService");
+       
+        var JwtToken = localStorage.getItem('token')
+       console.log("This is get notes service", JwtToken);
+        return axios.get(`https://localhost:44338/api/Notes`, {
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${JwtToken}`
+            }})
     }
 }

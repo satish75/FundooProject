@@ -1,6 +1,7 @@
 import React from 'react'
 import Card from '@material-ui/core/Card';
-import '../cssFiles/DisplayNotes.css'
+import '../cssFiles/DisplayNotes.css';
+
 export default class DisplayNotes extends React.Component{
 
     constructor(props){
@@ -10,45 +11,24 @@ export default class DisplayNotes extends React.Component{
 
         }
     }
-
-
-    componentDidMount() {
-        const apiUrl = 'https://localhost:44303/api/Notes';
-    
-        fetch(apiUrl)
-          .then(res => res.json())
-          .then(
-            (result) => {
-              this.setState({
-                notes: result
-              });
-            }
-          )
-      }
     render(){
-        const { notes} = this.state;
-
         console.log(" print all  notes i display ",this.props.notes);
-        
+       
 
-       var  printNoteList=  this.props.notes.map((key)=>{
+       var  printNoteList=  this.props.notes.map( (key)=>{
         //    console.log(" key ",key.title);
-           
+        
                 return(
-                    <div>                                
-          <Card id="card-content-item"> 
-                {notes.map(noteData => (
-                key=noteData.UserId,
-                  noteData.Title,
-                  noteData.Description,       
-                  noteData.Color
-   ))
-   } 
-      <br/>
-    </Card>
-      </div>
-   ) })
-
+                    <div>                 
+                        <Card className="card-content-notes">
+                          tgdfged
+                            <h1>{key.title}</h1>
+                            <h6>{key.description}</h6>
+                        </Card>
+                       
+                    </div>
+                    )
+                    })
         return(
             <div>
                 {printNoteList}

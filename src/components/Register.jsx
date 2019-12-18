@@ -2,17 +2,18 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
-
 import '../cssFiles/register.css';
 import InputLabel from '@material-ui/core/InputLabel';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
-
+import Radio from '@material-ui/core/Radio';
 import UserService from '../Services/UserService/UserService'
 import { ThemeProvider ,createMuiTheme} from '@material-ui/core'
+import Sample from './Sample';
 
-var signUpService = new UserService ;
+import '../cssFiles/register.css'
+var signUpService= new UserService;
 
 const theme = createMuiTheme({
    
@@ -26,8 +27,7 @@ const theme = createMuiTheme({
 
         MuiInputBase:{
             root:{
-                height:"35px"
-                
+                height:"35px",                            
             }
         },
         MuiFormControl:{
@@ -48,15 +48,17 @@ export default class Register extends React.Component{
     this.state= {
       firstName:'',
       lastName:'',
-      userName:'',
-      password:'',
-      email:'',
-      serviceType:''
+      UserName:'',
+      Password:'',
+      ServiceType:''
     }
 
     this.signUp= this.signUp.bind(this);
     this.onchange = this.onchange.bind(this);
   }
+
+   
+  
 
   signUp()
   {
@@ -64,17 +66,15 @@ export default class Register extends React.Component{
       var data = {
                   FirstName: this.state.firstName, 
                   LastName: this.state.lastName,
-                  UserName: this.state.userName,                             
-                  Password : this.state.password,
-                  Email:this.state.email,
-                  ServiceType: this.state.serviceType}
+                  UserName: this.state.UserName,                             
+                  password : this.state.Password,
+                  ServiceType: this.state.ServiceType}
 
                   signUpService.SignUpServices(data).then(response=>{
                     console.log(" response in ",response);
                     
                   })
   }
-
   onchange(e)
   {
     this.setState({[e.target.name]: e.target.value});
@@ -116,90 +116,50 @@ export default class Register extends React.Component{
      
             /> 
  
-   
-               
+             
  <TextField 
-              id="text-log-in"
+              id="text-log-userName"
               label="UserName"
               placeholder="UserName"            
               margin="normal"
-              variant="outlined"
-              name="userName"
+              name="UserName"
               onChange={this.onchange}
+              variant="outlined"
+     
+            />     
+        <TextField 
+              id="text-log-in"
+              label="ServiceType"
+              placeholder="ServiceType"            
+              margin="normal"
+              name="ServiceType"
+              onChange={this.onchange}
+              variant="outlined"
+     
+            />          
+
+<TextField 
+              id="text-log-in"
+              label="Password"
+              placeholder="Password"            
+              margin="normal"
+              name="Password"
+              onChange={this.onchange}
+              variant="outlined"
      
             /> 
 
-   
-           
-<TextField 
-              id="text-log-in"
-              label="Email"
-              className="email"
-              placeholder="Email"            
-              margin="normal"
-              variant="outlined"
-              name="email"
-              onChange={this.onchange}
-     
-            />               
-
-<TextField
-            variant="outlined"
-            margin="normal"
-            required
-        
-            name="password"
-            label="Password"
-            type="password"
-            id="text-log-in"
-            autoComplete="current-password"
-            name="password"
-            onChange={this.onchange}
-          />            
-
-     
-<TextField
-            variant="outlined"
-            margin="normal"
-            required
-        
-            name="passwordConfirm"
-            label="Confirm"
-            type="password"
-            id="text-log-in"
-            autoComplete="current-password"
-            name="confirm"
-            onChange={this.onchange}
-          />         
- 
-     
       </ThemeProvider>
 
-     
-
-
       </div>
+     
       <div className="div-log-forget">
-
-      
-
-      <Button id="button-sigin"variant="outlined" onClick={this.signUp}>
+      <br/>
+      <Button id="button-sigin"  onClick={this.signUp}>
        Register
       </Button>
      
-      <PopupState variant="popover" popupId="demo-popup-menu">
-      {popupState => (
-        <React.Fragment>
-          <Button variant="contained" color="primary" {...bindTrigger(popupState)} id="service-type">
-           Service Type
-          </Button>
-          <Menu {...bindMenu(popupState)}>
-            <MenuItem onClick={popupState.close}>basic</MenuItem>
-            <MenuItem onClick={popupState.close}>advance</MenuItem>
-          </Menu>
-        </React.Fragment>
-      )}
-    </PopupState>
+     
       </div>
   </div>
 

@@ -30,11 +30,15 @@ class DashBoard extends Component {
     super(props);
 
     this.state = {
-      left: true,
+      left: false,
 
     }
   }
-
+ example(){
+  this.setState({left:false});
+  console.log(this.state);
+  
+}
 
 
   //  toggleDrawer = (side, open) => event => {
@@ -104,7 +108,7 @@ class DashBoard extends Component {
               />
             </IconButton>
             <Typography variant="h6">
-              Fundoo_
+              Fundoo
                         </Typography>
 
            <div className="Search-icon-div">
@@ -113,8 +117,6 @@ class DashBoard extends Component {
               placeholder="Search…"
                />
                </div>
-
-
 
         <div >
             <IconButton color="black" className="left-icon-setting">

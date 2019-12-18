@@ -11,15 +11,13 @@ import Notes from './components/Notes'
 import Sample from './components/Sample'
 import {BrowserRouter,Route,Switch} from 'react-router-dom'
 import Demo from './components/demo';
-import GetAllNotes from './components/getAllNotes'
-
+import getAllNotes from './components/getAllNotes'
+import faltu from './components/faltu'
 
 function App() {
   return (
     <BrowserRouter>
     <div className="container"> 
-
-
     <Route path='/log' component={LogInPage}/>
     <Route path='/register' component={Register}/>
     <Route path='/forget' component={ForgetPassword}/>
@@ -28,7 +26,8 @@ function App() {
     <Route path='/note' component={Notes}/>
     <Route path='/demo' component={Demo}/>
     <Route path='/sam' component={Sample}/>
-    <Route path='/dash/notes' component={GetAllNotes}/>
+    <Route path='/dash/notes' component={getAllNotes}/>
+    <Route path='/faltu' component={faltu}/>
  
     </div>
     </BrowserRouter>
