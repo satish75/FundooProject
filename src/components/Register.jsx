@@ -10,7 +10,7 @@ import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import Radio from '@material-ui/core/Radio';
 import UserService from '../Services/UserService/UserService'
 import { ThemeProvider ,createMuiTheme} from '@material-ui/core'
-import Sample from './Sample';
+
 
 import '../cssFiles/register.css'
 var signUpService= new UserService;

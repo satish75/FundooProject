@@ -29,7 +29,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import  '../cssFiles/Notes.css';
 import UserService from '../Services/UserService/UserService'
-import Sample from './Sample'
+
 var axiosAddnote=new UserService;
 const theme = createMuiTheme({
    
@@ -175,7 +175,7 @@ export default  class Notes extends Component
       
         
                                   <Tooltip title="More" enterDelay={250} leaveDelay={100}>
-                                  <IconButton color="black" onClick={<Sample/>}>
+                                  <IconButton color="black">
                                   <Badge  color="secondary">
                                   <MoreVertIcon  className="bottom-icon-list"/>
                                   </Badge>

@@ -21,7 +21,7 @@ export default class DisplayNotes extends React.Component{
                 return(
                     <div>                 
                         <Card className="card-content-notes">
-                          tgdfged
+                     
                             <h1>{key.title}</h1>
                             <h6>{key.description}</h6>
                         </Card>

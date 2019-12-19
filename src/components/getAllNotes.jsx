@@ -28,7 +28,7 @@ export default class GetAllNotes extends Component
 
 
     getNotesUser() {
-        console.log("This is funvtion")
+        console.log("This is function")
 
         getnotes.GetNotesService().then(response => {
             console.log(response);
@@ -53,9 +53,9 @@ render()
     {
     return(
                 <div  className="notes-top-create">
-                        <div>
-                           <Notes/>
-                <Button className="btn-click" onClick={this.getNotesUser}>ClcikMe</Button>
+                <div>
+                <Notes/>
+                <Button className="btn-click" onClick={this.getNotesUser}>ClickMe</Button>
                         </div>
 
                         <div>
