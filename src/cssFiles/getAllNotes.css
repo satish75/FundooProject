@@ -2,18 +2,17 @@
 {
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   top:100px;
-  align-items: center;
-  justify-content: center;
-  left: 500px;
+ 
+ 
 }
 .card-content-item
 {
-    width: 150px;
-    height: 100px;
+  
 }
-.btn-click
+.display-all-notes
 {
-  padding-left: 90%;
+  display: flex;
+ justify-content: center;
 }

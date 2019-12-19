@@ -23,16 +23,19 @@ export default class GetAllNotes extends Component
 
     componentDidMount(){
         this.setState({ AllNotes: this.getAllNotes })
+        this.getNotesUser()
        
     }
 
 
     getNotesUser() {
-        console.log("This is function")
+        console.log("This is funtion")
 
         getnotes.GetNotesService().then(response => {
             console.log(response);
             let array = [];
+            console.log(" log ",response);
+            
             response.data.result.map((data) => {
                 array.push(data);
             });
@@ -52,15 +55,15 @@ export default class GetAllNotes extends Component
 render()
     {
     return(
-                <div  className="notes-top-create">
                 <div>
-                <Notes/>
-                <Button className="btn-click" onClick={this.getNotesUser}>ClickMe</Button>
+                   
+                <div>              
+                   <Notes/>
                         </div>
 
-                        <div>
-                <DisplayNotes notes={this.state.getAllNotes}></DisplayNotes>
-             
+                        <div className="display-all-notes">
+                        <DisplayNotes notes={this.state.getAllNotes}></DisplayNotes>
+                        
                         </div>
                 </div>
 
