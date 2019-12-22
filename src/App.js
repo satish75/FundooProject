@@ -12,7 +12,7 @@ import Notes from './components/Notes'
 import {BrowserRouter,Route,Switch} from 'react-router-dom'
 import Demo from './components/demo';
 import getAllNotes from './components/getAllNotes'
-
+import Sample from './components/Sample'
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
     <Route path='/dashboard' component={DashBoard}/>
     <Route path='/note' component={Notes}/>
     <Route path='/demo' component={Demo}/>
- 
+    <Route path='/sam' component={Sample}/>
     <Route path='/dashboard/notes' component={getAllNotes}/>
     
  

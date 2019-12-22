@@ -1,20 +1,6 @@
-.icon-div-flex
+.allIconDiv
 {
     display: flex;
     flex-direction: row;
-    /* justify-content: space-between; */
-}
-.MuiIconButton-root {
-  
-    padding: 0px !important;    
-}
-.div-more-menu
-{
-   
-    display: flex;
-    flex-direction: column;
-}
-.paper-size-menu
-{
-    width: 150px !important;
+    justify-content: space-evenly;
 }

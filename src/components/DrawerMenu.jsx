@@ -45,7 +45,7 @@ class DrawerMenu extends Component {
                 <Drawer
                     variant="persistent"
                    // open={this.props.appBarProps}
-                    width={200}
+                    width={210}
                 >
                     <MenuItem //onClick={this.handleNotes}
                         style={{ borderRadius: "0 25px 25px 0", backgroundColor: (this.state.trash) ? "#feefc3" : null }}>

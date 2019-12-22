@@ -26,7 +26,7 @@ export default class UserService
     }
 
     NoteCreate(userData){
-        console.log(" data in axios servuixe",userData);
+        console.log(" data in axios User ",userData);
         
         return axiosService.axiosPostAddNote(`https://localhost:44338/api/Notes`,  userData)
     }
@@ -42,5 +42,10 @@ export default class UserService
                 'Accept': '*',
                 Authorization: `bearer ${JwtToken}`
             }})
+    }
+
+    DeleteNotesService(Id)
+    {
+        return axios.delete('https://localhost:44338/api/Notes',Id)
     }
 }

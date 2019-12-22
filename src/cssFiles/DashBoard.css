@@ -4,18 +4,20 @@
 }
 .Search
 {
-   background-color: whitesmoke;
+    background-color:  whitesmoke;
+ 
    width: 600px;
    height: 40px;
-   border-radius: 10px;
+   border-radius: 10px; 
 }
 
 .searchIcon
 {
     
-    height: '100%';
+    height: 40px;
     color: lightslategray;
-   background-color:whitesmoke ;  
+ 
+  
    border-radius: 7px;
 }
 
@@ -126,26 +128,23 @@ text-rendering: optimizeLegibility;
 .header-div
 {
     justify-content: center;
+    position: fixed;
+    top: 0px;
+    width: 100%;
     
 }
-#search-icon
-{
-  
-}
+
 .left-icon-setting
 {
     left:230px;
 }   
-.Search
-{
-  
-}
+
 .MuiInputBase-root {
 height: 50px;
 }
 .Search-icon-div
 {
-    margin-left: 140px;
-    border: 1px groove;   
+    margin-left: 140px; 
     border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }

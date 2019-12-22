@@ -1,8 +1,7 @@
-
 import React, { Component } from 'react'
 import Notes from './Notes'
 import  DisplayNotes from './DisplayNotes'
-
+import '../cssFiles/getAllNotes.css';
 import UserService from '../Services/UserService/UserService'
 import { Button } from '@material-ui/core';
 
@@ -22,8 +21,9 @@ export default class GetAllNotes extends Component
     }
 
     componentDidMount(){
-        this.setState({ AllNotes: this.getAllNotes })
+     
         this.getNotesUser()
+        console.log("this is data")
        
     }
 
@@ -57,13 +57,12 @@ render()
     return(
                 <div>
                    
-                <div>              
-                   <Notes/>
+                <div >              
+                        <Notes/>
                         </div>
 
-                        <div className="display-all-notes">
-                        <DisplayNotes notes={this.state.getAllNotes}></DisplayNotes>
-                        
+                        <div >
+                        <DisplayNotes notes={this.state.getAllNotes}></DisplayNotes>                     
                         </div>
                 </div>
 

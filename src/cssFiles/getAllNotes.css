@@ -1,18 +1,5 @@
-.notes-top-create
+.displayAllNotesDiv
 {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  top:100px;
- 
- 
-}
-.card-content-item
-{
-  
-}
-.display-all-notes
-{
-  display: flex;
- justify-content: center;
+  left: 30%;
+  color: rgb(27, 24, 24);
 }

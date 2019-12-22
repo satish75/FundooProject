@@ -23,10 +23,11 @@ import Typography from '@material-ui/core/Typography';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
-
+import UserService from '../Services/UserService/UserService'
 import '../cssFiles/AllIconList.css';
+import { Button } from '@material-ui/core';
 
-
+var deleteNoteaxios=new UserService;
 export default class AllIconList extends Component
 {
     constructor(props)
@@ -34,8 +35,11 @@ export default class AllIconList extends Component
         super(props);
         this.state={
             show:'false',
+      
         }
         this.handleClick=this.handleClick.bind(this)
+
+        // closePopup
     }
    
     state = {
@@ -48,22 +52,31 @@ export default class AllIconList extends Component
     
       handleClose = () => {
         this.setState({ anchorEl: null });
+   
       };
 
-    
+     DeleteNote(){
+      var Id=this.props.notesId.id
+      console.log("delete Id",Id)
+      deleteNoteaxios.DeleteNotesService(Id).then(response=>
+        {
+          console.log("this is response ",response)
+        })
+
+    }
 
     render(){
         const { anchorEl } = this.state;
        
         return(
 
-            <div className="icon-div-flex">
-                            
+          <div className="allIconDiv">
 
+                              
                             <Tooltip title="Reminder" enterDelay={250} leaveDelay={10}>
                              <IconButton color="black">
                              <Badge  color="secondary">
-                             < AccessAlarmsIcon precision={1} className="bottom-icon-list"/>
+                             < AccessAlarmsIcon precision={1} />
                              </Badge>
                              </IconButton>
                              </Tooltip>
@@ -71,7 +84,7 @@ export default class AllIconList extends Component
                              <Tooltip title="Collaborate" enterDelay={250} leaveDelay={100}>
                              <IconButton color="black">
                              <Badge  color="secondary">
-                             <PersonAddIcon  className="bottom-icon-list"/>
+                             <PersonAddIcon />
                              </Badge>
                              </IconButton>
                              </Tooltip>
@@ -79,7 +92,7 @@ export default class AllIconList extends Component
                               <Tooltip title="Color" enterDelay={250} leaveDelay={100}>
                               <IconButton color="black">
                                <Badge  color="secondary">
-                               <PaletteIcon  className="bottom-icon-list"/>
+                               <PaletteIcon />
                                </Badge>
                                </IconButton>
                                </Tooltip>
@@ -88,7 +101,7 @@ export default class AllIconList extends Component
                                <Tooltip title="Image" enterDelay={250} leaveDelay={100}>
                                <IconButton color="black">
                                <Badge  color="secondary">
-                               <ImageIcon  className="bottom-icon-list"/>
+                               <ImageIcon  />
                                </Badge>
                                </IconButton>
                                </Tooltip>
@@ -96,7 +109,7 @@ export default class AllIconList extends Component
                                <Tooltip title="Archive" enterDelay={250} leaveDelay={100}>
                                <IconButton color="black">
                                 <Badge  color="secondary">
-                               <ArchiveIcon  className="bottom-icon-list"/>   
+                               <ArchiveIcon  />   
                                </Badge>
                                </IconButton>
                                </Tooltip>
@@ -105,17 +118,19 @@ export default class AllIconList extends Component
                                  <Tooltip title="More" enterDelay={250} leaveDelay={100}>
                                  <IconButton color="black" onClick={this.handleClick}>
                                  <Badge  color="secondary">
-                                 <MoreVertIcon  className="bottom-icon-list"
+                                 <MoreVertIcon 
                                   aria-owns={anchorEl ? 'simple-menu' : undefined}
                             
                                   aria-haspopup="true"
-                                  onClick={this.handleClick}
+                                 
                                  />
                                  </Badge>
-                                 </IconButton>
-           
-           
+         
+                                 </IconButton>   
                                  </Tooltip> 
+                          
+          
+
        <div >
         <Menu className="paper-size-menu"
           id="simple-menu"
@@ -123,12 +138,12 @@ export default class AllIconList extends Component
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.handleClose}>Delete Note </MenuItem>
-          <MenuItem onClick={this.handleClose}>Add Label</MenuItem>
-         
+          <MenuItem onClick={this.DeleteNote}>Delete Note </MenuItem>
+          
+          <MenuItem onClick={this.handleClose}>Add Label</MenuItem>         
         </Menu>
                                
-                </div>                 
+                </div>    
             </div>
         )
     }

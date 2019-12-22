@@ -22,13 +22,25 @@ export default class AxiosService  {
     }
        
     axiosPostAddNote(url,data){
-         
-        return axios.post(url,  data)
+         console.log('dvvvvr')
+         var token=localStorage.getItem('token')
+         console.log("this is token",token)
+         var header=""
+        return axios.post(url,data,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer '+token
+            },      
+        }     )
     }
     axiosGetAllNote(url,data){
          console.log("header axios ",data)
          var token=localStorage.getItem('token')
-        return axios.get(url,{header :{Authorization: `beaer ${token}`}})
+        return axios.get(url,{header :{Authorization: `bearer ${token}`}})
     }
-                   
+        axiosDeleteNote(url,data)
+            {
+                var token=localStorage.getItem('token')
+                return axios.delete(url,data,{header :{Authorization: `bearer ${token}`}})
+            }           
     }
