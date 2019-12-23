@@ -13,7 +13,7 @@ import {BrowserRouter,Route,Switch} from 'react-router-dom'
 import Demo from './components/demo';
 import getAllNotes from './components/getAllNotes'
 import Sample from './components/Sample'
-
+import Collaborator from './components/Collaborator'
 function App() {
   return (
     <BrowserRouter>
@@ -27,7 +27,7 @@ function App() {
     <Route path='/demo' component={Demo}/>
     <Route path='/sam' component={Sample}/>
     <Route path='/dashboard/notes' component={getAllNotes}/>
-    
+    <Route path='/coll' component={Collaborator}/>
  
     </div>
     </BrowserRouter>

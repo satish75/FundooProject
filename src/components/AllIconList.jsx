@@ -26,7 +26,7 @@ import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import UserService from '../Services/UserService/UserService'
 import '../cssFiles/AllIconList.css';
 import { Button } from '@material-ui/core';
-
+import Collaborator from './Collaborator'
 var deleteNoteaxios=new UserService;
 export default class AllIconList extends Component
 {
@@ -35,10 +35,13 @@ export default class AllIconList extends Component
         super(props);
         this.state={
             show:'false',
+            collabarate:false
       
         }
         this.handleClick=this.handleClick.bind(this)
-
+         this.DeleteNote = this.DeleteNote.bind(this)
+         this.TrashNote = this.TrashNote.bind(this)
+         this.ArchiveNote = this.ArchiveNote.bind(this)
         // closePopup
     }
    
@@ -56,14 +59,37 @@ export default class AllIconList extends Component
       };
 
      DeleteNote(){
-      var Id=this.props.notesId.id
+      var Id=this.props.noteId.id
       console.log("delete Id",Id)
       deleteNoteaxios.DeleteNotesService(Id).then(response=>
         {
           console.log("this is response ",response)
         })
-
     }
+    
+    TrashNote(){
+      var Id=this.props.noteId.id
+      console.log("trash Id",Id)
+      deleteNoteaxios.TrashNotesService(Id).then(response=>
+        {
+          console.log("this is response ",response)
+        })
+    }
+
+
+    ArchiveNote(){
+      var Id=this.props.noteId.id
+      console.log("Archive Id",Id)
+      deleteNoteaxios.ArchiveNotesService(Id).then(response=>
+        {
+          console.log("this is response ",response)
+        })
+    }
+    openCollabarator = () => {
+      this.setState({
+        collabarate: !this.state.collabarate,
+      });
+    };
 
     render(){
         const { anchorEl } = this.state;
@@ -72,7 +98,9 @@ export default class AllIconList extends Component
 
           <div className="allIconDiv">
 
-                              
+                      { this.state.collabarate ? 
+                        <Collaborator /> : ""}
+                     
                             <Tooltip title="Reminder" enterDelay={250} leaveDelay={10}>
                              <IconButton color="black">
                              <Badge  color="secondary">
@@ -80,9 +108,9 @@ export default class AllIconList extends Component
                              </Badge>
                              </IconButton>
                              </Tooltip>
-
+                        
                              <Tooltip title="Collaborate" enterDelay={250} leaveDelay={100}>
-                             <IconButton color="black">
+                             <IconButton color="black" onClick={this.openCollabarator}>
                              <Badge  color="secondary">
                              <PersonAddIcon />
                              </Badge>
@@ -107,14 +135,14 @@ export default class AllIconList extends Component
                                </Tooltip>
 
                                <Tooltip title="Archive" enterDelay={250} leaveDelay={100}>
-                               <IconButton color="black">
+                               <IconButton color="black"  onClick={this.ArchiveNote}>
                                 <Badge  color="secondary">
                                <ArchiveIcon  />   
                                </Badge>
                                </IconButton>
                                </Tooltip>
 
-     
+                      
                                  <Tooltip title="More" enterDelay={250} leaveDelay={100}>
                                  <IconButton color="black" onClick={this.handleClick}>
                                  <Badge  color="secondary">
@@ -128,8 +156,9 @@ export default class AllIconList extends Component
          
                                  </IconButton>   
                                  </Tooltip> 
-                          
+    
           
+    
 
        <div >
         <Menu className="paper-size-menu"
@@ -138,12 +167,13 @@ export default class AllIconList extends Component
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.DeleteNote}>Delete Note </MenuItem>
+          <MenuItem onClick={this.TrashNote}>Delete Note </MenuItem>
           
           <MenuItem onClick={this.handleClose}>Add Label</MenuItem>         
         </Menu>
                                
                 </div>    
+    
             </div>
         )
     }

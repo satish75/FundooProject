@@ -28,6 +28,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import AllIconList from './AllIconList'
 import NoteCard from './NoteCard'
+import Collaborator from './Collaborator'
 export default class DisplayNotes extends React.Component{
 
     constructor(props){
@@ -59,11 +60,12 @@ export default class DisplayNotes extends React.Component{
         
         
                 return(
-                     <div className="card">              
-                    <Card id="cardIdAllNotes" onClick={this.operation} >
+                     <div className="card">   
+                           
+                    <Card id="cardIdAllNotes"  >
                       {
                         this.state.showCard ? 
-                        <NoteCard /> : 
+                        <Collaborator /> : 
 
                         <CardContent>
                         <div>
@@ -87,7 +89,7 @@ export default class DisplayNotes extends React.Component{
                                    value={item.description} />
    
                             
-                                 <AllIconList />  
+                                 <AllIconList noteId={item} />  
                                   
                               </div>
                        

@@ -42,5 +42,8 @@ export default class AxiosService  {
             {
                 var token=localStorage.getItem('token')
                 return axios.delete(url,data,{header :{Authorization: `bearer ${token}`}})
-            }           
+            }      
+            
+            
+           
     }

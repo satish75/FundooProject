@@ -42,3 +42,29 @@
 .card{
     width: 26%;
 }
+
+.MuiDialog-paperWidthSm {
+    width: 100% ;
+  
+}
+.MuiDialog-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    height: 80%;
+    width: 100%;
+    outline: 0;
+}
+.bottom-list-item
+ {
+   display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.MuiDialogActions-root {
+    flex: 0 0 auto;
+    display: flex;
+    padding: 8px;
+    align-items: center;
+    justify-content: start !important;
+}

@@ -46,6 +46,40 @@ export default class UserService
 
     DeleteNotesService(Id)
     {
-        return axios.delete('https://localhost:44338/api/Notes',Id)
+        var JwtToken = localStorage.getItem('token')
+        console.log("Axios Delete ",Id)
+        console.log("Axios Delete JwtToken ",JwtToken)
+        return axios.delete(`https://localhost:44338/api/Notes/${Id}`,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${JwtToken}`
+            }})
+    }
+    ArchiveNotesService(Id)
+    {
+        var JwtToken = localStorage.getItem('token')
+        console.log("Axios Archive ",Id)
+        console.log("Axios Archive JwtToken ",JwtToken)
+
+        return axios.post("https://localhost:44338/api/Notes/"+Id+"/Archive",null,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${JwtToken}`
+            }})
+    }
+
+    TrashNotesService(Id)
+    {
+        var JwtToken = localStorage.getItem('token')
+        console.log("Axios Trash ",Id)
+        console.log("Axios Trash JwtToken ",JwtToken)
+        return axios.post("https://localhost:44338/api/Notes/"+Id+"/Trash",null,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${JwtToken}`
+            }})
     }
 }
