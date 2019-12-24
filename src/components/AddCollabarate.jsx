@@ -9,6 +9,7 @@ import '../cssFiles/Collaborator.css';
 import { TextField } from "@material-ui/core";
 import CheckIcon from '@material-ui/icons/Check';
 import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
+import Collabarotor from './Collaborator'
 export default class AddCollabarate extends Component {
   constructor(props) {
     super(props);
@@ -41,43 +42,46 @@ export default class AddCollabarate extends Component {
   render() {
     return (
       <div>
-    
+
         <div className="addcolabarateList">
           {this.state.list.map((item, index) => {
-            return <li id="listItem" key={index}>  
-               <Avatar >
-                <IconButton  color="black"> 
-                             <Badge  color="secondary">
-                             < AddCircleIcon id="IconButtonAdd" precision={1} />
-                             </Badge>
-                             </IconButton>               
-                  </Avatar>
-                  {item}
-                  <button onClick={() => this.removeItem(index)}>
-                  <ClearOutlinedIcon />
+            return <li id="listItem" key={index}>
+              <Avatar >
+                <IconButton color="black">
+                  <Badge color="secondary">
+                    < AddCircleIcon id="IconButtonAdd" precision={1} />
+                  </Badge>
+                </IconButton>
+              </Avatar>
+              {item}
 
-                  </button>
-             </li>;
+              <button onClick={() => this.removeItem(index)}>
+                <ClearOutlinedIcon />
+              </button>
+
+            </li>;
           })}
         </div>
 
         <div className="button-icon-textfielddiv">
-               <Avatar >
-                <IconButton  color="black"> 
-                             <Badge  color="secondary">
-                             < AddCircleIcon id="IconButtonAdd" precision={1} />
-                             </Badge>
-                             </IconButton>               
-                  </Avatar>
-        <TextField id="textfieldEmail"
-          type="text"
-          value={this.state.text}
-          onChange={e => this.ChangeHandler(e)}
-        />
-        <Button onClick={this.handleSubmit}>
+          <Avatar >
+            <IconButton color="black">
+              <Badge color="secondary">
+                < AddCircleIcon id="IconButtonAdd" precision={1} />
+              </Badge>
+            </IconButton>
+          </Avatar>
+          <TextField id="textfieldEmail"
+            type="text"
+            value={this.state.text}
+            onChange={e => this.ChangeHandler(e)}
+          />
+
+          <Button onClick={this.handleSubmit}>
             <CheckIcon />
-        </Button>
+          </Button>
         </div>
+   
       </div>
     );
   }

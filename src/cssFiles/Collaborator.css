@@ -42,4 +42,12 @@ border: none;
 }
 .MuiDialog-paperWidthSm {
     max-width: 512px !important;
+    
+}
+.save-cancel-div
+{
+    display: flex;
+    flex-direction: row;
+    padding-left: 60%;
+    justify-content: end;
 }

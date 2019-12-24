@@ -12,7 +12,6 @@ export default class GetAllNotes extends Component
         super(props);
         this.state={
             AllNotes:[],
-
             getAllNotes:[]
         }
 

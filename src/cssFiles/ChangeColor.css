@@ -1,0 +1,68 @@
+.paperContent
+{
+    width: 80%;
+   
+}
+.allcolorButtonDiv
+{
+    display: flex;
+    flex-direction: row;
+    
+    padding: 8px;
+}
+ .MuiPaper-root {
+    color: rgba(0, 0, 0, 0.87);
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    background-color: #fff;
+  
+   
+} 
+#redColor
+{
+    background: red;
+}
+
+#blueColor
+{
+    background: blue;
+}
+#greenColor
+{
+    background: green;
+}
+#pinkColor
+{
+    background: rgb(207, 133, 145);
+}
+#yellowColor
+{
+    background: yellow;
+}
+#brownColor
+{
+    background: brown;
+}
+#grayColor
+{
+    background: gray;
+}
+#purpleColor
+{
+    background: purple;
+}
+#darkBlueColor
+{
+    background: darkblue;
+}
+#oragneColor
+{
+    background: orange;
+}
+#whiteColor
+{
+    background:whitesmoke;
+}
+#blackColor
+{
+    background: black;
+}

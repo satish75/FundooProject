@@ -87,7 +87,10 @@ export default class DisplayNotes extends React.Component{
                                 placeholder="Take A Note"
                                 contentEditable="true"
                                    value={item.description} />
-   
+
+                            <div>
+                            
+                            </div>
                             
                                  <AllIconList noteId={item} />  
                                   
@@ -111,7 +114,7 @@ export default class DisplayNotes extends React.Component{
           })
       
       return(
-     <div  id={ !true ? "printAllNotesDivOpenMenu" : "printAllNotesDiv"}
+     <div  id= "printAllNotesDiv"
      >
         
          {printNoteList}        

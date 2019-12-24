@@ -82,4 +82,32 @@ export default class UserService
                 Authorization: `bearer ${JwtToken}`
             }})
     }
+
+    GetNotesTrash()
+    {
+        console.log("GetNotesService");
+       
+        var JwtToken = localStorage.getItem('token')
+       console.log("This is get notes service", JwtToken);
+        return axios.get(`https://localhost:44338/api/Notes/GetAllTrash`, {
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${JwtToken}`
+            }})
+    }
+    GetNotesArchive()
+    {
+        console.log("GetNotesService");
+       
+        var JwtToken = localStorage.getItem('token')
+       console.log("This is get notes service", JwtToken);
+        return axios.get(`https://localhost:44338/api/Notes/GetAllArchive`, {
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${JwtToken}`
+            }})
+    }
+
 }

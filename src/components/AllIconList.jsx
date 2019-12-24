@@ -17,7 +17,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
-import Paper from '@material-ui/core/Paper';
+
 
 import Typography from '@material-ui/core/Typography';
 import DraftsIcon from '@material-ui/icons/Drafts';
@@ -27,154 +27,190 @@ import UserService from '../Services/UserService/UserService'
 import '../cssFiles/AllIconList.css';
 import { Button } from '@material-ui/core';
 import Collaborator from './Collaborator'
-var deleteNoteaxios=new UserService;
-export default class AllIconList extends Component
-{
-    constructor(props)
-    {
-        super(props);
-        this.state={
-            show:'false',
-            collabarate:false
+import ChangeColor from './ChangeColor';
+
+//proper
+import Popper from '@material-ui/core/Popper';
+import PopupState, { bindToggle, bindPopper } from 'material-ui-popup-state';
+import Fade from '@material-ui/core/Fade';
+import Paper from '@material-ui/core/Paper';
+
+
+var deleteNoteaxios = new UserService;
+export default class AllIconList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      show: 'false',
+      collabarate: false,
+      opencolor: false,
+
+    }
+    this.handleClick = this.handleClick.bind(this)
+    this.DeleteNote = this.DeleteNote.bind(this)
+    this.TrashNote = this.TrashNote.bind(this)
+    this.ArchiveNote = this.ArchiveNote.bind(this)
+    // closePopup
+  }
+
+  state = {
+    anchorEl: null,
+  };
+
+  handleClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+
+  };
+
+  DeleteNote() {
+    var Id = this.props.noteId.id
+    console.log("delete Id", Id)
+    deleteNoteaxios.DeleteNotesService(Id).then(response => {
+      console.log("this is response ", response)
+    })
+  }
+
+  TrashNote() {
+    var Id = this.props.noteId.id
+    console.log("trash Id", Id)
+    deleteNoteaxios.TrashNotesService(Id).then(response => {
+      console.log("this is response ", response)
+    })
+  }
+
+
+  ArchiveNote() {
+    var Id = this.props.noteId.id
+    console.log("Archive Id", Id)
+    deleteNoteaxios.ArchiveNotesService(Id).then(response => {
+      console.log("this is response ", response)
+    })
+  }
+  openCollabarator = () => {
+    this.setState({
+      collabarate: !this.state.collabarate,
+    });
+  };
+
+  openColorState = () => {
+    this.setState({
+      opencolor: !this.state.opencolor,
+    })
+  }
+
+  render() {
+    console.log("this is AllIcon  cmpnt ",this.props.bgcolordata);
+    
+    const { anchorEl } = this.state;
+
+    return (
+
+      <div className="allIconDiv">
+
+        {this.state.collabarate ?
+          <Collaborator /> : ""}
+
       
-        }
-        this.handleClick=this.handleClick.bind(this)
-         this.DeleteNote = this.DeleteNote.bind(this)
-         this.TrashNote = this.TrashNote.bind(this)
-         this.ArchiveNote = this.ArchiveNote.bind(this)
-        // closePopup
-    }
-   
-    state = {
-        anchorEl: null,
-      };
-    
-      handleClick = event => {
-        this.setState({ anchorEl: event.currentTarget });
-      };
-    
-      handleClose = () => {
-        this.setState({ anchorEl: null });
-   
-      };
-
-     DeleteNote(){
-      var Id=this.props.noteId.id
-      console.log("delete Id",Id)
-      deleteNoteaxios.DeleteNotesService(Id).then(response=>
-        {
-          console.log("this is response ",response)
-        })
-    }
-    
-    TrashNote(){
-      var Id=this.props.noteId.id
-      console.log("trash Id",Id)
-      deleteNoteaxios.TrashNotesService(Id).then(response=>
-        {
-          console.log("this is response ",response)
-        })
-    }
-
-
-    ArchiveNote(){
-      var Id=this.props.noteId.id
-      console.log("Archive Id",Id)
-      deleteNoteaxios.ArchiveNotesService(Id).then(response=>
-        {
-          console.log("this is response ",response)
-        })
-    }
-    openCollabarator = () => {
-      this.setState({
-        collabarate: !this.state.collabarate,
-      });
-    };
-
-    render(){
-        const { anchorEl } = this.state;
        
-        return(
 
-          <div className="allIconDiv">
 
-                      { this.state.collabarate ? 
-                        <Collaborator /> : ""}
-                     
-                            <Tooltip title="Reminder" enterDelay={250} leaveDelay={10}>
-                             <IconButton color="black">
-                             <Badge  color="secondary">
-                             < AccessAlarmsIcon precision={1} />
-                             </Badge>
-                             </IconButton>
-                             </Tooltip>
-                        
-                             <Tooltip title="Collaborate" enterDelay={250} leaveDelay={100}>
-                             <IconButton color="black" onClick={this.openCollabarator}>
-                             <Badge  color="secondary">
-                             <PersonAddIcon />
-                             </Badge>
-                             </IconButton>
-                             </Tooltip>
+        <Tooltip title="Reminder" enterDelay={250} leaveDelay={10}>
+          <IconButton color="black">
+            <Badge color="secondary">
+              < AccessAlarmsIcon precision={1} />
+            </Badge>
+          </IconButton>
+        </Tooltip>
 
-                              <Tooltip title="Color" enterDelay={250} leaveDelay={100}>
-                              <IconButton color="black">
-                               <Badge  color="secondary">
-                               <PaletteIcon />
-                               </Badge>
-                               </IconButton>
-                               </Tooltip>
 
-               
-                               <Tooltip title="Image" enterDelay={250} leaveDelay={100}>
-                               <IconButton color="black">
-                               <Badge  color="secondary">
-                               <ImageIcon  />
-                               </Badge>
-                               </IconButton>
-                               </Tooltip>
+        <Tooltip title="Collaborate" enterDelay={250} leaveDelay={100}>
+          <IconButton color="black" onClick={this.openCollabarator}>
+            <Badge color="secondary">
+              <PersonAddIcon />
+            </Badge>
+          </IconButton>
+        </Tooltip>
 
-                               <Tooltip title="Archive" enterDelay={250} leaveDelay={100}>
-                               <IconButton color="black"  onClick={this.ArchiveNote}>
-                                <Badge  color="secondary">
-                               <ArchiveIcon  />   
-                               </Badge>
-                               </IconButton>
-                               </Tooltip>
 
-                      
-                                 <Tooltip title="More" enterDelay={250} leaveDelay={100}>
-                                 <IconButton color="black" onClick={this.handleClick}>
-                                 <Badge  color="secondary">
-                                 <MoreVertIcon 
-                                  aria-owns={anchorEl ? 'simple-menu' : undefined}
-                            
-                                  aria-haspopup="true"
-                                 
-                                 />
-                                 </Badge>
-         
-                                 </IconButton>   
-                                 </Tooltip> 
-    
-          
-    
 
-       <div >
-        <Menu className="paper-size-menu"
-          id="simple-menu"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={this.handleClose}
-        >
-          <MenuItem onClick={this.TrashNote}>Delete Note </MenuItem>
-          
-          <MenuItem onClick={this.handleClose}>Add Label</MenuItem>         
-        </Menu>
-                               
-                </div>    
-    
-            </div>
-        )
-    }
+        <PopupState variant="popper" popupId="demo-popup-popper">    
+      {popupState => (
+        <div>
+            <Tooltip title="Color" enterDelay={250} leaveDelay={100}>
+             <IconButton color="black" {...bindToggle(popupState)}>
+             <Badge color="secondary">
+              <PaletteIcon />
+            </Badge>
+           </IconButton>
+           </Tooltip>
+
+          <Popper {...bindPopper(popupState)} transition>
+            {({ TransitionProps }) => (
+              <Fade {...TransitionProps} timeout={350}>
+              <ChangeColor  />
+              </Fade>
+            )}
+          </Popper>
+        </div>
+      )}
+    </PopupState>
+
+
+        <Tooltip title="Image" enterDelay={250} leaveDelay={100}>
+          <IconButton color="black">
+            <Badge color="secondary">
+              <ImageIcon />
+            </Badge>
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title="Archive" enterDelay={250} leaveDelay={100}>
+          <IconButton color="black" onClick={this.ArchiveNote}>
+            <Badge color="secondary">
+              <ArchiveIcon />
+            </Badge>
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title="More" enterDelay={250} leaveDelay={100}>
+          <IconButton color="black" onClick={this.handleClick}>
+            <Badge color="secondary">
+              <MoreVertIcon
+                aria-owns={anchorEl ? 'simple-menu' : undefined}
+
+                aria-haspopup="true"
+
+              />
+            </Badge>
+
+          </IconButton>
+        </Tooltip>
+
+
+
+
+        <div >
+          <Menu className="paper-size-menu"
+            id="simple-menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={this.handleClose}
+          >
+            <MenuItem onClick={this.TrashNote}>Delete Note </MenuItem>
+
+            <MenuItem onClick={this.handleClose}>Add Label</MenuItem>
+          </Menu>
+
+        </div>
+
+<div>
+
+</div>
+      </div>
+    )
+  }
 } 

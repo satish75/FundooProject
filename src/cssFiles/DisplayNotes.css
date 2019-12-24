@@ -19,10 +19,13 @@
 }
 .MuiCardContent-root:last-child {
     padding-bottom: 6px !important;
+  
 }
  #printAllNotesDiv
 {
     width: 100%;
+    padding-top: 7%;
+    padding-left: 10%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

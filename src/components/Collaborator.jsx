@@ -40,12 +40,19 @@ class SimpleDialog extends React.Component {
   handleClose = () => {
     this.props.onClose(this.props.selectedValue);
   };
+  
 
   handleListItemClick = value => {
     this.props.onClose(value);
   };
 
+componentWillReceiveProps(newProps){
+  
+}
+
   render() {
+    console.log("This is collabarot ",this.props.list);
+    
     const { classes, onClose, selectedValue, ...other } = this.props;
 
     return (
@@ -70,7 +77,14 @@ class SimpleDialog extends React.Component {
             </ListItem>
             </div>
           </List>
-        </div>
+          </div>
+          <Divider />
+          <div className="save-cancel-div">
+          <Button>Cancel</Button>
+          <Button  onClick={this.handleClose}>Save</Button>
+          </div>
+        
+  
       </Dialog>
     );
   }
@@ -85,11 +99,10 @@ SimpleDialog.propTypes = {
 const SimpleDialogWrapped = withStyles(styles)(SimpleDialog);
 
 export default class Collaborator extends React.Component {
+
   state = {
     open: true,
    //// selectedValue: emails[1], 
-    
-
   };
 
   // handleClickOpen = () => {
@@ -101,8 +114,16 @@ export default class Collaborator extends React.Component {
   handleClose = value => {
     this.setState({ selectedValue: value, open: false });
   };
+  
+  handleCloseSaveBtn = () => {
+    this.setState({ 
+      open: false ,
+    });
+  };
 
   render() {
+    console.log("this is list item ",this.props.list);
+    
     return (
       <div>
       

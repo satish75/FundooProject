@@ -40,14 +40,19 @@ class DashBoard extends Component {
   
 }
 
+getAllTrashNotes = () =>
+{
+  this.props.history.push('/dashboard/trash')
+}
+getAllArchiveNotes = () =>
+{
+  this.props.history.push('/dashboard/archive')
+}
 
-  //  toggleDrawer = (side, open) => event => {
-  //     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-  //       return;
-  //     }
-
-  //     setState({ ...state, [side]: open });
-  //   };
+getAllNotesBtn = () =>
+{
+  this.props.history.push('/dashboard/notes')
+}
 
   render() {
 
@@ -58,8 +63,7 @@ class DashBoard extends Component {
           <div className="ListButtons">
 
 
-
-            <Button id="reminder-notes-btn" >
+            <Button id="reminder-notes-btn" onClick={this.getAllNotesBtn}>
 
               <NoteOutlinedIcon id="noteIcon"></NoteOutlinedIcon>
               Note
@@ -82,14 +86,13 @@ class DashBoard extends Component {
 
             </div>
             <Divider />
-            <Button id="reminder-notes-btn"   >
+            <Button id="reminder-notes-btn"  onClick={this.getAllTrashNotes} >
               <DeleteOutlineOutlinedIcon id="noteIcon"></DeleteOutlineOutlinedIcon>
               Trash
       </Button>
 
-
             <br />
-            <Button id="reminder-notes-btn"   >
+            <Button id="reminder-notes-btn"  onClick={this.getAllArchiveNotes} >
               <ArchiveOutlinedIcon id="noteIcon"></ArchiveOutlinedIcon>
               Archive
       </Button>
