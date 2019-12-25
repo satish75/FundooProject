@@ -10,6 +10,7 @@ import '../cssFiles/ChangeColor.css'
 import RadioButtonUncheckedOutlinedIcon from '@material-ui/icons/RadioButtonUncheckedOutlined';
 import { IconButton } from "@material-ui/core";
 import AllIconList from './AllIconList'
+import DisplayNotes from "./DisplayNotes";
 
 export default class ChangeColor extends Component
 {
@@ -21,6 +22,7 @@ export default class ChangeColor extends Component
         }
     }
 
+    
     changeCSS(clr) {
         console.log("Color ",clr);
         
@@ -67,10 +69,14 @@ export default class ChangeColor extends Component
                   
 
 
-                {/* <div className="colorchangeeffect" style={{ background: `${this.state.bg}` }}>
+                { <div className="colorchangeeffect" style={{ background: `${this.state.bg}` }}>
                  <p>ghddddddddddddddddddddddddddddddddddddddddf</p>
-              </div> */}
+              </div> }
 
+
+<div>
+  <AllIconList colorId={this.state.bg}/>
+</div>
               </div>
             
         </div> 

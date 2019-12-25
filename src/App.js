@@ -17,6 +17,7 @@ import Collaborator from './components/Collaborator'
 import Trash from './components/Trash'
 import Archive from './components/Archive'
 import ChangeColor from './components/ChangeColor'
+import Update from './components/Update'
 
 function App() {
   return (
@@ -35,6 +36,9 @@ function App() {
     <Route path='/dashboard/trash' component={Trash}/>
     <Route path='/dashboard/archive' component={Archive}/>
     <Route path='/color' component={ChangeColor}/>
+    <Route path='/update' component={Update}/>
+
+    
 
 
  

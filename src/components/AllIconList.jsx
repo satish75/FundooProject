@@ -34,6 +34,7 @@ import Popper from '@material-ui/core/Popper';
 import PopupState, { bindToggle, bindPopper } from 'material-ui-popup-state';
 import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
+import DisplayNotes from './DisplayNotes';
 
 
 var deleteNoteaxios = new UserService;
@@ -44,6 +45,7 @@ export default class AllIconList extends Component {
       show: 'false',
       collabarate: false,
       opencolor: false,
+      colorCode:''
 
     }
     this.handleClick = this.handleClick.bind(this)
@@ -95,16 +97,19 @@ export default class AllIconList extends Component {
       collabarate: !this.state.collabarate,
     });
   };
-
-  openColorState = () => {
-    this.setState({
-      opencolor: !this.state.opencolor,
-    })
-  }
-
+colorFunction =() =>
+{
+  this.setState({
+    colorCode:this.props.colorId
+  })
+}
   render() {
-    console.log("this is AllIcon  cmpnt ",this.props.bgcolordata);
-    
+    const colorbg=this.props.colorId
+    console.log("this is AllIcon  cmpnt ",this.props.colorId);
+  
+
+
+   
     const { anchorEl } = this.state;
 
     return (
@@ -207,7 +212,8 @@ export default class AllIconList extends Component {
 
         </div>
 
-<div>
+      
+        <div>
 
 </div>
       </div>

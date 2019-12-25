@@ -53,7 +53,7 @@ export default class DisplayNotes extends React.Component{
 
 
     render(){
-        console.log(" print all  notes i display ",this.props.notes);
+      ///  console.log(" print all  notes colorrrrr ");
        
 
        var  printNoteList=  this.props.notes.map( (item,index)=>{
