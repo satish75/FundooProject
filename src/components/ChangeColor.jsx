@@ -97,21 +97,21 @@ export default class ChangeColor extends Component
           {this.state.showColorMenu ===true ?
               <div className="allcolorButtonDiv">
                       <Paper id="paperContent">                      
-                    <IconButton id="redColor" onClick={this.colorChange.bind(this, "lightBlue")}/>
-                    <IconButton id="blueColor"  onClick={this.changeCSS.bind(this, "blue")}/>
-                    <IconButton id="blackColor"  onClick={this.changeCSS.bind(this, "black")}/>
-                    <IconButton id="greenColor"  onClick={this.changeCSS.bind(this, "green")}/>
+                    <IconButton id="redColor" onClick={this.colorChange.bind(this, "e7baba")}/>
+                    <IconButton id="blueColor"  onClick={this.colorChange.bind(this, "a94afc")}/>
+                    <IconButton id="blackColor" onClick={this.colorChange.bind(this, "d7aefb")}/>
+                    <IconButton id="greenColor" onClick={this.colorChange.bind(this, "79e47e")}/>
                     
                     <br/>
-                    <IconButton id="pinkColor"  onClick={this.changeCSS.bind(this, "pink")}/>
-                    <IconButton id="yellowColor"  onClick={this.changeCSS.bind(this, "yellow")}/>
-                    <IconButton id="brownColor"  onClick={this.changeCSS.bind(this, "brown")}/>
-                    <IconButton id="grayColor"  onClick={this.changeCSS.bind(this, "gray")}/>
+                    <IconButton id="pinkColor"  onClick={this.colorChange.bind(this, "ffffff")}/>
+                    <IconButton id="yellowColor"  onClick={this.colorChange.bind(this, "99929c")}/>
+                    <IconButton id="brownColor"  onClick={this.colorChange.bind(this, "ad5071")}/>
+                    <IconButton id="grayColor"  onClick={this.colorChange.bind(this, "af2a9f")}/>
                     <br/>
-                    <IconButton id="purpleColor"  onClick={this.changeCSS.bind(this, "purple")}/>
-                    <IconButton id="darkBlueColor"  onClick={this.changeCSS.bind(this, "darkblue")}/>
-                    <IconButton id="oragneColor"  onClick={this.changeCSS.bind(this, "orange")}/>
-                    <IconButton id="whiteColor"  onClick={this.changeCSS.bind(this, "white")}/>
+                    <IconButton id="purpleColor"   onClick={this.colorChange.bind(this, "15c7f3")}/>
+                    <IconButton id="darkBlueColor"   onClick={this.colorChange.bind(this, "cc6931")}/>
+                    <IconButton id="oragneColor"   onClick={this.colorChange.bind(this, "cad118")}/>
+                    <IconButton id="whiteColor"   onClick={this.colorChange.bind(this, "5ad6d6")}/>
                       </Paper>
                   
 

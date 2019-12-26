@@ -19,50 +19,49 @@
 } 
 #redColor
 {
-    background: red;
-}
-
-#blueColor
-{
-    background: blue;
-}
-#greenColor
-{
-    background: green;
+    background: #e7baba;
 }
 #pinkColor
 {
-    background: rgb(207, 133, 145);
+    background: #ffffff;
 }
 #yellowColor
 {
-    background: yellow;
+    background: #99929c;
 }
 #brownColor
 {
-    background: brown;
+    background: #ad5071;
 }
 #grayColor
 {
-    background: gray;
+    background: #af2a9f;
 }
 #purpleColor
 {
-    background: purple;
+    background: #15c7f3;
 }
 #darkBlueColor
 {
-    background: darkblue;
+    background: #cc6931;
 }
 #oragneColor
 {
-    background: orange;
+    background: #cad118;
 }
 #whiteColor
 {
-    background:whitesmoke;
+    background: #5ad6d6;
 }
 #blackColor
 {
-    background: black;
+    background: #d7aefb;
 }
+#blueColor
+{
+    background: #a94afc;
+} 
+#greenColor
+{
+    background: #79e47e;
+} 
