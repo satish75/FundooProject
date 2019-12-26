@@ -142,7 +142,7 @@ colorFunction =() =>
 
 
 
-        <PopupState variant="popper" popupId="demo-popup-popper">    
+        {/* <PopupState variant="popper" popupId="demo-popup-popper">    
       {popupState => (
         <div>
             <Tooltip title="Color" enterDelay={250} leaveDelay={100}>
@@ -162,7 +162,7 @@ colorFunction =() =>
           </Popper>
         </div>
       )}
-    </PopupState>
+    </PopupState> */}
 
 
         <Tooltip title="Image" enterDelay={250} leaveDelay={100}>
@@ -212,9 +212,7 @@ colorFunction =() =>
 
         </div>
 
-      
         <div>
-
 </div>
       </div>
     )

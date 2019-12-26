@@ -110,4 +110,18 @@ export default class UserService
             }})
     }
 
+    ColorService(data)
+    {
+        var jwtToken = localStorage.getItem('token')
+        console.log("Axios  Id  ",data.Id)
+        console.log("Axios Color   ",data.color)
+
+        console.log("Axios Trash JwtToken ",jwtToken)
+        return axios.put("https://localhost:44338/api/Notes/"+data.Id+"/"+data.color+"/color",null,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${jwtToken}`
+            }})
+    }
 }

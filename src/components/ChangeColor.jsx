@@ -11,6 +11,14 @@ import RadioButtonUncheckedOutlinedIcon from '@material-ui/icons/RadioButtonUnch
 import { IconButton } from "@material-ui/core";
 import AllIconList from './AllIconList'
 import DisplayNotes from "./DisplayNotes";
+import PaletteIcon from '@material-ui/icons/Palette';
+import UserService from '../Services/UserService/UserService'
+
+import Badge from '@material-ui/core/Badge';
+import Tooltip from '@material-ui/core/Tooltip';
+
+
+var getnotes = new UserService;
 
 export default class ChangeColor extends Component
 {
@@ -18,10 +26,19 @@ export default class ChangeColor extends Component
     {
         super(props);
         this.state={
-            bg: "white"
+            bg: "",
+            showColorMenu:false
         }
+        this.colorChange = this.colorChange.bind(this)
     }
 
+    
+
+    DisplayColors = ()=>{
+      this.setState({
+        showColorMenu: !this.state.showColorMenu
+      })
+    }
     
     changeCSS(clr) {
         console.log("Color ",clr);
@@ -31,26 +48,56 @@ export default class ChangeColor extends Component
         });
       };
     
-      chagneBg = e => {
-        let name = e.target.value;
-        let oldObj = this.state.name;
-        oldObj.name = name;
-        this.setState({
-          bg: e.target.value,
-          name: oldObj
-        });
-      };
      
+    async  colorChange(clr) {
+        console.log("This is funtion")
+
+      await  this.setState({
+          bg: clr
+        });
+          var data = {
+                 
+            color: this.state.bg,                             
+            Id : this.props.idItem,       
+          }
+         
+            getnotes.ColorService(data).then(response=>{
+              console.log(" response in ",response);
+             this.props.save()
+              
+            })            
+    }
     render(){
+      console.log("color value ",this.state.showColorMenu);
+      
         return(
             <div>
-            {/* <PopupState variant="popper" popupId="demo-popup-popper">
-            {popupState => ( */}
+           <PopupState variant="popper" popupId="demo-popup-popper">    
+      {popupState => (
+        <div>
+            <Tooltip title="Color" enterDelay={250} leaveDelay={100}>
+             <IconButton color="black" onClick={this.DisplayColors} >
+             <Badge color="secondary">
+              <PaletteIcon />
+            </Badge>
+           </IconButton>
+           </Tooltip>
+
+          <Popper {...bindPopper(popupState)} transition>
+            {({ TransitionProps }) => (
+              <Fade {...TransitionProps} timeout={350}>
+             
+              </Fade>
+            )}
+          </Popper>
+        </div>
+      )}
+    </PopupState> 
+   
+          {this.state.showColorMenu ===true ?
               <div className="allcolorButtonDiv">
-               
-           
                       <Paper id="paperContent">                      
-                    <IconButton id="redColor" onClick={this.changeCSS.bind(this, "red")}/>
+                    <IconButton id="redColor" onClick={this.colorChange.bind(this, "lightBlue")}/>
                     <IconButton id="blueColor"  onClick={this.changeCSS.bind(this, "blue")}/>
                     <IconButton id="blackColor"  onClick={this.changeCSS.bind(this, "black")}/>
                     <IconButton id="greenColor"  onClick={this.changeCSS.bind(this, "green")}/>
@@ -69,16 +116,14 @@ export default class ChangeColor extends Component
                   
 
 
-                { <div className="colorchangeeffect" style={{ background: `${this.state.bg}` }}>
+                {/* { <div className="colorchangeeffect" style={{ background: `${this.state.bg}` }}>
                  <p>ghddddddddddddddddddddddddddddddddddddddddf</p>
-              </div> }
+              </div> } */}
 
 
-<div>
-  <AllIconList colorId={this.state.bg}/>
-</div>
               </div>
-            
+              :null}
+                         
         </div> 
         )
     }

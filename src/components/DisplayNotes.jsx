@@ -29,6 +29,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import AllIconList from './AllIconList'
 import NoteCard from './NoteCard'
 import Collaborator from './Collaborator'
+import ChangeColor from './ChangeColor'
 export default class DisplayNotes extends React.Component{
 
     constructor(props){
@@ -51,9 +52,13 @@ export default class DisplayNotes extends React.Component{
       });
     };
 
+    handleSave=()=>{
+      this.props.refresh()
+    }
+
 
     render(){
-      ///  console.log(" print all  notes colorrrrr ");
+      console.log(" print all  notes colorrrrr ", this.props.notes);
        
 
        var  printNoteList=  this.props.notes.map( (item,index)=>{
@@ -62,7 +67,7 @@ export default class DisplayNotes extends React.Component{
                 return(
                      <div className="card">   
                            
-                    <Card id="cardIdAllNotes"  >
+                    <Card id="cardIdAllNotes" style={{backgroundColor:item.color}} >
                       {
                         this.state.showCard ? 
                         <Collaborator /> : 
@@ -71,7 +76,7 @@ export default class DisplayNotes extends React.Component{
                         <div>
         
                           <TextareaAutosize id="titlefield"
-                 
+                        style={{backgroundColor:item.color}}
                  
                                name="notesTitle"  
                                onChange={this.onchange} 
@@ -81,6 +86,7 @@ export default class DisplayNotes extends React.Component{
         
                               <div>
                                 <TextareaAutosize id="textdescription"
+                                style={{backgroundColor:item.color}}
                                 className="note-text-area"
                                 name="notesDescription" 
                                  onChange={this.onchange} 
@@ -93,13 +99,10 @@ export default class DisplayNotes extends React.Component{
                             </div>
                             
                                  <AllIconList noteId={item} />  
-                                  
+                                  <ChangeColor idItem={item.id} colorBack={item.color} save={this.handleSave}/>
                               </div>
-                       
-                          
+                                      
                         </div>
-        
-               
                         </CardContent>
               
                       }

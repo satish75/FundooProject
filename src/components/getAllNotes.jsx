@@ -61,7 +61,7 @@ render()
                         </div>
 
                         <div >
-                        <DisplayNotes notes={this.state.getAllNotes}></DisplayNotes>                     
+                        <DisplayNotes notes={this.state.getAllNotes} refresh={this.getNotesUser}></DisplayNotes>                     
                         </div>
                 </div>
 
