@@ -31,11 +31,12 @@ namespace Fundoo
     using Microsoft.AspNetCore.Mvc.Infrastructure;
     using Microsoft.AspNetCore.Mvc.Routing;
     using AutoMapper;
+    using Microsoft.AspNetCore.Authorization;
 
     /// using AutoMapper;
 
     // using AutoMapper;
-    
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -115,31 +116,35 @@ namespace Fundoo
                     );
             });
 
-            
-           
-            /// Authentication code
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 
             }).AddJwtBearer(g =>
             {
                 g.RequireHttpsMetadata = false;
-                g.SaveToken = false;
+                g.SaveToken = true;
                 g.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:Key"])),
-                   
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"].ToString())),
                 };
-
             });
 
+
+
+            /// Authentication code
+
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌)
+                    .RequireAuthenticatedUser().Build());
+            });
         }
 
         /// <summary>

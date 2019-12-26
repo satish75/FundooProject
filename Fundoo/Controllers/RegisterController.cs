@@ -18,6 +18,12 @@ namespace Fundoo.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Cors;
+    using Microsoft.IdentityModel.Tokens;
+    using System.Security.Claims;
+    using System.Text;
+    using Microsoft.Extensions.Configuration;
+    using System.IdentityModel.Tokens.Jwt;
+
 
     /// <summary>
     /// This is Controller class which is used to specifies API
@@ -26,15 +32,18 @@ namespace Fundoo.Controllers
     /// 
     [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
-     [AllowAnonymous]
+   
   
     public class RegisterController : ControllerBase
     {
         private readonly IBussinessRegister _bussinessRegister;
-        public RegisterController(IBussinessRegister bussinessRegister)
+        private readonly IConfiguration configuration;
+        public RegisterController(IBussinessRegister bussinessRegister, IConfiguration configuration)
         {
             _bussinessRegister = bussinessRegister;
+            this.configuration = configuration;
         }
 
         /// <summary>
@@ -43,12 +52,21 @@ namespace Fundoo.Controllers
         /// <param name="details">The details.</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("register")]
-        [AllowAnonymous]
-        public async Task<bool> AddUserDetails(RegistrationModel details)
+        [Route("")]
+         [AllowAnonymous]
+        public async Task<IActionResult> AddUserDetails(RegistrationModel details)
         {
             var result = await _bussinessRegister.Register(details);
-            return result;
+            if(result)
+            {
+                return this.Ok(new { result = "successfully added" });
+            }
+            else
+            {
+                return this.Ok(new { result = "failed to add" });
+            }
+          
+           
         }
 
         /// <summary>
@@ -58,32 +76,26 @@ namespace Fundoo.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("login")]
-        [AllowAnonymous]
+       [AllowAnonymous]
         public async Task<IActionResult> Login(LoginModel login)
         {
             
 
-            var token = await this._bussinessRegister.Login(login);
-            if (token != null)
+            var result = await this._bussinessRegister.Login(login);
+            if (result != null)
             {
-                ////subsrtring method to separate the token and login time
-                var lastlogin = token.Substring(token.IndexOf('+') + 1);
-                token = token.Substring(0, token.IndexOf('+'));
-                var status = "Login Successfull";
-                ////returning the token and last login time                
-                return this.Ok(new { token, lastlogin, status });
+                var token = TokenGeneration(result);         
+                return this.Ok(new { success = true, message = "LogIn Successfull", token, result });
             }
             else
             {
-                return this.Unauthorized();
+              
+                return this.Ok(new { results = "Login Failed" });
+               
             }
 
         }
-        /*  public async Task<string> Login(LoginModel loginModel)
-          {
-              var result = await _bussinessRegister.Login(loginModel);
-              return result;
-          }*/
+       
 
         /// <summary>
         /// Forgets the password.
@@ -92,38 +104,71 @@ namespace Fundoo.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("forgetPassword")]
-        [AllowAnonymous]
+      
         public async Task<IActionResult> ForgetPassword(ForgotPasswordModel model)
         {
             var result = await this._bussinessRegister.ForgotPassword(model);
             if (result != null)
             {
-                return this.Ok(new { result });
+                return this.Ok(new { result="successfull" });
             }
             else
             {
-                return this.Unauthorized();
+                return this.Ok(new {results="Unautharize" });
             }
         }
 
          [HttpPost]
         [Route("resetPassword")]
-        [AllowAnonymous]
-        public async Task<bool> ResetPassword(ResetPasswordModel model)
+       
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
         {
             var result = await this._bussinessRegister.ResetPassword(model);
-            return result;
+
+            if (result)
+            {
+             
+                return Ok(new { results = " Success " });
+            }
+            else
+            {
+                return this.Ok(new { results = "Unautharize" });
+            }
+           
         }
 
 
         [HttpPost]
         [Route("Image")]
-        [AllowAnonymous]
+     
         public IActionResult UploadImage(string userid, IFormFile file)
         {
             var urlOfImage = _bussinessRegister.UploadImage(userid, file);
             // return urlOfImage;
-            return Ok(new { urlOfImage });
+            return Ok(new { url = urlOfImage });
+        }
+
+        [HttpGet]
+        public string TokenGeneration(RegistrationModel model)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.configuration["Jwt:Key"]));
+
+            //// here using securitykey and algorithm(security) the creadintails is generate(SigningCredentials present in Token)
+            var creadintials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var claims = new[] {
+               new Claim("UserName",model.UserName),
+               new Claim("UserId", (model.Id)),
+               new Claim("Email", (model.Email)),
+                };
+
+            var token = new JwtSecurityToken("Security token", "https://Test.com",
+                claims,
+                DateTime.UtcNow,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: creadintials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+
         }
     }
 }

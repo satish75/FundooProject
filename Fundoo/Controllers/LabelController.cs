@@ -38,7 +38,7 @@ namespace Fundoo.Controllers
         /// <returns></returns>
         [HttpPost]
         // [Route("Add")]
-        [AllowAnonymous]
+    
         public async Task<IActionResult> Add(IList<string> label, int noteId, string userId)
         {
             var results = await _bussinessLabel.Add(label, noteId, userId);
@@ -60,7 +60,7 @@ namespace Fundoo.Controllers
         /// 
         [HttpGet]
         [Route("{id}")]
-        [AllowAnonymous]
+    
         public IList<LabelModel> GetLabel(string id)
         {
             var results = _bussinessLabel.GetLabel(id);
@@ -75,8 +75,7 @@ namespace Fundoo.Controllers
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpPut]
-        //[Route("update")]
-        [AllowAnonymous]
+     
         public async Task<IActionResult> UpdateLabel(string label, int id)
         {
             var results = await _bussinessLabel.UpdateLabel(label, id);
@@ -98,11 +97,14 @@ namespace Fundoo.Controllers
         /// <returns></returns>
         [HttpDelete]
         // [Route("delete")]
-        [AllowAnonymous]
+  
         public async Task<IActionResult> DeleteLabel(int id, string UserId)
         {
             var results = await _bussinessLabel.DeleteLabel(id, UserId);
-            return Ok(new { results });
+            if(results.Equals("Deleted"))
+            return Ok(new { results ="delete successfully" });
+            else
+                return Ok(new { results = "failed" });
         }
     }
 }

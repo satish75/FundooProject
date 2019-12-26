@@ -13,11 +13,13 @@ namespace Fundoo.Controllers
     using BussinessLayer.Interface;
     using Common.Models;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    [EnableCors("CorsPolicy")]
     public class NotesController : ControllerBase
     {
         private readonly IBussinessNotes _bussinessRegister;
@@ -39,11 +41,11 @@ namespace Fundoo.Controllers
         [HttpPost]
         //  [Route("Notes")]
        
-       [AllowAnonymous]
+     
         public async Task<IActionResult> CreateNotes(NotesModel details)
         {
             var id = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
-            var results = await _bussinessRegister.CreateNotes(details,"45");    
+            var results = await _bussinessRegister.CreateNotes(details,id);    
             if(results)
             {
                 return Ok(new { results = "Added Successfully" });
@@ -61,12 +63,20 @@ namespace Fundoo.Controllers
         /// <param name="details">The details.</param>
         /// <returns></returns>
         [HttpGet]
-       [Route("{id}")]
-        //[AllowAnonymous]
-        public IList<NotesModel> GetNotes()
+       
+        public IActionResult GetNotes()
         {
-            var results = _bussinessRegister.GetNotes();
-            return results;
+            var userId = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+            var results =  _bussinessRegister.GetNotes(userId);
+            if (results != null)
+            {
+                return Ok(new {result= results });
+            }
+            else
+            {
+                return Ok(new { results = "failed to get" });
+            }
+           
         }
 
         /// <summary>
@@ -76,7 +86,7 @@ namespace Fundoo.Controllers
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpPut]
-        //[AllowAnonymous]
+       
       
         public async Task<IActionResult> UpdateNotes(NotesModel details,int id)
         {
@@ -99,20 +109,26 @@ namespace Fundoo.Controllers
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpDelete]
-       // [Route("Notes")]
+        [Route("{id}")]
       // [AllowAnonymous]
-        public async Task<IActionResult> DeleteNotes(List<int> id,string UserId)
+        public async Task<IActionResult> DeleteNotes(List<int> id)
         {
-            var results = await _bussinessRegister.DeleteNotes(id, UserId);
-            return Ok(new {results});
+            var userId = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+            var results = await _bussinessRegister.DeleteNotes(id, userId);
+            if (results)
+                return Ok(new { success=true , message = "deleted " });
+            else
+                return Ok(new { success = false , message = "failed to delete" });
+           
         }
 
         [HttpPost]
-        [Route("Trash")]
+        [Route("{id}/Trash")]
         //[AllowAnonymous]
         public async Task<IActionResult> Trash(int id)
         {
-            var results = await _bussinessRegister.Trash(id);
+            var userId = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+            var results = await _bussinessRegister.Trash(id,userId);
             if (results)
             {
                 return Ok(new { results = "Successfully Added To Trash" });
@@ -145,22 +161,26 @@ namespace Fundoo.Controllers
         public async Task<IActionResult> DeleteForever(List<int> id,string UserId)
         {
             var results = await _bussinessRegister.DeleteForever(id, UserId);
-            return Ok(new { results });
+            if(results)
+            return Ok(new { results="deleted permanently" });
+            else
+                return Ok(new { results = "failed to delete" });
         }
 
         [HttpPost]
-        [Route("IsArchive")]
-        //[AllowAnonymous]
+        [Route("{id}/Archive")]
+       
         public async Task<IActionResult> Archive(int id)
         {
-            var results = await _bussinessRegister.Archive(id);
+            var userId = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+            var results = await _bussinessRegister.Archive(id, userId);
             if (results)
             {
-                return Ok(new { results = " Success " });
+                return Ok(new { status = true,message = " Successfull ",data="" });
             }
             else
             {
-                return Ok(new { results = "Failed to Add " });
+                return Ok(new { status = false, message = " failed ", data = "" });
             }
         }
   
@@ -187,8 +207,8 @@ namespace Fundoo.Controllers
         public IActionResult UploadImage(string userid, int id, IFormFile file)
         {
             var urlOfImage =  _bussinessRegister.UploadImage(userid, id, file);
-            // return urlOfImage;
-            return Ok(new { urlOfImage });
+          
+            return Ok(new {url= urlOfImage });
         }
 
         [HttpPost]
@@ -210,7 +230,7 @@ namespace Fundoo.Controllers
             }
             catch(Exception e)
             {
-                throw new Exception(e.Message.ToString());
+                return Ok(new { results = new Exception(e.Message.ToString()) });
             }
             
         }
@@ -218,25 +238,79 @@ namespace Fundoo.Controllers
         [HttpPost]
         [Route("Search")]
         //[AllowAnonymous]
-        public IList<NotesModel> Search(string word, string Id)
+        public async Task<IActionResult> Search(string word, string Id)
         {
             try
             {
-                var results = _bussinessRegister.Search(word, Id);
+                var results = await Search(word, Id);
                 if (results != null)
                 {
-                    return  results ;
+
+                    return Ok(new { results = "successfull " });
                 }
                 else
                 {
-                    return  results ;
+                    return Ok(new { results = "Failed to Search " });
                 }
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message.ToString());
+                return Ok(new { results = new Exception(e.Message.ToString()) });
             }
 
+        }
+
+        [HttpGet]
+        [Route("GetAllTrash")]
+        public IActionResult GetAllTrash()
+        {
+            var userId = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+            var results = _bussinessRegister.GetAllTrash(userId);
+            if (results != null)
+            {
+                return Ok(new {status=true,message="successfull", data = results });
+            }
+            else
+            {
+                return Ok(new {status=false,message="failed", data = "" });
+            }
+
+        }
+        [HttpGet]
+        [Route("GetAllArchive")]
+        public IActionResult GetAllArchive()
+        {
+            var userId = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+            var results = _bussinessRegister.GetAllArchive(userId);
+            if (results != null)
+            {
+                return Ok(new { status = true, message = "successfull", data = results });
+            }
+            else
+            {
+                return Ok(new { status = false, message = "failed", data = "" });
+            }
+
+        }
+        [HttpPut]
+        [Route("{id}/{color}/color")]
+        //[AllowAnonymous]
+        public async Task<IActionResult> ColorService(int id,string color)
+        {
+            var userId = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+            ColorModel colorObj = new ColorModel();
+            colorObj.noteId = id;
+            colorObj.userId = userId;
+            colorObj.color = color;
+            var results =   _bussinessRegister.ColorService(colorObj);
+            if (results)
+            {
+                return Ok(new { status=true,message="successfull" , data = "" });
+            }
+            else
+            {
+                return Ok(new { results = "Failed to change " });
+            }
         }
     }
 }
