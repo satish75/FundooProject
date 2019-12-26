@@ -72,11 +72,15 @@ export default class ChangeColor extends Component
       
         return(
             <div>
-           <PopupState variant="popper" popupId="demo-popup-popper">    
+
+
+<PopupState variant="popper" popupId="demo-popup-popper">
       {popupState => (
         <div>
-            <Tooltip title="Color" enterDelay={250} leaveDelay={100}>
-             <IconButton color="black" onClick={this.DisplayColors} >
+        
+
+          <Tooltip title="Color" enterDelay={250} leaveDelay={100}>
+             <IconButton color="black" {...bindToggle(popupState)} >
              <Badge color="secondary">
               <PaletteIcon />
             </Badge>
@@ -86,16 +90,8 @@ export default class ChangeColor extends Component
           <Popper {...bindPopper(popupState)} transition>
             {({ TransitionProps }) => (
               <Fade {...TransitionProps} timeout={350}>
-             
-              </Fade>
-            )}
-          </Popper>
-        </div>
-      )}
-    </PopupState> 
-   
-          {this.state.showColorMenu ===true ?
-              <div className="allcolorButtonDiv">
+                <Paper>
+                <div className="allcolorButtonDiv">
                       <Paper id="paperContent">                      
                     <IconButton id="redColor" onClick={this.colorChange.bind(this, "e7baba")}/>
                     <IconButton id="blueColor"  onClick={this.colorChange.bind(this, "a94afc")}/>
@@ -112,17 +108,17 @@ export default class ChangeColor extends Component
                     <IconButton id="darkBlueColor"   onClick={this.colorChange.bind(this, "cc6931")}/>
                     <IconButton id="oragneColor"   onClick={this.colorChange.bind(this, "cad118")}/>
                     <IconButton id="whiteColor"   onClick={this.colorChange.bind(this, "5ad6d6")}/>
-                      </Paper>
-                  
-
-
-                {/* { <div className="colorchangeeffect" style={{ background: `${this.state.bg}` }}>
-                 <p>ghddddddddddddddddddddddddddddddddddddddddf</p>
-              </div> } */}
-
-
+                      </Paper>                 
+              
               </div>
-              :null}
+                </Paper>
+              </Fade>
+            )}
+          </Popper>
+        </div>
+      )}
+    </PopupState>
+
                          
         </div> 
         )
