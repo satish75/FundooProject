@@ -1,168 +1,63 @@
 import React, { Component } from 'react';
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import InputBase from '@material-ui/core/InputBase';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import NoteOutlinedIcon from '@material-ui/icons/NoteOutlined';
-import AddAlertOutlinedIcon from '@material-ui/icons/AddAlertOutlined';
-import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
-import ArchiveOutlinedIcon from '@material-ui/icons/ArchiveOutlined';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import '../cssFiles/demo.css'
-import RefreshIcon from '@material-ui/icons/Refresh'
-import Settings from '@material-ui/icons/Settings'
-import Badge from '@material-ui/core/Badge';
-import SearchIcon from '@material-ui/icons/Search';
-import MailIcon from '@material-ui/icons/Mail';
-import { ThemeProvider ,createMuiTheme} from '@material-ui/core'
-import Notes from './Notes'
-const drawerWidth = 240;
-
-
-const theme = createMuiTheme({
-   
-    overrides:{
-        MuiDrawer:{
-            paper:{
-                top:"63px"
-            }
-        },
-
-
-    }
-  });
+import CheckIcon from '@material-ui/icons/Check';
+import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
+import { TextField } from '@material-ui/core';
+import Labeldata from './Label'
 
 export default class Demo extends Component {
-constructor()
-{
-    super();
-    this.state={
-     left:false
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+
     }
-}
+  }
 
-handleDrawerOpen = () => {
-    this.setState({
-      left: !this.state.left,
-    });
+  handleClickOpen = () => {
+    this.setState({ open: true })
   };
-  
-render()
-{
 
-  return (
-    <div className="main-div-dash">
-    <div >
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-      
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={this.handleDrawerOpen}
-            edge="start">
-            <MenuIcon />
-          </IconButton>
+  handleClose = () => {
+    this.setState({ open: false })
+  };
 
-           <Typography id="new" className="title" variant="h6" noWrap color="inherit"> </Typography>
-                 <span className="TextSpan" aria-level="1" role="heading">Fundoo </span> 
+  render() {
+console.log("label data render ",this.props.labelvalue);
 
-                 <div className="mainDiv">
-                    <div className="searchIcon">
-                        <SearchIcon />
-                        <InputBase placeholder="Search…" className="Search" inputProps={{ 'aria-label': 'search' }}/>
-                    </div>
-                </div>
-           
-            <div classname="RefreshIcon">  
-                <IconButton color="black">
-                <Badge  color="secondary">
-                <RefreshIcon />
-                </Badge>
-                </IconButton>
-            </div>
-
-            <div classname="SettingIcon">  
-                 <IconButton color="black">
-                  <Badge  color="secondary">
-                  <Settings />
-                 </Badge>
-                 </IconButton>
-            </div>     
-        </Toolbar>
-      </AppBar>
-      </div>
-
-    <div className="second-div"> 
-<div className="noteCreateDiv">
- <Notes/>
-</div>
-
-      <div className="note-middle-div">
-   <h1>gsagddfjgggggggggggggggggggg</h1>
-   
-  </div>
-
-  </div>
-
-
+    return (
       <div>
-      <ThemeProvider theme={theme}>
-      <Drawer
-      
-        variant="persistent"
-        anchor="left"
-        open={this.state.left}
-      >
-       
-        <Divider />
-        <div className="note-reminder-div">
-      <IconButton id="note-icon-btn-left-side">
-          <NoteOutlinedIcon id="icon-img-btn" />
-          Note
-      </IconButton>
-      <br/>
-      <IconButton id="reminder-icon-btn-left-side">
-          <AddAlertOutlinedIcon id="icon-img-btn" />
-          Reminder
-      </IconButton>
+        <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+          Open alert dialog
+      </Button>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+
+        >
+          <DialogTitle id="alert-dialog-title">edit Labels</DialogTitle>
+          <DialogContent>
+            <ClearOutlinedIcon />
+            <TextField placeholder="create label" />
+            <CheckIcon />
+            <Labeldata />
+           <br/>
+
+          </DialogContent>
+          <DialogActions>
+
+            <Button onClick={this.handleClose} color="primary" autoFocus>
+              Done
+          </Button>
+          </DialogActions>
+        </Dialog>
       </div>
-      <Divider />
-      <div className="label-div-drawer">
-        <span>Labels</span><br/><br/>
-        <IconButton id="edit-icon-label">
-          <AddAlertOutlinedIcon id="icon-edirlabel-btn" />
-          Edit Label
-      </IconButton>
-      </div>
-      <Divider />
-      <div>
-      <IconButton id="note-icon-btn-left-side">
-          <ArchiveOutlinedIcon id="icon-img-btn" />
-          Archive
-      </IconButton>
-      <br/>
-      <IconButton id="reminder-icon-btn-left-side">
-          <DeleteOutlineOutlinedIcon id="icon-img-btn" />
-          Trash
-      </IconButton>
-        </div>
-      </Drawer>
-      </ThemeProvider>
-    </div>
-   
-    </div>
-    
-  );
-}}
+    );
+  }
+}

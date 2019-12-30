@@ -71,3 +71,7 @@
     align-items: center;
     justify-content: start !important;
 }
+.MuiAvatar-root {
+    width: 24px !important;
+    height: 20px !important;
+}

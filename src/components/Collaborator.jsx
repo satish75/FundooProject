@@ -17,16 +17,25 @@ import jwt_decode from 'jwt-decode'
 import { TextField, Divider } from '@material-ui/core';
 import '../cssFiles/Collaborator.css';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import AddCollabarate from './AddCollabarate'
+import Tooltip from '@material-ui/core/Tooltip';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import IconButton from '@material-ui/core/IconButton';
+
+import UserService from '../Services/UserService/UserService'
+import CheckIcon from '@material-ui/icons/Check';
+
+import Badge from '@material-ui/core/Badge';
+
+import '../cssFiles/Collaborator.css';
+import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
 
 
 
 var JwtToken = localStorage.getItem('token')
 var decoded = jwt_decode(JwtToken)
-var emailOwner = decoded.Email+"      (Owner)" 
+var emailOwner = decoded.Email + "      (Owner)"
 
-
-//var emailBytoken = 
+var axiosUser = new UserService()
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 const styles = {
@@ -37,54 +46,142 @@ const styles = {
 };
 
 class SimpleDialog extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: '',
+      open: '',
+      list: [],
+      id:''
+
+    }
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.getCollabarotor = this.getCollabarotor.bind(this);
+  }
   handleClose = () => {
     this.props.onClose(this.props.selectedValue);
+    this.getCollabarotor();
   };
-  
+
+  handleClickOpen = () => {
+    this.setState({
+      open: true,
+    });
+  };
+
+  removeItem(index) {
+    const list = this.state.list;
+    list.splice(index, 1);
+    this.setState({ list });
+  }
 
   handleListItemClick = value => {
     this.props.onClose(value);
   };
 
-componentWillReceiveProps(newProps){
-  
-}
+  componentWillReceiveProps(newProps) {
 
-  render() {
-    console.log("This is collabarot ",this.props.list);
+  }
+  getCollabarotor() {
+   this.setState({
+     id:this.props.idItem
+   })
+   console.log("This is funtion Simple dialog ",this.props.idOfData)
+        var data = {
+               
+          list: this.state.list,                             
+          Id : this.props.idOfData       
+        }
+       
+        axiosUser.CollabarateService(data).then(response=>{
+            console.log(" response in ",response) 
+            
+          })            
+
+  }
+  ChangeHandler(e) {
+    this.setState({
+      text: e.target.value
+    });
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+    this.setState({
+      list: this.state.list.concat(this.state.text),
+      text: ""
+    });
     
+  }
+  render() {
+    console.log("This is collabarot iddddd ", this.props.idOfData);
+
     const { classes, onClose, selectedValue, ...other } = this.props;
 
     return (
       <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
         <DialogTitle id="simple-dialog-title">Collaborators</DialogTitle>
-        <Divider />  
+        <Divider />
         <div>
           <List>
-          <ListItem value={emailOwner} >
-                <ListItemAvatar>
-                  <Avatar className={classes.avatar}>
-                    <PersonIcon /> 
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={emailOwner}  />
-              </ListItem>
-                      
-              <div id="addiconWithText">
-            <ListItem>                
-             <AddCollabarate />
-              
+            <ListItem value={emailOwner} >
+              <ListItemAvatar>
+                <Avatar className={classes.avatar}>
+                  <PersonIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={emailOwner} />
             </ListItem>
+
+
+
+            <div className="addcolabarateList">
+          {this.state.list.map((item, index) => {
+            return <li id="listItem" key={index}>
+              <Avatar >
+                <IconButton color="black">
+                  <Badge color="secondary">
+                    < AddCircleIcon id="IconButtonAdd" precision={1} />
+                  </Badge>
+                </IconButton>
+                
+              </Avatar>
+              {item}
+
+              <button onClick={() => this.removeItem(index)}>
+                <ClearOutlinedIcon />
+              </button>
+            </li>;
+          })}
+        </div>
+
+            <div id="addiconWithText">
+              <ListItem>
+
+                <Tooltip title="Collaborate" enterDelay={250} leaveDelay={100}>
+                  <IconButton color="black" onClick={this.handleClickOpen}>
+                    <Badge color="secondary">
+                      <PersonAddIcon />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+                <TextField id="textfieldEmail"
+                  type="text"
+                  value={this.state.text}
+                  onChange={e => this.ChangeHandler(e)}
+                />
+
+                <Button onClick={this.handleSubmit}>
+                  <CheckIcon />
+                </Button>
+              </ListItem>
             </div>
           </List>
-          </div>
-          <Divider />
-          <div className="save-cancel-div">
+        </div>
+        <Divider />
+        <div className="save-cancel-div">
           <Button>Cancel</Button>
-          <Button  onClick={this.handleClose}>Save</Button>
-          </div>
-        
-  
+          <Button onClick={this.handleClose}>Save</Button>
+        </div>
       </Dialog>
     );
   }
@@ -98,45 +195,80 @@ SimpleDialog.propTypes = {
 
 const SimpleDialogWrapped = withStyles(styles)(SimpleDialog);
 
+
 export default class Collaborator extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      text: "",
+      list: []
+      //// selectedValue: emails[1], 
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.ChangeHandler = this.ChangeHandler.bind(this);
+    this.removeItem = this.removeItem.bind(this);
+  }
 
-  state = {
-    open: true,
-   //// selectedValue: emails[1], 
+
+  handleClickOpen = () => {
+    this.setState({
+      open: true,
+    });
   };
-
-  // handleClickOpen = () => {
-  //   this.setState({
-  //     open: true,
-  //   });
-  // };
 
   handleClose = value => {
     this.setState({ selectedValue: value, open: false });
   };
-  
+
   handleCloseSaveBtn = () => {
-    this.setState({ 
-      open: false ,
+    this.setState({
+      open: false,
+
     });
   };
 
+  removeItem(index) {
+    const list = this.state.list;
+    list.splice(index, 1);
+    this.setState({ list });
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+    this.setState({
+      list: this.state.list.concat(this.state.text),
+      text: ""
+    });
+  }
+  ChangeHandler(e) {
+    this.setState({
+      text: e.target.value
+    });
+  }
+
   render() {
-    console.log("this is list item ",this.props.list);
-    
+    console.log("this is id of note item ", this.props.idItem);
+
+ const Id=this.props.idItem;
+ console.log("this is id const ", Id);
     return (
       <div>
-      
+
         <br />
-        {/* <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-          Open simple dialog
-        </Button> */}
+        <Tooltip title="Collaborate" enterDelay={250} leaveDelay={100}>
+          <IconButton color="black" onClick={this.handleClickOpen}>
+            <Badge color="secondary">
+              <PersonAddIcon />
+            </Badge>
+          </IconButton>
+        </Tooltip>
         <SimpleDialogWrapped
           selectedValue={this.state.selectedValue}
           open={this.state.open}
           onClose={this.handleClose}
+          idOfData={this.props.idItem}
         />
-      
+
       </div>
     );
   }

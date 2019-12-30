@@ -40,9 +40,10 @@ export default class AddCollabarate extends Component {
     });
   }
   render() {
+    console.log("add collaborator ",this.state.list);
+    
     return (
       <div>
-
         <div className="addcolabarateList">
           {this.state.list.map((item, index) => {
             return <li id="listItem" key={index}>
@@ -52,6 +53,7 @@ export default class AddCollabarate extends Component {
                     < AddCircleIcon id="IconButtonAdd" precision={1} />
                   </Badge>
                 </IconButton>
+                
               </Avatar>
               {item}
 
@@ -81,7 +83,9 @@ export default class AddCollabarate extends Component {
             <CheckIcon />
           </Button>
         </div>
-   
+   <div>
+     <Collabarotor listItem={this.state.list}/>
+   </div>
       </div>
     );
   }

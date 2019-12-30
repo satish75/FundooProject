@@ -18,6 +18,11 @@ import Trash from './components/Trash'
 import Archive from './components/Archive'
 import ChangeColor from './components/ChangeColor'
 import Update from './components/Update'
+import Label from './components/Label'
+
+
+
+
 
 function App() {
   return (
@@ -37,7 +42,9 @@ function App() {
     <Route path='/dashboard/archive' component={Archive}/>
     <Route path='/color' component={ChangeColor}/>
     <Route path='/update' component={Update}/>
+     <Route path='/demo' component={Demo}/> 
 
+    
     
 
 

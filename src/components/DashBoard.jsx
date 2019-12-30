@@ -21,8 +21,17 @@ import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-
+import Labeldata from './Label'
 import '../cssFiles/DashBoard.css';
+import CheckIcon from '@material-ui/icons/Check';
+import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { TextField } from '@material-ui/core';
 
 class DashBoard extends Component {
 
@@ -31,6 +40,7 @@ class DashBoard extends Component {
 
     this.state = {
       left: false,
+      editlabel:false
 
     }
   }
@@ -53,6 +63,15 @@ getAllNotesBtn = () =>
 {
   this.props.history.push('/dashboard/notes')
 }
+
+handleClickOpen = () => {
+  this.setState({ editlabel: true })
+};
+
+handleClose = () => {
+  this.setState({ editlabel: false })
+};
+
 
   render() {
 
@@ -78,11 +97,37 @@ getAllNotesBtn = () =>
             <Divider />
             <div>
               <span id="span-label">Labels   </span>
-              <br />  <br />  <br />
-              <Button id="reminder-notes-btn"   >
+              <br />  <br /> 
+              <Labeldata />
+              <Button id="reminder-notes-btn"  onClick={this.handleClickOpen} >
                 <AddAlertOutlinedIcon id="noteIcon"></AddAlertOutlinedIcon>
                 Edit Label
          </Button>
+     <div>
+
+        <Dialog
+          open={this.state.editlabel}
+          onClose={this.handleClose}
+
+        >
+          <DialogTitle id="alert-dialog-title">edit Labels</DialogTitle>
+          <DialogContent>
+           
+            <TextField placeholder="create label" />
+            <CheckIcon />
+            <Labeldata labelbool={this.state.editlabel}/>
+           <br/>
+
+          </DialogContent>
+          <DialogActions>
+
+            <Button onClick={this.handleClose} color="primary" autoFocus>
+              Done
+          </Button>
+          </DialogActions>
+        </Dialog>
+     </div>
+
 
             </div>
             <Divider />

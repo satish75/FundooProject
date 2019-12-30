@@ -132,13 +132,13 @@ colorFunction =() =>
         </Tooltip>
 
 
-        <Tooltip title="Collaborate" enterDelay={250} leaveDelay={100}>
+        {/* <Tooltip title="Collaborate" enterDelay={250} leaveDelay={100}>
           <IconButton color="black" onClick={this.openCollabarator}>
             <Badge color="secondary">
               <PersonAddIcon />
             </Badge>
           </IconButton>
-        </Tooltip>
+        </Tooltip> */}
 
 
 
@@ -186,9 +186,7 @@ colorFunction =() =>
             <Badge color="secondary">
               <MoreVertIcon
                 aria-owns={anchorEl ? 'simple-menu' : undefined}
-
                 aria-haspopup="true"
-
               />
             </Badge>
 

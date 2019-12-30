@@ -124,4 +124,35 @@ export default class UserService
                 Authorization: `bearer ${jwtToken}`
             }})
     }
+
+    CollabarateService(data)
+    {
+        var JwtToken = localStorage.getItem('token')
+        console.log("Axios collabarotor Id ",data.Id)
+        console.log("Axios collabarotor Lis ",data.list)
+
+        console.log("Axios Trash JwtToken ",JwtToken)
+        return axios.post("https://localhost:44338/api/Notes/"+data.list+"/"+data.Id+"/Collaborate",null,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${JwtToken}`
+            }})
+    }
+
+    GetLabelService()
+    {
+        console.log("user label service");
+       
+        var JwtToken = localStorage.getItem('token')
+       console.log("This is get notes service", JwtToken);
+        return axios.get(`https://localhost:44338/api/Label`, {
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${JwtToken}`
+            }})
+    }
+
+
 }

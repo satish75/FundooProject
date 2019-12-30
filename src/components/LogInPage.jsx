@@ -70,6 +70,13 @@ export default class LogInPage extends React.Component{
                 logInService.SignUpServicesLogIn(data).then(response=>{
                     console.log(" response in ",response);
                     localStorage.setItem('token',response.data.token)
+                    if(response.status===200)
+                    {
+                      this.props.history.push('/dashboard')
+                    }
+                    else{
+                      this.props.history.push('/LogInPage')
+                    }
                     
                   })
   }
