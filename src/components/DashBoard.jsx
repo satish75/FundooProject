@@ -22,6 +22,7 @@ import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Labeldata from './Label'
+import EditLabel from './EditLabel'
 import '../cssFiles/DashBoard.css';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
@@ -98,7 +99,8 @@ handleClose = () => {
             <div>
               <span id="span-label">Labels   </span>
               <br />  <br /> 
-              <Labeldata />
+              <Labeldata editLabelbool={ this.state.editlabel}/>
+           
               <Button id="reminder-notes-btn"  onClick={this.handleClickOpen} >
                 <AddAlertOutlinedIcon id="noteIcon"></AddAlertOutlinedIcon>
                 Edit Label

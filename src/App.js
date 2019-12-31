@@ -19,6 +19,7 @@ import Archive from './components/Archive'
 import ChangeColor from './components/ChangeColor'
 import Update from './components/Update'
 import Label from './components/Label'
+import EditLabel from './components/EditLabel'
 
 
 
@@ -42,7 +43,8 @@ function App() {
     <Route path='/dashboard/archive' component={Archive}/>
     <Route path='/color' component={ChangeColor}/>
     <Route path='/update' component={Update}/>
-     <Route path='/demo' component={Demo}/> 
+     <Route path='/demo' component={Demo}/> EditLabel
+     <Route path='/editlabel' component={EditLabel}/> 
 
     
     

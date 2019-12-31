@@ -4,18 +4,19 @@ import UserService from '../Services/UserService/UserService'
 import { Button, TextField } from '@material-ui/core';
 import Demo from './demo';
 import DashBoard from './DashBoard'
-import EditLabel from './EditLabel'
+
 
 
 var getnotes = new UserService;
-export default class Labeldata extends Component {
+export default class EditLabel extends Component {
     constructor(props) {
         super(props);
         this.state = {
             AllLabel: [],
             getAllLabel: [],
             labelValue:'',
-            name:''
+            name:this.props.labeldata
+           
         }
 
         this.getLabelsNotes = this.getLabelsNotes.bind(this);
@@ -61,30 +62,28 @@ handleChange = name => event => {
     this.setState({ [name]: event.target.value });
   };
     render() {
-console.log("edit dashboard ",this.props.editLabelbool);
 
-        var printNoteList = this.state.getAllLabel.map((item, index) => {
-              const datalabel=item.label
-              console.log('data label value ', datalabel);
+console.log("name edit ",this.props.labeldata);
+console.log("state with name edit ",this.state.name);
+
+
+      
             return (
-                <div>                       
-                     
-                     {
-                         this.props.editLabelbool === false ? <Button  id="span-id-label">{item.label} </Button>:<EditLabel labeldata={item.label}/>
-                     }
-                     
+                <div>              
+                 <TextField
+                          id="standard-name"
+                          value={this.state.name}
+                          onChange={this.handleChange('name')}
+                          margin="normal"
+                        /> 
+                      
                    <div>
               
                    </div>
                 </div>
 
-            )
-        })
-
-        return (
-            <div>
-                {printNoteList}
-            </div>
+            
         )
+
     }
 }
