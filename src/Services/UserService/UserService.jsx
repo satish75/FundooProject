@@ -155,4 +155,48 @@ export default class UserService
     }
 
 
+    AddLabelWithoutNoteService(data)
+    {
+        var JwtToken = localStorage.getItem('token')
+        console.log("Axios EditLabel data ",data.EditLabel)
+       
+
+        console.log("Axios Trash JwtToken ",JwtToken)
+        return axios.post("https://localhost:44338/api/Label/"+data.EditLabel+"/Add",null,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${JwtToken}`
+            }})
+    }
+    ArchiveIconService(id)
+    {
+        var JwtToken = localStorage.getItem('token')
+        console.log("Axios Label note id  ",id)
+       
+
+        console.log("Axios Trash JwtToken ",JwtToken)
+        return axios.post("https://localhost:44338/api/Notes/"+id+"/Archive",null,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${JwtToken}`
+            }})
+    }
+
+    GetEmailService()
+    {
+        console.log("user label service");
+       
+        var JwtToken = localStorage.getItem('token')
+       console.log("This is get notes service", JwtToken);
+        return axios.get(`https://localhost:44338/api/Label`, {
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${JwtToken}`
+            }})
+    }
+
+
 }

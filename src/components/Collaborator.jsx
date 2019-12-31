@@ -23,7 +23,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import UserService from '../Services/UserService/UserService'
 import CheckIcon from '@material-ui/icons/Check';
-
+import PaletteIcon from '@material-ui/icons/Palette';
 import Badge from '@material-ui/core/Badge';
 
 import '../cssFiles/Collaborator.css';
@@ -52,7 +52,7 @@ class SimpleDialog extends React.Component {
       text: '',
       open: '',
       list: [],
-      id:''
+      id: ''
 
     }
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -83,20 +83,20 @@ class SimpleDialog extends React.Component {
 
   }
   getCollabarotor() {
-   this.setState({
-     id:this.props.idItem
-   })
-   console.log("This is funtion Simple dialog ",this.props.idOfData)
-        var data = {
-               
-          list: this.state.list,                             
-          Id : this.props.idOfData       
-        }
-       
-        axiosUser.CollabarateService(data).then(response=>{
-            console.log(" response in ",response) 
-            
-          })            
+    this.setState({
+      id: this.props.idItem
+    })
+    console.log("This is funtion Simple dialog ", this.props.idOfData)
+    var data = {
+
+      list: this.state.list,
+      Id: this.props.idOfData
+    }
+
+    axiosUser.CollabarateService(data).then(response => {
+      console.log(" response in ", response)
+
+    })
 
   }
   ChangeHandler(e) {
@@ -110,7 +110,7 @@ class SimpleDialog extends React.Component {
       list: this.state.list.concat(this.state.text),
       text: ""
     });
-    
+
   }
   render() {
     console.log("This is collabarot iddddd ", this.props.idOfData);
@@ -135,35 +135,34 @@ class SimpleDialog extends React.Component {
 
 
             <div className="addcolabarateList">
-          {this.state.list.map((item, index) => {
-            return <li id="listItem" key={index}>
-              <Avatar >
-                <IconButton color="black">
-                  <Badge color="secondary">
-                    < AddCircleIcon id="IconButtonAdd" precision={1} />
-                  </Badge>
-                </IconButton>
-                
-              </Avatar>
-              {item}
+              {this.state.list.map((item, index) => {
+                return <li id="listItem" key={index}>
+              
+                    <IconButton  size="small" color="black">
+                      < AddCircleIcon fontSize="inherit" precision={1} />
+                    </IconButton>
+               
+                  {item}
 
-              <button onClick={() => this.removeItem(index)}>
-                <ClearOutlinedIcon />
-              </button>
-            </li>;
-          })}
-        </div>
+                  <button onClick={() => this.removeItem(index)}>
+                    <ClearOutlinedIcon />
+                  </button>
+                </li>;
+              })}
+            </div>
 
             <div id="addiconWithText">
               <ListItem>
 
                 <Tooltip title="Collaborate" enterDelay={250} leaveDelay={100}>
-                  <IconButton color="black" onClick={this.handleClickOpen}>
-                    <Badge color="secondary">
-                      <PersonAddIcon />
-                    </Badge>
+                  <IconButton size="small" color="black" onClick={this.handleClickOpen}>   
+                  <Badge color="secondary">
+                  <PersonAddIcon fontSize="inherit"/>
+                 </Badge>                       
                   </IconButton>
-                </Tooltip>
+                </Tooltip>>
+
+
                 <TextField id="textfieldEmail"
                   type="text"
                   value={this.state.text}
@@ -249,16 +248,16 @@ export default class Collaborator extends React.Component {
   render() {
     console.log("this is id of note item ", this.props.idItem);
 
- const Id=this.props.idItem;
- console.log("this is id const ", Id);
+    const Id = this.props.idItem;
+    console.log("this is id const ", Id);
     return (
       <div>
 
-        <br />
+ 
         <Tooltip title="Collaborate" enterDelay={250} leaveDelay={100}>
-          <IconButton color="black" onClick={this.handleClickOpen}>
+          <IconButton size="small" color="black" onClick={this.handleClickOpen}>
             <Badge color="secondary">
-              <PersonAddIcon />
+              <PersonAddIcon fontSize="inherit"/>
             </Badge>
           </IconButton>
         </Tooltip>

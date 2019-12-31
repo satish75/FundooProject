@@ -75,3 +75,9 @@
     width: 24px !important;
     height: 20px !important;
 }
+#allIconDivList
+{
+    display: flex;
+  flex-direction: row;
+  justify-content:space-evenly;
+}

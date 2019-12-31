@@ -14,12 +14,12 @@ export default class Labeldata extends Component {
         this.state = {
             AllLabel: [],
             getAllLabel: [],
-            labelValue:'',
-            name:''
+            labelValue: '',
+            name: ''
         }
 
         this.getLabelsNotes = this.getLabelsNotes.bind(this);
-       
+
     }
 
     componentDidMount() {
@@ -27,8 +27,6 @@ export default class Labeldata extends Component {
         this.getLabelsNotes()
         console.log("this is data label")
     }
-
-
     getLabelsNotes() {
         console.log("This is funtion")
 
@@ -47,35 +45,27 @@ export default class Labeldata extends Component {
         });
 
     }
-     
-//     ChangeData = async (data) =>
-//     {
-//    await this.setState({
-//     labelValue:data
-// })
-// console.log("new data ",this.state.labelValue);
 
-//     }
-
-handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
+    handleChange = name => event => {
+        this.setState({ [name]: event.target.value });
+    };
     render() {
-console.log("edit dashboard ",this.props.editLabelbool);
+        console.log("edit dashboard ", this.props.editLabelbool);
 
         var printNoteList = this.state.getAllLabel.map((item, index) => {
-              const datalabel=item.label
-              console.log('data label value ', datalabel);
+            const datalabel = item.label
+            console.log('data label value ', datalabel);
             return (
-                <div>                       
-                     
-                     {
-                         this.props.editLabelbool === false ? <Button  id="span-id-label">{item.label} </Button>:<EditLabel labeldata={item.label}/>
-                     }
-                     
-                   <div>
-              
-                   </div>
+                <div>
+
+                    {
+                        this.props.editLabelbool === false ? <Button id="span-id-label">{item.label} </Button> :
+                        <EditLabel labeldata={item.label} labelId={item.id} />
+                    }
+
+                    <div>
+
+                    </div>
                 </div>
 
             )

@@ -45,7 +45,7 @@ export default class AllIconList extends Component {
       show: 'false',
       collabarate: false,
       opencolor: false,
-      colorCode:''
+      colorCode: ''
 
     }
     this.handleClick = this.handleClick.bind(this)
@@ -97,19 +97,18 @@ export default class AllIconList extends Component {
       collabarate: !this.state.collabarate,
     });
   };
-colorFunction =() =>
-{
-  this.setState({
-    colorCode:this.props.colorId
-  })
-}
+  colorFunction = () => {
+    this.setState({
+      colorCode: this.props.colorId
+    })
+  }
   render() {
-    const colorbg=this.props.colorId
-    console.log("this is AllIcon  cmpnt ",this.props.colorId);
-  
+    const colorbg = this.props.colorId
+    console.log("this is AllIcon  cmpnt ", this.props.colorId);
 
 
-   
+
+
     const { anchorEl } = this.state;
 
     return (
@@ -119,8 +118,8 @@ colorFunction =() =>
         {this.state.collabarate ?
           <Collaborator /> : ""}
 
-      
-       
+
+
 
 
         <Tooltip title="Reminder" enterDelay={250} leaveDelay={10}>
@@ -131,40 +130,6 @@ colorFunction =() =>
           </IconButton>
         </Tooltip>
 
-
-        {/* <Tooltip title="Collaborate" enterDelay={250} leaveDelay={100}>
-          <IconButton color="black" onClick={this.openCollabarator}>
-            <Badge color="secondary">
-              <PersonAddIcon />
-            </Badge>
-          </IconButton>
-        </Tooltip> */}
-
-
-
-        {/* <PopupState variant="popper" popupId="demo-popup-popper">    
-      {popupState => (
-        <div>
-            <Tooltip title="Color" enterDelay={250} leaveDelay={100}>
-             <IconButton color="black" {...bindToggle(popupState)}>
-             <Badge color="secondary">
-              <PaletteIcon />
-            </Badge>
-           </IconButton>
-           </Tooltip>
-
-          <Popper {...bindPopper(popupState)} transition>
-            {({ TransitionProps }) => (
-              <Fade {...TransitionProps} timeout={350}>
-              <ChangeColor  />
-              </Fade>
-            )}
-          </Popper>
-        </div>
-      )}
-    </PopupState> */}
-
-
         <Tooltip title="Image" enterDelay={250} leaveDelay={100}>
           <IconButton color="black">
             <Badge color="secondary">
@@ -173,23 +138,20 @@ colorFunction =() =>
           </IconButton>
         </Tooltip>
 
-        <Tooltip title="Archive" enterDelay={250} leaveDelay={100}>
+        {/* <Tooltip title="Archive" enterDelay={250} leaveDelay={100}>
           <IconButton color="black" onClick={this.ArchiveNote}>
             <Badge color="secondary">
               <ArchiveIcon />
             </Badge>
           </IconButton>
-        </Tooltip>
+        </Tooltip> */}
 
         <Tooltip title="More" enterDelay={250} leaveDelay={100}>
           <IconButton color="black" onClick={this.handleClick}>
-            <Badge color="secondary">
-              <MoreVertIcon
-                aria-owns={anchorEl ? 'simple-menu' : undefined}
-                aria-haspopup="true"
-              />
-            </Badge>
-
+            <MoreVertIcon
+              aria-owns={anchorEl ? 'simple-menu' : undefined}
+              aria-haspopup="true"
+            />
           </IconButton>
         </Tooltip>
 
@@ -211,7 +173,7 @@ colorFunction =() =>
         </div>
 
         <div>
-</div>
+        </div>
       </div>
     )
   }

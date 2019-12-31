@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import '../cssFiles/getAllNotes.css';
 import UserService from '../Services/UserService/UserService'
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, IconButton } from '@material-ui/core';
 import Demo from './demo';
 import DashBoard from './DashBoard'
-
-
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 var getnotes = new UserService;
 export default class EditLabel extends Component {
@@ -14,13 +14,13 @@ export default class EditLabel extends Component {
         this.state = {
             AllLabel: [],
             getAllLabel: [],
-            labelValue:'',
-            name:this.props.labeldata
-           
+            labelValue: '',
+            name: this.props.labeldata
+
         }
 
         this.getLabelsNotes = this.getLabelsNotes.bind(this);
-       
+
     }
 
     componentDidMount() {
@@ -48,41 +48,32 @@ export default class EditLabel extends Component {
         });
 
     }
-     
-//     ChangeData = async (data) =>
-//     {
-//    await this.setState({
-//     labelValue:data
-// })
-// console.log("new data ",this.state.labelValue);
 
-//     }
-
-handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
+    handleChange = name => event => {
+        this.setState({ [name]: event.target.value });
+    };
     render() {
 
-console.log("name edit ",this.props.labeldata);
-console.log("state with name edit ",this.state.name);
+        console.log("name edit with label ", this.props.labeldata.label);
+        console.log("this is Id of label ", this.props.labelId);
+        return (
+            <div>
+             <IconButton>
+            <DeleteIcon />
+           </IconButton>
 
-
-      
-            return (
-                <div>              
-                 <TextField
-                          id="standard-name"
-                          value={this.state.name}
-                          onChange={this.handleChange('name')}
-                          margin="normal"
-                        /> 
-                      
-                   <div>
-              
-                   </div>
+                <TextField
+                    id="standard-name"
+                    value={this.state.name}
+                    onChange={this.handleChange('name')}
+                    margin="normal"
+                />
+                <IconButton >
+                    <EditIcon />
+                </IconButton>
+                <div>
                 </div>
-
-            
+            </div>
         )
 
     }

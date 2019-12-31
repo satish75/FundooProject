@@ -26,6 +26,7 @@ import EditLabel from './EditLabel'
 import '../cssFiles/DashBoard.css';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
+import UserService from '../Services/UserService/UserService'
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -33,6 +34,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { TextField } from '@material-ui/core';
+import ClearIcon from '@material-ui/icons/Clear';
+
+var labelObjService = new UserService;
+
 
 class DashBoard extends Component {
 
@@ -41,9 +46,14 @@ class DashBoard extends Component {
 
     this.state = {
       left: false,
-      editlabel:false
+      editlabel:false,
+      createlabel:'',
+      text:''
 
     }
+    this.onchangeTextField=this.onchangeTextField.bind(this)
+    this.AddLabelWithoutId=this.AddLabelWithoutId.bind(this)
+
   }
  example(){
   this.setState({left:false});
@@ -73,6 +83,29 @@ handleClose = () => {
   this.setState({ editlabel: false })
 };
 
+AddLabelWithoutId() {
+  var data = {               
+    EditLabel: this.state.createlabel,                             
+  }
+
+  labelObjService.AddLabelWithoutNoteService(data).then(response=>{
+      console.log(" response in ",response);
+     
+    })     
+ }
+onchangeTextField(e)
+{
+  this.setState({text: e.target.value});
+  console.log("onchange method ",this.state.createlabel);
+}
+onchangeClearTextField(e)
+{
+  e.preventDefault();
+    const text = this.state.text;
+   
+    this.createlabel.value = "";
+}
+
 
   render() {
 
@@ -93,7 +126,7 @@ handleClose = () => {
             >
               <AddAlertOutlinedIcon id="noteIcon"></AddAlertOutlinedIcon>
               Reminders
-       </Button>
+           </Button>
 
             <Divider />
             <div>
@@ -114,9 +147,15 @@ handleClose = () => {
         >
           <DialogTitle id="alert-dialog-title">edit Labels</DialogTitle>
           <DialogContent>
-           
-            <TextField placeholder="create label" />
-            <CheckIcon />
+            <IconButton onClick={this.onchangeClearTextField}>
+            <ClearIcon />
+            </IconButton>
+         
+            <TextField placeholder="create label"  name="createlabel"
+              onChange={this.onchangeTextField}
+              value={this.state.text}
+              />
+           <Button onClick={this.AddLabelWithoutId}>   <CheckIcon /> </Button> 
             <Labeldata labelbool={this.state.editlabel}/>
            <br/>
 

@@ -31,6 +31,9 @@ import NoteCard from './NoteCard'
 import Collaborator from './Collaborator'
 import ChangeColor from './ChangeColor'
 import Avatar from '@material-ui/core/Avatar';
+import ArchiveIconComponent from './ArchiveIconComponent'
+import Reminder from './Reminder'
+
 import '../images/pic1.jpg'
 export default class DisplayNotes extends React.Component {
 
@@ -96,18 +99,19 @@ export default class DisplayNotes extends React.Component {
                       <div>
 
                       </div>
-                       <Tooltip title="profile" enterDelay={250} leaveDelay={100}>
-                        <IconButton color="black" src="C:\\Users\\bridgeit\\Downloads\\pic1.jpg">
-                          <Badge color="secondary">
-                          <Avatar src="images\pic1.jpg" className="propfilePic" />
-                          </Badge>
+                       <Tooltip title="satishdodake100@gmail.com" enterDelay={250} leaveDelay={100}>
+                        <IconButton color="black" src="C:\\Users\\bridgeit\\Downloads\\pic1.jpg">                   
+                          <Avatar src="images\pic1.jpg" className="propfilePic" />                  
                         </IconButton>
                       </Tooltip>
 
-                      
-                      <AllIconList noteId={item} />
+                      <div id="allIconDivList">
+                      <Reminder  />
                       <Collaborator  idItem={item.id}/>
+                      <ArchiveIconComponent noteid={item.id}/>
                       <ChangeColor idItem={item.id} colorBack={item.color} save={this.handleSave} />
+                      </div>
+                     
                     </div>
 
                   </div>

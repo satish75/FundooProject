@@ -80,9 +80,9 @@ export default class ChangeColor extends Component
         
 
           <Tooltip title="Color" enterDelay={250} leaveDelay={100}>
-             <IconButton color="black" {...bindToggle(popupState)} >
+             <IconButton size="small" color="black" {...bindToggle(popupState)} >
              <Badge color="secondary">
-              <PaletteIcon />
+              <PaletteIcon fontSize="inherit"/>
             </Badge>
            </IconButton>
            </Tooltip>
