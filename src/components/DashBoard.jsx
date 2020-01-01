@@ -138,7 +138,7 @@ onchangeClearTextField(e)
                 <AddAlertOutlinedIcon id="noteIcon"></AddAlertOutlinedIcon>
                 Edit Label
          </Button>
-     <div>
+         <div>
 
         <Dialog
           open={this.state.editlabel}

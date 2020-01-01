@@ -20,6 +20,10 @@ export default class EditLabel extends Component {
         }
 
         this.getLabelsNotes = this.getLabelsNotes.bind(this);
+        this.EditLabelData = this.EditLabelData.bind(this);
+        this.DeleteLabelData = this.DeleteLabelData.bind(this);
+
+
 
     }
 
@@ -29,6 +33,28 @@ export default class EditLabel extends Component {
         console.log("this is data label")
     }
 
+    EditLabelData()
+    {
+        var data = {
+                 
+            Id: this.props.labelId,                             
+            name : this.state.name,
+
+          }
+
+          getnotes.EditLabelService(data).then(response=>{
+              console.log(" response in ",response);
+           
+             
+            })
+    }
+
+    DeleteLabelData()
+    {
+          getnotes.DeleteLabelService(this.props.labelId).then(response=>{
+              console.log(" response in ",response);
+            })
+    }
 
     getLabelsNotes() {
         console.log("This is funtion")
@@ -49,26 +75,27 @@ export default class EditLabel extends Component {
 
     }
 
+    
+
     handleChange = name => event => {
         this.setState({ [name]: event.target.value });
     };
     render() {
 
-        console.log("name edit with label ", this.props.labeldata.label);
+        console.log("name edit with label ", this.props.labeldata);
         console.log("this is Id of label ", this.props.labelId);
         return (
             <div>
-             <IconButton>
+             <IconButton onClick={this.DeleteLabelData}>
             <DeleteIcon />
            </IconButton>
-
                 <TextField
                     id="standard-name"
                     value={this.state.name}
                     onChange={this.handleChange('name')}
                     margin="normal"
                 />
-                <IconButton >
+                <IconButton onClick={this.EditLabelData}>
                     <EditIcon />
                 </IconButton>
                 <div>

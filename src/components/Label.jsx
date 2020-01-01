@@ -54,13 +54,13 @@ export default class Labeldata extends Component {
 
         var printNoteList = this.state.getAllLabel.map((item, index) => {
             const datalabel = item.label
-            console.log('data label value ', datalabel);
+            console.log('data label value Id ');
             return (
                 <div>
 
                     {
                         this.props.editLabelbool === false ? <Button id="span-id-label">{item.label} </Button> :
-                        <EditLabel labeldata={item.label} labelId={item.id} />
+                        <EditLabel labeldata={item.label} labelId={item.idLabel} />
                     }
 
                     <div>

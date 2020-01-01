@@ -198,5 +198,35 @@ export default class UserService
             }})
     }
 
+    EditLabelService(data)
+    {
+        var JwtToken = localStorage.getItem('token')
+        console.log("Axios Label label id  ",data.Id)
+        console.log("Axios Label label name  ",data.name)
+
+       
+
+        console.log("Axios Label JwtToken ",JwtToken)
+        return axios.post("https://localhost:44338/api/Label/"+data.Id+"/"+data.name+"/edit",data,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${JwtToken}`
+            }})
+    }
+
+    DeleteLabelService(Id)
+    {
+        var JwtToken = localStorage.getItem('token')
+        console.log("Axios Delete ",Id)
+        console.log("Axios Delete JwtToken ",JwtToken)
+        return axios.delete(`https://localhost:44338/api/Label/${Id}`,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${JwtToken}`
+            }})
+    }
+
 
 }

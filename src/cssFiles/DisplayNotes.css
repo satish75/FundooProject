@@ -81,3 +81,16 @@
   flex-direction: row;
   justify-content:space-evenly;
 }
+.MuiPaper-elevation24 {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 10px 0 rgba(0, 0, 0, 0.10) !important; 
+}
+.Small-closeButton
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+#UpdateNotetitleId
+{
+  
+}
