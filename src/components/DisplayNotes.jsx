@@ -36,9 +36,11 @@ import Reminder from './Reminder'
 import Dialog from "@material-ui/core/Dialog";
 import EditLocationOutlinedIcon from "@material-ui/icons/EditLocationOutlined";
 import { MuiThemeProvider } from "@material-ui/core";
+import Update from './Update'
+import UserService from '../Services/UserService/UserService'
+
 import '../images/pic1.jpg'
-
-
+var axioxUpdate = new UserService();
 const theme = createMuiTheme({
   overrides: {
     MuiBackdrop: {
@@ -57,11 +59,14 @@ export default class DisplayNotes extends React.Component {
     this.state = {
       notes: [],
       showCard: false,
-      open:false,
-      Title:'',
-      Description:''
+    
+      Title: '',
+      Description: '',
+      noteTitle: '',
+      noteDescription: ''
 
     }
+    this.UpdateNotes = this.UpdateNotes.bind(this)
   }
   onchange(e) {
     this.setState({ [e.target.name]: e.target.value });
@@ -71,29 +76,47 @@ export default class DisplayNotes extends React.Component {
   operation = (item) => {
     this.setState({
       showCard: true,
-      Title:item.title,
-      Description:item.description
+      noteTitle: item.title,
+      noteDescription: item.description
     });
   };
-  
+
+  operationHide = () => {
+    this.setState({
+      showCard: false,
+
+    });
+  };
+
+  getUpdateValue = (event) => {
+    console.log(event.target);
+
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+    // console.log("notes title value in Update ",this.state.notesTitle);
+
+  };
+
+  UpdateNotes() {
+    var data = {
+      TitleNote: this.state.Title,
+      DescriptionNote: this.state.Description,
+    }
+    axioxUpdate.UpdateNotesService(data).then(response => {
+      console.log(" response in ", response);
+    })
+    this.operationHide();
+  }
+
   handleSave = () => {
     this.props.refresh()
   }
 
-  // openDialog = () =>{
-  //   this.setState({
-  //     open: !this.state.open,
-  //   });
-  // }
   render() {
-    console.log(" print all  Title colorrrrr ", this.state.Title);
-    console.log(" print all  Description colorrrrr ", this.state.Description);
-
-
-
+    console.log(" print all  Title colorrrrr ", this.state.noteTitle);
+    console.log(" print all  Description colorrrrr ", this.state.noteDescription);
     var printNoteList = this.props.notes.map((item, index) => {
-
-
       return (
         <div className="card">
 
@@ -102,26 +125,25 @@ export default class DisplayNotes extends React.Component {
             <CardContent>
               <div>
                 <TextareaAutosize id="titlefield"
-                  style={{ backgroundColor: item.color }}
+                  // style={{ backgroundColor: item.color }}
 
                   name="notesTitle"
                   onChange={this.onchange}
                   placeholder="Title"
                   InputProps={{ disableUnderline: true }}
-                  onClick={()=> this.operation(item)}
+                  onClick={() => this.operation(item)}
                   value={item.title} />
 
                 <div>
                   <TextareaAutosize id="textdescription"
-                    style={{ backgroundColor: item.color }}
+                    // style={{ backgroundColor: item.color }}
                     className="note-text-area"
                     name="notesDescription"
                     onChange={this.onchange}
                     placeholder="Take A Note"
-                    contentEditable="true"
+                    onClick={() => this.operation(item)}
                     value={item.description} />
                   <div>
-
                   </div>
                   <Tooltip title="satishdodake100@gmail.com" enterDelay={250} leaveDelay={100}>
                     <IconButton color="black" src="C:\\Users\\bridgeit\\Downloads\\pic1.jpg">
@@ -135,64 +157,11 @@ export default class DisplayNotes extends React.Component {
                     <ArchiveIconComponent noteid={item.id} />
                     <ChangeColor idItem={item.id} colorBack={item.color} save={this.handleSave} />
                   </div>
-
                 </div>
-
               </div>
             </CardContent>
-
-
           </Card>
-
-          <div>  
-          <MuiThemeProvider theme={theme}>      
-          <Dialog id="Dialog"  open={this.state.showCard}   >
-            <div id="Update-UpdateNotesCardInner"  style={{backgroundColor:this.state.color}}>
-                                  
-                <div  style={{backgroundColor:item.color}}>
-                  <div className="Update-NotesTitleAndDesc"  style={{backgroundColor:this.state.color}}>
-                    <TextareaAutosize 
-                      id="UpdateNotetitleId"
-                      name="notesTitle"
-                      value={this.state.Title} 
-                      placeholder="NoteTitle"   
-                      onClick={this.operation}
-                       style={{backgroundColor:this.state.color}}
-                    />
-                    <EditLocationOutlinedIcon />
-                    <br/>
-                    <TextareaAutosize
-                      id="UpdateNoteDescriptionId"
-                      name="notesDescription"
-                      value={this.state.Description} 
-                      onClick={this.operation}
-
-                      placeholder="Description"
-                       style={{backgroundColor:this.state.color}}
-                    />
-                  </div>
-
-                  <div className="Small-closeButton">
-                    
-              <div className="Small-closeButton"  style={{backgroundColor:this.state.color}}>
-                    <Reminder noteid={item.id}/>
-                    <Collaborator idItem={item.id} />
-                    <ArchiveIconComponent noteid={item.id} />
-                    <ChangeColor idItem={item.id} colorBack={item.color} save={this.handleSave} />
-              </div>
-                    
-                    <Button onClick={this.operationHide} style={{backgroundColor:this.state.color}}>Close</Button>
-                  </div>
-                </div>
-            </div>
-          </Dialog>
-       </MuiThemeProvider>
-          </div>
-
         </div>
-
-
-
 
       )
     })
@@ -200,8 +169,12 @@ export default class DisplayNotes extends React.Component {
     return (
       <div id="printAllNotesDiv"
       >
-
         {printNoteList}
+        {this.state.showCard === true ?
+          <div>
+              <Update title={this.state.noteTitle} desc={this.state.noteDescription} />
+          </div>
+          :null}
       </div>
 
 

@@ -16,7 +16,6 @@ export default class EditLabel extends Component {
             getAllLabel: [],
             labelValue: '',
             name: this.props.labeldata
-
         }
 
         this.getLabelsNotes = this.getLabelsNotes.bind(this);
@@ -75,7 +74,6 @@ export default class EditLabel extends Component {
 
     }
 
-    
 
     handleChange = name => event => {
         this.setState({ [name]: event.target.value });
@@ -102,6 +100,5 @@ export default class EditLabel extends Component {
                 </div>
             </div>
         )
-
     }
 }

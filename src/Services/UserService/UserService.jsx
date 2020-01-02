@@ -227,6 +227,22 @@ export default class UserService
                 Authorization: `bearer ${JwtToken}`
             }})
     }
+    UpdateNotesService(data)
+    {
+        var JwtToken = localStorage.getItem('token')
+        console.log("Axios title  ",data.TitleNote)
+        console.log("Axios description   ",data.DescriptionNote)
+
+       
+
+        console.log("Axios Label JwtToken ",JwtToken)
+        return axios.post("https://localhost:44338/api/Label/",data,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${JwtToken}`
+            }})
+    }
 
 
 }

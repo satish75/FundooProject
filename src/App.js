@@ -47,10 +47,7 @@ function App() {
      <Route path='/editlabel' component={EditLabel}/> 
 
     
-    
-
-
- 
+  
     </div>
     </BrowserRouter>
   );

@@ -191,9 +191,8 @@ onchangeClearTextField(e)
       <div className="header-div">
         <AppBar position="static">
           <Toolbar>
-            <IconButton edge="start" color="inherit" aria-label="menu">
+            <IconButton edge="start" color="inherit" aria-label="menu" onClick={e => this.setState({ left: !this.state.left })}>
               <MenuIcon
-                onClick={e => this.setState({ left: !this.state.left })}
               />
             </IconButton>
             <Typography variant="h6">

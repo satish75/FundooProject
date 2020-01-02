@@ -92,10 +92,10 @@ export default class Notes extends Component {
 
                   <TextareaAutosize id="textfieldTitle"
          
-                    multiline
+                    multiline="true"
                     InputProps={{ disableUnderline: true }}
                     className="title-text-area" onClick={this.operation} name="notesTitle" onChange={this.onchange} placeholder="Title"
-                    contentEditable="true"
+                    // contentEditable="true"
                   />
 
                   {

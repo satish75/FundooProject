@@ -56,7 +56,12 @@
     width: 87%;
 
 }
-
+#IconComponent
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
 
 
 #Update-UpdateNotesCardInner

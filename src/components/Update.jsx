@@ -5,71 +5,87 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Paper from '@material-ui/core/Paper';
-import Draggable from 'react-draggable';
-import { ThemeProvider, createMuiTheme, TextareaAutosize } from '@material-ui/core'
-import AllIconList from './AllIconList'
-import UnarchiveIcon from '@material-ui/icons/Unarchive';
+import { Component } from 'react';
+import InputBase from '@material-ui/core/InputBase';
+import ChangeColor from './ChangeColor'
+import Collaborator from './Collaborator'
+import Labeldata from './Label'
+import ArchiveIconComponent from './ArchiveIconComponent'
+import Reminder from './Reminder'
 import '../cssFiles/Update.css'
-function PaperComponent(props) {
-  return (
-    <Draggable cancel={'[class*="MuiDialogContent-root"]'}>
-      <Paper {...props} />
-    </Draggable>
-  );
-}
+export default class Update extends Component {
+ constructor(props){
+   super(props)
+   this.state={
+    setOpen:true,
+    open:true,
+    title:this.props.title,
+    description:this.props.desc
+   }
+ }
 
-export default function Update() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
+   handleClickOpen = () => {
+   this.setState({
+    
+   })
   };
 
-  const handleClose = () => {
-    setOpen(false);
+   handleClose = () => {
+    this.setState({
+      setOpen:false,
+      open:false
+    })
   };
+render(){
+console.log("title of notes ",this.props.title);
+console.log("title of notes ",this.props.desc);
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
-      </Button>
+      {/* <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+        Open alert dialog
+      </Button> */}
       <Dialog
-        open={open}
-        onClose={handleClose}
-        PaperComponent={PaperComponent}
-        aria-labelledby="draggable-dialog-title"
+        open={this.state.open}
+        onClose={this.handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
       >
-               <DialogContent>
-<div>
-      <TextareaAutosize id="textfieldTitle"
-         multiline
-         InputProps={{ disableUnderline: true }}
-         className="title-text-area"  name="notesTitle" placeholder="Title"
-         contentEditable="true"
-       />
-            <UnarchiveIcon />
-                    
-                       <TextareaAutosize id="textfielddescription"
-                        className="note-text-area"
-                          multiline
-                          InputProps={{ disableUnderline: true }}
-                          name="notesDescription"  placeholder="Take A Note"
-                          contentEditable="true"
-                        />
-                   
-                   </div>
-                       <div className="allIconAndDescDiv">
-                         <AllIconList />  
-                          <Button className="close-btn-note" >CLOSE</Button>
-                        
-
-                      </div>
-                      
+        
+        <DialogContent>
+        
+        <InputBase
+        fullWidth
+        multiline="true"
+        className=""
+       placeholder="Title"
+        inputProps={{ 'aria-label': 'naked' }}
+      />
+      <br/>
+      <InputBase
+        className="" 
+        fullWidth
+        multiline="true"
+        placeholder="Description"
+        inputProps={{ 'aria-label': 'naked' }}
+      />
+      <div id="IconComponent">
+      <Collaborator />
+  <ChangeColor />
+  <Reminder />
+  <Button onClick={this.handleClose} color="primary" autoFocus>
+            CLOSE
+          </Button>
+  {/* <ArchiveIconComponent /> */}
+      </div>
+ 
         </DialogContent>
-       
+
+        <DialogActions>       
+          
+        </DialogActions>
       </Dialog>
     </div>
   );
+}
 }
