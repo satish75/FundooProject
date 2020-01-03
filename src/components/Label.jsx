@@ -5,7 +5,7 @@ import { Button, TextField } from '@material-ui/core';
 import Demo from './demo';
 import DashBoard from './DashBoard'
 import EditLabel from './EditLabel'
-
+import NotesOnLabel from './NotesOnLabel'
 
 var getnotes = new UserService;
 export default class Labeldata extends Component {
@@ -62,18 +62,17 @@ export default class Labeldata extends Component {
                         this.props.editLabelbool === false ? <Button id="span-id-label">{item.label} </Button> :
                         <EditLabel labeldata={item.label} labelId={item.idLabel} />
                     }
-
                     <div>
-
+                  
                     </div>
                 </div>
-
             )
         })
 
         return (
             <div>
                 {printNoteList}
+               
             </div>
         )
     }

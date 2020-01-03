@@ -16,7 +16,7 @@ import UndoIcon from '@material-ui/icons/Undo';
 import RedoIcon from '@material-ui/icons/Redo';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
-import { ThemeProvider, createMuiTheme, TextField } from '@material-ui/core'
+import { ThemeProvider, createMuiTheme, TextField, InputBase } from '@material-ui/core'
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { borderRadius } from '@material-ui/system';
 import PropTypes from 'prop-types';
@@ -59,11 +59,12 @@ export default class DisplayNotes extends React.Component {
     this.state = {
       notes: [],
       showCard: false,
-    
       Title: '',
       Description: '',
       noteTitle: '',
-      noteDescription: ''
+      noteDescription: '',
+      userId:'',
+      noteId:''
 
     }
     this.UpdateNotes = this.UpdateNotes.bind(this)
@@ -72,12 +73,13 @@ export default class DisplayNotes extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
     console.log(this.state);
   }
-
   operation = (item) => {
     this.setState({
       showCard: true,
       noteTitle: item.title,
-      noteDescription: item.description
+      noteDescription: item.description,
+      userId:item.userId,
+      noteId:item.id
     });
   };
 
@@ -124,9 +126,10 @@ export default class DisplayNotes extends React.Component {
 
             <CardContent>
               <div>
-                <TextareaAutosize id="titlefield"
+                <InputBase id="titlefield"
                   // style={{ backgroundColor: item.color }}
-
+                  fullWidth
+                  multiline="true"
                   name="notesTitle"
                   onChange={this.onchange}
                   placeholder="Title"
@@ -135,8 +138,10 @@ export default class DisplayNotes extends React.Component {
                   value={item.title} />
 
                 <div>
-                  <TextareaAutosize id="textdescription"
+                  <InputBase id="textdescription"
                     // style={{ backgroundColor: item.color }}
+                    fullWidth
+                    multiline="true"
                     className="note-text-area"
                     name="notesDescription"
                     onChange={this.onchange}
@@ -156,6 +161,8 @@ export default class DisplayNotes extends React.Component {
                     <Collaborator idItem={item.id} />
                     <ArchiveIconComponent noteid={item.id} />
                     <ChangeColor idItem={item.id} colorBack={item.color} save={this.handleSave} />
+                    <AllIconList noteId={item}/>
+                    
                   </div>
                 </div>
               </div>
@@ -172,7 +179,12 @@ export default class DisplayNotes extends React.Component {
         {printNoteList}
         {this.state.showCard === true ?
           <div>
-              <Update title={this.state.noteTitle} desc={this.state.noteDescription} />
+              <Update title={this.state.noteTitle} 
+              desc={this.state.noteDescription} 
+              noteId={this.state.noteId}
+              userId={this.state.userId}            
+              save2={this.handleSave}
+              />
           </div>
           :null}
       </div>

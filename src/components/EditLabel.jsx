@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import '../cssFiles/getAllNotes.css';
 import UserService from '../Services/UserService/UserService'
-import { Button, TextField, IconButton } from '@material-ui/core';
+import { Button, TextField, IconButton, InputBase } from '@material-ui/core';
 import Demo from './demo';
 import DashBoard from './DashBoard'
 import EditIcon from '@material-ui/icons/Edit';
@@ -22,8 +22,6 @@ export default class EditLabel extends Component {
         this.EditLabelData = this.EditLabelData.bind(this);
         this.DeleteLabelData = this.DeleteLabelData.bind(this);
 
-
-
     }
 
     componentDidMount() {
@@ -43,8 +41,7 @@ export default class EditLabel extends Component {
 
           getnotes.EditLabelService(data).then(response=>{
               console.log(" response in ",response);
-           
-             
+                     
             })
     }
 
@@ -87,7 +84,7 @@ export default class EditLabel extends Component {
              <IconButton onClick={this.DeleteLabelData}>
             <DeleteIcon />
            </IconButton>
-                <TextField
+                <InputBase
                     id="standard-name"
                     value={this.state.name}
                     onChange={this.handleChange('name')}

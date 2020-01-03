@@ -17,7 +17,7 @@ import UndoIcon from '@material-ui/icons/Undo';
 import RedoIcon from '@material-ui/icons/Redo';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
-import { ThemeProvider, createMuiTheme, TextareaAutosize } from '@material-ui/core'
+import { ThemeProvider, createMuiTheme, TextareaAutosize, InputBase } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField';
 import { borderRadius } from '@material-ui/system';
 import PropTypes from 'prop-types';
@@ -30,8 +30,10 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import '../cssFiles/Notes.css';
 import AllIconList from './AllIconList'
 import UserService from '../Services/UserService/UserService'
-
-
+import ChangeColor from './ChangeColor';
+import Collaborator from './Collaborator'
+import Reminder from './Reminder'
+import ArchiveIconComponent from './ArchiveIconComponent'
 var axiosAddnote = new UserService;
 
 export default class Notes extends Component {
@@ -82,55 +84,56 @@ export default class Notes extends Component {
     return (
       <div >
 
-      
 
-          <div  className="mainDiv">
 
-            <Card id="cardid" >
-              <CardContent>
-                <div>
+        <div className="mainDiv">
 
-                  <TextareaAutosize id="textfieldTitle"
-         
-                    multiline="true"
-                    InputProps={{ disableUnderline: true }}
-                    className="title-text-area" onClick={this.operation} name="notesTitle" onChange={this.onchange} placeholder="Title"
-                    // contentEditable="true"
-                  />
+          <Card id="cardid" >
+            <CardContent>
+              <div>
 
-                  {
-                    this.state.showMe ?
+                <InputBase id="textfieldTitle"
+                  fullWidth
+                  multiline="true"
+                  multiline="true"
+                  InputProps={{ disableUnderline: true }}
+                  className="title-text-area" onClick={this.operation} name="notesTitle" onChange={this.onchange} placeholder="Title"
+                // contentEditable="true"
+                />
 
-                      <div>
-                        <TextareaAutosize id="textfielddescription"
+                {
+                  this.state.showMe ?
+
+                    <div>
+                      <InputBase id="textfielddescription"
                         className="note-text-area"
-                          multiline
-                          InputProps={{ disableUnderline: true }}
-                          name="notesDescription" onChange={this.onchange} placeholder="Take A Note"
-                          contentEditable="true"
-                        />
-                   
+                        fullWidth
+                        multiline="true"
+                        multiline
+                        InputProps={{ disableUnderline: true }}
+                        name="notesDescription" onChange={this.onchange} placeholder="Take A Note"
+                        contentEditable="true"
+                      />
 
-                       <div className="allIconAndDescDiv">
-                         <AllIconList />  
-                          <Button className="close-btn-note" onClick={this.noteAdd}>CLOSE</Button>
-                        
+
+                      <div className="allIconAndDescDiv">
+                      <Reminder />
+                      <Collaborator  />
+                       <ChangeColor />
+                     <ArchiveIconComponent />
+                     <AllIconList />
+                        <Button className="close-btn-note" onClick={this.noteAdd}>CLOSE</Button>
+
 
                       </div>
-                      </div>
-                      : null
-                  }
-                </div>
+                    </div>
+                    : null
+                }
+              </div>
 
-       
-                </CardContent>
-            </Card>
-
-          </div>
-
-      
-
-
+            </CardContent>
+          </Card>
+        </div>
       </div>
     )
   }

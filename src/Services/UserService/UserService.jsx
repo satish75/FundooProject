@@ -230,13 +230,14 @@ export default class UserService
     UpdateNotesService(data)
     {
         var JwtToken = localStorage.getItem('token')
-        console.log("Axios title  ",data.TitleNote)
-        console.log("Axios description   ",data.DescriptionNote)
-
+        console.log("Axios title update ",data.title)
+        console.log("Axios description  update  ",data.description)
+        console.log("Axios note Reminder  update ",data.reminder)
+        console.log("Axios User Id  update  ",data.userId)
        
 
         console.log("Axios Label JwtToken ",JwtToken)
-        return axios.post("https://localhost:44338/api/Label/",data,{
+        return axios.put("https://localhost:44338/api/Notes/"+data.noteId,data,{
             headers:{
                 'Content-Type': 'application/json',
                 'Accept': '*',

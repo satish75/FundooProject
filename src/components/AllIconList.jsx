@@ -35,7 +35,7 @@ import PopupState, { bindToggle, bindPopper } from 'material-ui-popup-state';
 import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
 import DisplayNotes from './DisplayNotes';
-
+import NotesOnLabel from './NotesOnLabel'
 
 var deleteNoteaxios = new UserService;
 export default class AllIconList extends Component {
@@ -70,7 +70,7 @@ export default class AllIconList extends Component {
 
   DeleteNote() {
     var Id = this.props.noteId.id
-    console.log("delete Id", Id)
+    console.log("delete Id   ", Id)
     deleteNoteaxios.DeleteNotesService(Id).then(response => {
       console.log("this is response ", response)
     })
@@ -78,12 +78,17 @@ export default class AllIconList extends Component {
 
   TrashNote() {
     var Id = this.props.noteId.id
-    console.log("trash Id", Id)
+    console.log("trash note value Id", Id)
     deleteNoteaxios.TrashNotesService(Id).then(response => {
       console.log("this is response ", response)
     })
   }
-
+  AddLabels()
+  { 
+    return <div>
+      <NotesOnLabel />
+    </div>
+  }
 
   ArchiveNote() {
     var Id = this.props.noteId.id
@@ -115,7 +120,7 @@ export default class AllIconList extends Component {
 
       <div className="allIconDiv">
 
-        {this.state.collabarate ?
+        {/* {this.state.collabarate ?
           <Collaborator /> : ""}
 
 
@@ -147,16 +152,13 @@ export default class AllIconList extends Component {
         </Tooltip> */}
 
         <Tooltip title="More" enterDelay={250} leaveDelay={100}>
-          <IconButton color="black" onClick={this.handleClick}>
-            <MoreVertIcon
+          <IconButton color="black" size="small" onClick={this.handleClick}>
+            <MoreVertIcon fontSize="inherit"
               aria-owns={anchorEl ? 'simple-menu' : undefined}
               aria-haspopup="true"
             />
           </IconButton>
         </Tooltip>
-
-
-
 
         <div >
           <Menu className="paper-size-menu"
@@ -167,7 +169,7 @@ export default class AllIconList extends Component {
           >
             <MenuItem onClick={this.TrashNote}>Delete Note </MenuItem>
 
-            <MenuItem onClick={this.handleClose}>Add Label</MenuItem>
+      <MenuItem  ><NotesOnLabel /></MenuItem>
           </Menu>
 
         </div>

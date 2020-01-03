@@ -28,17 +28,11 @@ export default class ArchiveIconComponent extends Component {
     return (
       <div className="Archive-top-div">
 
-        {this.props.noteid.Archive === true ? <Tooltip title="Unarchive">
-          <IconButton size="small" color="black">
-            < ArchiveIcon fontSize="inherit" />
-          </IconButton>
-        </Tooltip>
-
-          : <Tooltip title="Archive">
+           <Tooltip title="Archive">
             <IconButton size="small" onClick={this.ArchiveNotes} color="black">
               <UnarchiveOutlinedIcon fontSize="inherit" />
             </IconButton>
-          </Tooltip>}
+          </Tooltip>
       </div>
     )
   }

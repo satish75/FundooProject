@@ -9,10 +9,13 @@ import { Component } from 'react';
 import InputBase from '@material-ui/core/InputBase';
 import ChangeColor from './ChangeColor'
 import Collaborator from './Collaborator'
-import Labeldata from './Label'
+import DisplayNotes from './DisplayNotes'
 import ArchiveIconComponent from './ArchiveIconComponent'
 import Reminder from './Reminder'
 import '../cssFiles/Update.css'
+import UserService from '../Services/UserService/UserService'
+
+var updatenote =new UserService();
 export default class Update extends Component {
  constructor(props){
    super(props)
@@ -20,25 +23,49 @@ export default class Update extends Component {
     setOpen:true,
     open:true,
     title:this.props.title,
-    description:this.props.desc
+    description:this.props.desc,
+    noteId:this.props.noteId,
+    userId:this.props.userId
    }
+  //  this.updatenoteData =this.updatenoteData.bind(this)
  }
 
-   handleClickOpen = () => {
-   this.setState({
-    
-   })
-  };
 
-   handleClose = () => {
+  onchangeInput = (e) =>{
+    this.setState({[e.target.name]: e.target.value});
+  }
+  //  handleClose = () => {
+  //   this.setState({
+  //     setOpen:false,
+  //     open:false
+  //   })
+  //   this.updatenoteData();
+  // };
+
+  updatenoteData=()=>
+  {
     this.setState({
       setOpen:false,
       open:false
     })
-  };
+    var data = {
+                 
+      title: this.state.title,                             
+      description : this.state.description,
+      userId:this.state.userId,
+      noteId:this.state.noteId
+    }
+    this.props.save2();
+    updatenote.UpdateNotesService(data).then(response=>{
+        console.log(" response in update",response);
+        
+        // console.log("props in update",this.props.save2())
+
+      })
+  }
 render(){
-console.log("title of notes ",this.props.title);
-console.log("title of notes ",this.props.desc);
+console.log("title of notes ",this.state.title);
+console.log("description of notes ",this.state.description);
 
   return (
     <div>
@@ -52,12 +79,14 @@ console.log("title of notes ",this.props.desc);
         aria-describedby="alert-dialog-description"
       >
         
-        <DialogContent>
-        
+        <DialogContent> 
         <InputBase
         fullWidth
         multiline="true"
         className=""
+        value={this.state.title}
+        onChange={this.onchangeInput}
+         name="title"
        placeholder="Title"
         inputProps={{ 'aria-label': 'naked' }}
       />
@@ -65,7 +94,10 @@ console.log("title of notes ",this.props.desc);
       <InputBase
         className="" 
         fullWidth
+        name="description"
         multiline="true"
+        value={this.state.description}
+        onChange={this.onchangeInput}
         placeholder="Description"
         inputProps={{ 'aria-label': 'naked' }}
       />
@@ -73,7 +105,7 @@ console.log("title of notes ",this.props.desc);
       <Collaborator />
   <ChangeColor />
   <Reminder />
-  <Button onClick={this.handleClose} color="primary" autoFocus>
+  <Button onClick={this.updatenoteData} color="primary" autoFocus>
             CLOSE
           </Button>
   {/* <ArchiveIconComponent /> */}

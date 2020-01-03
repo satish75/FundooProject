@@ -35,6 +35,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { TextField } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
+import EditIcon from '@material-ui/icons/Edit';
 
 var labelObjService = new UserService;
 
@@ -135,7 +136,7 @@ onchangeClearTextField(e)
               <Labeldata editLabelbool={ this.state.editlabel}/>
            
               <Button id="reminder-notes-btn"  onClick={this.handleClickOpen} >
-                <AddAlertOutlinedIcon id="noteIcon"></AddAlertOutlinedIcon>
+                <EditIcon id="noteIcon"></EditIcon>
                 Edit Label
          </Button>
          <div>

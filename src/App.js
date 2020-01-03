@@ -20,7 +20,7 @@ import ChangeColor from './components/ChangeColor'
 import Update from './components/Update'
 import Label from './components/Label'
 import EditLabel from './components/EditLabel'
-
+import NotesOnLabel from './components/NotesOnLabel'
 
 
 
@@ -44,7 +44,10 @@ function App() {
     <Route path='/color' component={ChangeColor}/>
     <Route path='/update' component={Update}/>
      <Route path='/demo' component={Demo}/> EditLabel
-     <Route path='/editlabel' component={EditLabel}/> 
+     <Route path='/editlabel' component={EditLabel}/>
+     <Route path='/addlabel' component={NotesOnLabel}/>
+
+      
 
     
   

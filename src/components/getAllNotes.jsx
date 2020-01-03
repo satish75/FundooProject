@@ -25,8 +25,6 @@ export default class GetAllNotes extends Component
         console.log("this is data")
        
     }
-
-
     getNotesUser() {
         console.log("This is funtion")
 
@@ -59,7 +57,7 @@ render()
                 <div >              
                         <Notes/>
                         </div>
-
+                        
                         <div >
                         <DisplayNotes notes={this.state.getAllNotes} refresh={this.getNotesUser}></DisplayNotes>                     
                         </div>
