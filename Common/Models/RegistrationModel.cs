@@ -59,7 +59,7 @@ namespace Common.Models
         /// </value>
       
         [DataType(DataType.EmailAddress)]
-        [EmailAddress]
+      
      ///   [RegularExpression("^[a-zA-Z0-9]{5,20}(@gmail.com|@yahoo.com)$")]
         public string Email { get; set; }
 

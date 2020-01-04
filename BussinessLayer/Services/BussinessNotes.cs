@@ -60,7 +60,7 @@ namespace BussinessLayer.Services
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<int> DeleteNotes(List<int> id, string UserId)
+        public async Task<bool> DeleteNotes(List<int> id, string UserId)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace BussinessLayer.Services
                 }
                 else
                 {
-                    throw new Exception("Notes Not Found");
+                    return false;
                 }
             }
             catch (Exception exception)
@@ -85,13 +85,13 @@ namespace BussinessLayer.Services
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         /// <exception cref="Exception">Notes Not Found</exception>
-        public IList<NotesModel> GetNotes()
+        public IList<NotesModel> GetNotes(string UserId)
         {
             try
             {
-                if (4 > 0)
+                if ( UserId != null)
                 {
-                    return _repository.GetNotes();
+                    return _repository.GetNotes(UserId);
                 }
                 else
                 {
@@ -113,12 +113,12 @@ namespace BussinessLayer.Services
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<bool> UpdateNotes(NotesModel model, int id)
+        public async Task<bool> UpdateNotes(NotesModel model, int noteId)
         {
 
             try
             {
-                var result = await this._repository.UpdateNotes(model, id);
+                var result = await this._repository.UpdateNotes(model,noteId);
 
                 ////key to store value in redis
                 var cacheKey = "data" + model.UserId;
@@ -145,7 +145,7 @@ namespace BussinessLayer.Services
             }
         }
 
-        public async Task<int> DeleteForever(List<int> id, string UserId)
+        public async Task<bool> DeleteForever(List<int> id, string UserId)
         {
             try
             {
@@ -166,11 +166,11 @@ namespace BussinessLayer.Services
         }
 
 
-        public async Task<bool> Trash(int id)
+        public async Task<bool> Trash(int id, string userId)
         {
             try
             {
-                var result = await this._repository.Trash(id);
+                var result = await this._repository.Trash(id,userId);
                 if (id != 0)
                 {
                     return result;
@@ -206,11 +206,11 @@ namespace BussinessLayer.Services
             }
         }
 
-        public async Task<bool> Archive(int id)
+        public async Task<bool> Archive(int id, string userId)
         {
             try
             {
-                var result = await this._repository.Archive(id);
+                var result = await this._repository.Archive(id, userId);
                 if (id != 0)
                 {
                     return result;
@@ -268,11 +268,11 @@ namespace BussinessLayer.Services
             }
         }
 
-        public async Task<bool> Collaborate(IList<string> id, int noteId)
+        public async Task<bool> Collaborate(IList<string> id, int noteId,string userId)
         {
             if (id != null)
             {
-                return await _repository.Collaborate(id, noteId);
+                return await _repository.Collaborate(id, noteId,userId);
             }
             else
             {
@@ -289,6 +289,63 @@ namespace BussinessLayer.Services
             else
             {
                 throw new Exception("Not Found");
+            }
+        }
+
+        public IList<NotesModel> GetAllTrash(string UserId)
+        {
+            try
+            {
+                if (UserId != null)
+                {
+                    return _repository.GetAllTrash(UserId);
+                }
+                else
+                {
+                    throw new Exception("Notes Not Found");
+                }
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+        }
+
+        public IList<NotesModel> GetAllArchive(string UserId)
+        {
+            try
+            {
+                if (UserId != null)
+                {
+                    return _repository.GetAllArchive(UserId);
+                }
+                else
+                {
+                    throw new Exception("Notes Not Found");
+                }
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+        }
+
+        public bool ColorService(ColorModel data)
+        {
+            try
+            {
+                if (data.userId != null)
+                {
+                    return _repository.ColorService(data);
+                }
+                else
+                {
+                    throw new Exception("Notes Not Found");
+                }
+            }
+            catch (Exception exception)
+            {
+                throw exception;
             }
         }
     }

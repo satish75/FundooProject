@@ -12,8 +12,9 @@ namespace Common.Models
     using System.Text;
     public class LabelModel
     {
+        public int IdLabel { get; set; }
         public int Id { get; set; }
-        [ForeignKey("RegistrationModel")]
+        //[ForeignKey("RegistrationModel")]
         public string UserId
         {
             get; set;

@@ -13,10 +13,12 @@ namespace Fundoo.Controllers
     using BussinessLayer.Interface;
     using Common.Models;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CorsPolicy")]
     [Authorize]
     public class LabelController : ControllerBase
     {
@@ -52,6 +54,23 @@ namespace Fundoo.Controllers
             }
         }
 
+        [HttpPost]
+         [Route("{label}/Add")]
+
+        public async Task<IActionResult> AddLabel(string label)
+        {
+            var userId = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+            var results = await _bussinessLabel.AddLabel(label, userId);
+            if (results != null)
+            {
+                return Ok(new {status =true, message = "Added Successfully" ,data=results });
+            }
+            else
+            {
+                return Ok(new {status=false, message = " Failed " ,data=""});
+            }
+        }
+
         /// <summary>
         /// Gets the label.
         /// </summary>
@@ -59,13 +78,17 @@ namespace Fundoo.Controllers
         /// <returns></returns>
         /// 
         [HttpGet]
-        [Route("{id}")]
+       /// [Route("")]
     
-        public IList<LabelModel> GetLabel(string id)
-        {
-            var results = _bussinessLabel.GetLabel(id);
+        public IActionResult GetLabel()
+      {
+            var userId = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+            var results = _bussinessLabel.GetLabel(userId);
+            if(results !=null)
+            return Ok(new { status=true,message="successfull",data=results});
+            else
+                return Ok(new { status = false, message = "failed", data = results });
 
-            return results;
         }
 
         /// <summary>
@@ -74,11 +97,13 @@ namespace Fundoo.Controllers
         /// <param name="details">The details.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        [HttpPut]
-     
-        public async Task<IActionResult> UpdateLabel(string label, int id)
+        [HttpPost]
+         [Route("{id}/{labelData}/edit")]
+        public async Task<IActionResult> UpdateLabel(int id,string labelData)
         {
-            var results = await _bussinessLabel.UpdateLabel(label, id);
+            string label = labelData;
+            var userId = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+            var results = await _bussinessLabel.UpdateLabel(id,label);
             if(results)
             {
                 return Ok(new { results = "Successfully Updated" });
@@ -96,11 +121,11 @@ namespace Fundoo.Controllers
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpDelete]
-        // [Route("delete")]
-  
-        public async Task<IActionResult> DeleteLabel(int id, string UserId)
+         [Route("{id}")]
+        public async Task<IActionResult> DeleteLabel(int id)
         {
-            var results = await _bussinessLabel.DeleteLabel(id, UserId);
+            var userId = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+            var results = await _bussinessLabel.DeleteLabel(id);
             if(results.Equals("Deleted"))
             return Ok(new { results ="delete successfully" });
             else

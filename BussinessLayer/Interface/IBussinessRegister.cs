@@ -23,7 +23,7 @@ namespace BussinessLayer.Interface
         /// </summary>
         /// <param name="loginModel">The login model.</param>
         /// <returns></returns>
-        Task<string> Login(LoginModel loginModel);
+        Task<RegistrationModel> Login(LoginModel loginModel);
 
         /// <summary>
         /// Forgots the password.

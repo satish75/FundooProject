@@ -28,7 +28,7 @@ namespace RepositoryLayer.Interface
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        IList<NotesModel> GetNotes();
+        IList<NotesModel> GetNotes(string UserId);
 
         /// <summary>
         /// Updates the notes.
@@ -36,7 +36,7 @@ namespace RepositoryLayer.Interface
         /// <param name="model">The model.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        Task<bool> UpdateNotes(NotesModel model, int id);
+        Task<bool> UpdateNotes(NotesModel model, int noteId);
 
         /// <summary>
         /// Deletes the notes.
@@ -44,17 +44,17 @@ namespace RepositoryLayer.Interface
         /// <param name="model">The model.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        Task<int> DeleteNotes( List<int> id, string UserId);
+        Task<bool> DeleteNotes( List<int> id, string UserId);
 
         /// <summary>
         /// Trashes the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        Task<bool> Trash(int id);
+        Task<bool> Trash(int id, string userId);
         Task<bool> TrashRestore(int id);
-        Task<int> DeleteForever(List<int> id, string UserId);
-        Task<bool> Archive(int id);
+        Task<bool> DeleteForever(List<int> id, string UserId);
+        Task<bool> Archive(int id, string userId);
       
 
         Task<bool> Pin(int id);
@@ -62,8 +62,12 @@ namespace RepositoryLayer.Interface
 
         string UploadImage(string url, string userid, int id, IFormFile file);
 
-        Task<bool> Collaborate(IList<string> id, int noteId);
+        Task<bool> Collaborate(IList<string> id, int noteId, string userId);
 
         IList<NotesModel> Search(string word, string Id);
+        IList<NotesModel> GetAllTrash(string UserId);
+        
+         IList<NotesModel> GetAllArchive(string UserId);
+        bool ColorService(ColorModel data);
     }
 }

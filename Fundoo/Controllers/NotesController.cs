@@ -40,13 +40,13 @@ namespace Fundoo.Controllers
         /// <returns></returns>
         [HttpPost]
         //  [Route("Notes")]
-       
-     
+
+
         public async Task<IActionResult> CreateNotes(NotesModel details)
         {
             var id = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
-            var results = await _bussinessRegister.CreateNotes(details,id);    
-            if(results)
+            var results = await _bussinessRegister.CreateNotes(details, id);
+            if (results)
             {
                 return Ok(new { results = "Added Successfully" });
             }
@@ -54,7 +54,7 @@ namespace Fundoo.Controllers
             {
                 return Ok(new { results = "Failed to add" });
             }
-            
+
         }
 
         /// <summary>
@@ -63,20 +63,20 @@ namespace Fundoo.Controllers
         /// <param name="details">The details.</param>
         /// <returns></returns>
         [HttpGet]
-       
+
         public IActionResult GetNotes()
         {
             var userId = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
-            var results =  _bussinessRegister.GetNotes(userId);
+            var results = _bussinessRegister.GetNotes(userId);
             if (results != null)
             {
-                return Ok(new {result= results });
+                return Ok(new { result = results });
             }
             else
             {
                 return Ok(new { results = "failed to get" });
             }
-           
+
         }
 
         /// <summary>
@@ -86,18 +86,17 @@ namespace Fundoo.Controllers
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpPut]
-       
-      
-        public async Task<IActionResult> UpdateNotes(NotesModel details,int id)
+        [Route("{noteId}")]
+        public async Task<IActionResult> UpdateNotes(NotesModel details,int noteId)
         {
-              var results = await _bussinessRegister.UpdateNotes(details,id);
+              var results = await _bussinessRegister.UpdateNotes(details,noteId);
             if(results)
             {
-                return Ok(new { results ="Successfully Updated" });
+                return Ok(new {status=true, message ="Successfully Updated" ,data=""});
             }
             else
             {
-                return Ok(new { results="Failed to Update " });
+                return Ok(new {status=false, message = "Failed to Update " ,data=""});
             }
            
         }
@@ -202,26 +201,30 @@ namespace Fundoo.Controllers
         }
        
         [HttpPost]
-        [Route("Image")]
+        [Route("{id}/Image")]
         //[AllowAnonymous]
-        public IActionResult UploadImage(string userid, int id, IFormFile file)
+        public IActionResult UploadImage( int id, IFormFile file)
         {
-            var urlOfImage =  _bussinessRegister.UploadImage(userid, id, file);
+            var userId = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+            var urlOfImage =  _bussinessRegister.UploadImage(userId,id, file);
           
             return Ok(new {url= urlOfImage });
         }
 
         [HttpPost]
-        [Route("Collaborate")]
+        [Route("{listdata}/{id}/Collaborate")]
         //[AllowAnonymous]
-        public async Task<IActionResult> Collaborate(IList<string> id, int noteId)
+        public async Task<IActionResult> Collaborate(string listdata, int id)
         {
+            string [] emailid = listdata.Split(',');
+            List<string> listarrray = new List<string>(emailid);
             try
             {
-                var results = await _bussinessRegister.Collaborate(id, noteId);
+                var userId = HttpContext.User.Claims.First(c => c.Type == "UserId").Value;
+                var results = await _bussinessRegister.Collaborate(listarrray, id, userId);
                 if (results)
                 {
-                    return Ok(new { results = "Successfully Added To Trash" });
+                    return Ok(new {status=results, message = "Successfully", data=""});
                 }
                 else
                 {

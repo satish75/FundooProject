@@ -17,16 +17,16 @@ namespace BussinessLayer.Interface
     public interface IBussinessNotes
     {
        Task<bool> CreateNotes(NotesModel user,string id);
-       Task<bool> UpdateNotes(NotesModel model, int id);
-       IList<NotesModel> GetNotes();
-        Task<int> DeleteNotes(List<int> id, string UserId);
+       Task<bool> UpdateNotes(NotesModel model,int noteId);
+       IList<NotesModel> GetNotes(string UserId);
+        Task<bool> DeleteNotes(List<int> id, string UserId);
 
         /// <summary>
         /// Trashes the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        Task<bool> Trash(int id);
+        Task<bool> Trash(int id, string userId);
 
         /// <summary>
         /// Trashes the restore.
@@ -40,17 +40,22 @@ namespace BussinessLayer.Interface
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        Task<int> DeleteForever(List<int> id, string UserId);
+        Task<bool> DeleteForever(List<int> id, string UserId);
 
-        Task<bool> Archive(int id);
+        Task<bool> Archive(int id,string userId);
         
 
         Task<bool> Pin(int id);
        
         string UploadImage(string userid, int id, IFormFile file);
 
-        Task<bool> Collaborate(IList<string> id, int noteId);
+        Task<bool> Collaborate(IList<string> id, int noteId,string userId);
 
        IList<NotesModel> Search(string word, string Id);
+       IList<NotesModel> GetAllTrash(string Id);
+        
+       IList<NotesModel> GetAllArchive(string Id);
+        bool ColorService(ColorModel data);
+
     }
 }

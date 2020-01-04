@@ -87,7 +87,7 @@ namespace RepositoryLayer.Services
         /// <returns></returns>
         /// 
         RegistrationModel userTypeData;
-        public async Task<string> Login(LoginModel loginModel)
+        public async Task<RegistrationModel> Login(LoginModel loginModel)
         {
             SqlConnection sqlConnection = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]);
             //// it confirms that user is avaiable in database or not
@@ -108,45 +108,14 @@ namespace RepositoryLayer.Services
             {
                 userTypeData = new RegistrationModel();
                 userTypeData.UserName = sdr["UserName"].ToString();
-                userTypeData.Password = sdr["Password"].ToString();
+                userTypeData.Email = sdr["Email"].ToString();
                 userTypeData.Id = sdr["UserId"].ToString();
 
 
             }
             sdr.Close();
 
-            //// check the username and password is matched in database or not
-            if (userTypeData != null)
-            {
-                //string key = "EF4ABEAB56153D93D0E97048FC50215C0264CFF";
-
-               /// string key = "This is my SecretKey which is used for security purpose";
-
-                ////Here generate encrypted key and result store in security key
-                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["ApplicationSettings:Key"]));
-
-                //// here using securitykey and algorithm(security) the creadintails is generate(SigningCredentials present in Token)
-                var creadintials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-                var claims = new[] {
-               new Claim("UserName",userTypeData.UserName),
-               new Claim("UserId", userTypeData.Id),
-              
-
-
-                };
- 
-                var token = new JwtSecurityToken("Security token", "https://Test.com",
-                    claims,
-                    DateTime.UtcNow,
-                    expires: DateTime.Now.AddDays(1),
-                    signingCredentials: creadintials);
-
-                return new JwtSecurityTokenHandler().WriteToken(token);
-            }
-            else
-            {
-                return "Invalid User"; ;
-            }
+            return userTypeData;
 
         }
 

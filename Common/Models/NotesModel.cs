@@ -22,7 +22,7 @@ namespace Common.Models
         /// <summary>
         /// user id declared as foregin key
         /// </summary>
-       [ForeignKey("RegistrationModel")]
+     //  [ForeignKey("RegistrationModel")]
         public string UserId
         {
             get; set;
@@ -49,10 +49,7 @@ namespace Common.Models
             get; set;
         }
 
-        public DateTime? CreatedDate { get; set; }
-
-        public DateTime? ModifiedDate { get; set; }
-
+      
         public bool IsArchive
         {
             get; set;
@@ -74,6 +71,7 @@ namespace Common.Models
 
         public DateTime Reminder { get; set; }
 
+        public string Email { get; set; }
 
     }
 }

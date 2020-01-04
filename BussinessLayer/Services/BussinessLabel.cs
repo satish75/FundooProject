@@ -52,6 +52,25 @@ namespace BussinessLayer.Services
             }
         }
 
+        public Task<LabelModel> AddLabel(string label, string UserId)
+        {
+            try
+            {
+                if (label != null)
+                {
+                    return  _repository.AddLabel(label, UserId);
+                }
+                else
+                {
+                    throw new Exception("Empty");
+                }
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+        }
+
 
         /// <summary>
         /// Deletes the label.
@@ -59,14 +78,14 @@ namespace BussinessLayer.Services
         /// <param name="model">The model.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public Task<string> DeleteLabel(int id, string UserId)
+        public Task<string> DeleteLabel(int id)
         {
 
             try
             {
                 if (id > 0)
                 {
-                    return _repository.DeleteLabel(id, UserId);
+                    return _repository.DeleteLabel(id);
                 }
                 else
                 {
@@ -111,11 +130,11 @@ namespace BussinessLayer.Services
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<bool> UpdateLabel(string model, int id)
+        public async Task<bool> UpdateLabel(int Idlbl,string model)
         {
             try
             {
-                var result = await this._repository.UpdateLabel(model, id);
+                var result = await this._repository.UpdateLabel(Idlbl,model);
 
                 ////key to store value in redis
                 var cacheKey = "data" + model;

@@ -66,6 +66,42 @@ namespace RepositoryLayer.Services
             }
         }
 
+        public async Task<LabelModel> AddLabel(string label, string UserId)
+        {
+            try
+            {
+                SqlConnection sqlConnection = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]);
+
+                    SqlCommand sqlCommand = new SqlCommand("CreateLabelWithoutNote", sqlConnection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@NoteId", 0);
+                    sqlCommand.Parameters.AddWithValue("@UserId", UserId);
+                    sqlCommand.Parameters.AddWithValue("@Label", label);
+                    sqlConnection.Open();
+                  ///  await sqlCommand.ExecuteNonQueryAsync();
+                 
+                   SqlDataReader reader = sqlCommand.ExecuteReader();
+                LabelModel userList = new LabelModel();
+                while (reader.Read())
+                {
+                    ////userList.Id = Convert.ToInt32(sdreader["Id"]);
+                   
+                    userList.Id = Convert.ToInt32(reader["Id"]);
+                    userList.UserId = reader["UserId"].ToString();
+                    userList.Label = reader["Label"].ToString();
+                    /* userList.CreatedDate = Convert.ToDateTime(reader["CreatedDate"].ToString());
+                     userList.ModifiedDate = Convert.ToDateTime(reader["ModifiedDate"].ToString());*/
+                  
+                }
+                sqlConnection.Close();
+                return userList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
 
         /// <summary>
         /// Deletes the label.
@@ -73,7 +109,7 @@ namespace RepositoryLayer.Services
         /// <param name="model">The model.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public async Task<string> DeleteLabel(int id, string UserId)
+        public async Task<string> DeleteLabel(int id)
         {
             try
             {
@@ -85,7 +121,7 @@ namespace RepositoryLayer.Services
                     sqlCommand.CommandType = CommandType.StoredProcedure;
                     sqlConnection.Open();
                     sqlCommand.Parameters.AddWithValue("@Id", id);
-                  sqlCommand.Parameters.AddWithValue("@UserId", UserId);
+                 /// sqlCommand.Parameters.AddWithValue("@UserId", UserId);
 
                 ////linq for delete notes...it storing the information in delete variable for perticular id
                 await sqlCommand.ExecuteNonQueryAsync();
@@ -114,12 +150,12 @@ namespace RepositoryLayer.Services
             {
 
                 IList<LabelModel> notesModel = new List<LabelModel>();
-                SqlConnection sqlConn = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]);
-                SqlCommand sqlComma = new SqlCommand("GetAllLabel", sqlConn);
-                sqlComma.CommandType = CommandType.StoredProcedure;
-                sqlConn.Open();
-                sqlComma.Parameters.AddWithValue("@UserId", id);
-                SqlDataReader reader = sqlComma.ExecuteReader();
+                SqlConnection sqlConnobj = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]);
+                SqlCommand sqlComm = new SqlCommand("GetAllLabel", sqlConnobj);
+                sqlComm.CommandType = CommandType.StoredProcedure;
+                sqlConnobj.Open();
+                sqlComm.Parameters.AddWithValue("@UserId", id);
+                SqlDataReader reader = sqlComm.ExecuteReader();
                 
                 while (reader.Read())
                 {
@@ -128,8 +164,10 @@ namespace RepositoryLayer.Services
                     userList.Id = Convert.ToInt32(reader["Id"]);
                     userList.UserId = reader["UserId"].ToString();
                     userList.Label = reader["Label"].ToString();
-                    userList.CreatedDate = Convert.ToDateTime(reader["CreatedDate"].ToString());
-                    userList.ModifiedDate = Convert.ToDateTime(reader["ModifiedDate"].ToString());
+                    userList.IdLabel = Convert.ToInt32(reader["IdLbl"]);
+
+                    /* userList.CreatedDate = Convert.ToDateTime(reader["CreatedDate"].ToString());
+                     userList.ModifiedDate = Convert.ToDateTime(reader["ModifiedDate"].ToString());*/
                     notesModel.Add(userList);
                 }
                 return notesModel;
@@ -146,14 +184,15 @@ namespace RepositoryLayer.Services
         /// <param name="model">The model.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public async Task<bool> UpdateLabel(string model, int id)
+        public async Task<bool> UpdateLabel(int Idlbl,string model)
         {
             try
             {
                 SqlConnection sqlConnection = new SqlConnection(_configuration["ConnectionStrings:connectionDb"]);
                 SqlCommand sqlCommand = new SqlCommand("UpdateLabel", sqlConnection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@Id", id);
+                sqlCommand.Parameters.AddWithValue("@Id", Idlbl);
+            
                 sqlCommand.Parameters.AddWithValue("@Label", model);             
                 sqlConnection.Open();
                 var respone = await sqlCommand.ExecuteNonQueryAsync();

@@ -75,6 +75,7 @@ namespace Fundoo.Controllers
         /// <param name="loginModel">The login model.</param>
         /// <returns></returns>
         [HttpPost]
+
         [Route("login")]
        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginModel login)

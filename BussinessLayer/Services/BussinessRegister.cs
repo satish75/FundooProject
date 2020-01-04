@@ -59,45 +59,23 @@ namespace BussinessLayer.Services
         /// </summary>
         /// <param name="loginModel"></param>
         /// <returns></returns>
-        public async Task<string> Login(LoginModel loginModel)
+        public async Task<RegistrationModel> Login(LoginModel loginModel)
         {
 
             try
             {
-                var lastLoginTime = "";
+               
                 ///if loginModel is not null it will return result else throw the exception 
                 if (!loginModel.Equals(null))
                 {
                     var result = await this._repository.Login(loginModel);
-                    if (!loginModel.Equals(null))
-                    {
-                        ///storing the current time in the variable
-                        var newLoginTime = DateTime.Now.ToString();
+                   
 
-                        /// this using stored the username of login and its time
-                        using (var redis = new RedisClient())
-                        {
-                            ///getting the logintime from redis
-                            if (redis.Get("lastLogin" + loginModel.UserName) == null)
-                            {
-                                ///setting the login time to the redis
-                                redis.Set("lastLogin" + loginModel.UserName, newLoginTime);
-                            }
-                            else
-                            {
-                                ///changing the datetime formate to the string formate
-                                string utfString = System.Text.Encoding.UTF8.GetString(redis.Get("lastLogin" + loginModel.UserName));
-                                redis.Set("lastLogin" + loginModel.UserName, newLoginTime);
-                                lastLoginTime = "+" + utfString;
-                            }
-                        }
-                    }
-
-                    return result+" "+lastLoginTime;
+                    return result;
                 }
                 else
                 {
-                    throw new Exception("login model is null");
+                    throw new Exception("Unable to log in");
                 }
             }
             catch (Exception ex)

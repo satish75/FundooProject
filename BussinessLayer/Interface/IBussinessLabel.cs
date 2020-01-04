@@ -26,7 +26,7 @@ namespace BussinessLayer.Interface
         /// <param name="model">The model.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        Task<bool> UpdateLabel(string model, int id);
+        Task<bool> UpdateLabel(int id,string model);
 
         /// <summary>
         /// Gets the label.
@@ -41,6 +41,8 @@ namespace BussinessLayer.Interface
         /// <param name="model">The model.</param>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        Task<string> DeleteLabel(int id, string UserId);
+        Task<string> DeleteLabel(int id); 
+        Task<LabelModel> AddLabel(string label, string UserId); 
+
     }
 }
