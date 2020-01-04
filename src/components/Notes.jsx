@@ -83,9 +83,6 @@ export default class Notes extends Component {
     const { open } = this.state;
     return (
       <div >
-
-
-
         <div className="mainDiv">
 
           <Card id="cardid" >
@@ -117,11 +114,11 @@ export default class Notes extends Component {
 
 
                       <div className="allIconAndDescDiv">
-                      <Reminder />
-                      <Collaborator  />
-                       <ChangeColor />
-                     <ArchiveIconComponent />
-                     <AllIconList />
+                        <Reminder />
+                        <Collaborator />
+                        <ChangeColor />
+                        <ArchiveIconComponent />
+                        <AllIconList />
                         <Button className="close-btn-note" onClick={this.noteAdd}>CLOSE</Button>
 
 

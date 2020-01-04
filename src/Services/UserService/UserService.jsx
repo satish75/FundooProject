@@ -244,6 +244,23 @@ export default class UserService
                 Authorization: `bearer ${JwtToken}`
             }})
     }
+    ImageUploadService(noteid,file)
+    {
+        var JwtToken = localStorage.getItem('token')
+        console.log("Axios Image noteId ",noteid)
+        console.log("Axios Image file ",file)
+
+      
+       
+
+        console.log("Axios Label JwtToken ",JwtToken)
+        return axios.post("https://localhost:44338/api/Notes/"+noteid+"/Image",file,{
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${JwtToken}`
+            }})
+    }
 
 
 }

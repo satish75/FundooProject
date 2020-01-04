@@ -43,7 +43,7 @@ function App() {
     <Route path='/dashboard/archive' component={Archive}/>
     <Route path='/color' component={ChangeColor}/>
     <Route path='/update' component={Update}/>
-     <Route path='/demo' component={Demo}/> EditLabel
+ 
      <Route path='/editlabel' component={EditLabel}/>
      <Route path='/addlabel' component={NotesOnLabel}/>
 

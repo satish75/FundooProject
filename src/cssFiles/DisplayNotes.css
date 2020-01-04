@@ -34,8 +34,8 @@
 
 #printAllNotesDivOpenMenu
 {
-    width: 90%;
-    margin-left: 10%;
+    width: 85%;
+    margin-left: 15%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

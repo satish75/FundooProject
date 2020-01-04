@@ -45,8 +45,8 @@ export default class Update extends Component {
   updatenoteData=()=>
   {
     this.setState({
-      setOpen:false,
-      open:false
+      setOpen:!this.state.setOpen,
+      open: !this.state.open
     })
     var data = {
                  
@@ -55,13 +55,13 @@ export default class Update extends Component {
       userId:this.state.userId,
       noteId:this.state.noteId
     }
-    this.props.save2();
+    
     updatenote.UpdateNotesService(data).then(response=>{
         console.log(" response in update",response);
-        
-        // console.log("props in update",this.props.save2())
-
+         this.props.save2();
+        /// console.log("props in update",this.props.save2())
       })
+     
   }
 render(){
 console.log("title of notes ",this.state.title);
@@ -108,13 +108,14 @@ console.log("description of notes ",this.state.description);
   <Button onClick={this.updatenoteData} color="primary" autoFocus>
             CLOSE
           </Button>
-  {/* <ArchiveIconComponent /> */}
+   
+
       </div>
  
         </DialogContent>
 
         <DialogActions>       
-          
+          { this.props.save2()}
         </DialogActions>
       </Dialog>
     </div>

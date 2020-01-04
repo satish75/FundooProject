@@ -1,63 +1,92 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import '../cssFiles/demo.css'
-import CheckIcon from '@material-ui/icons/Check';
-import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
-import { TextField } from '@material-ui/core';
-import Labeldata from './Label'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import { withStyles } from '@material-ui/core/styles';
 
-export default class Demo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
 
+const styles = theme => ({
+  root: {
+    display: 'flex',
+  },
+  paper: {
+    marginRight: theme.spacing.unit * 2,
+  },
+});
+
+class Demo extends React.Component {
+  state = {
+    open: true,
+  };
+
+  handleToggle = () => {
+    this.setState(state => ({ open: !state.open }));
+  };
+
+  handleClose = event => {
+    if (this.anchorEl.contains(event.target)) {
+      return;
     }
+
+    this.setState({ open: false });
+  };
+  openNewCom = () => {
+      
   }
 
-  handleClickOpen = () => {
-    this.setState({ open: true })
-  };
-
-  handleClose = () => {
-    this.setState({ open: false })
-  };
-
   render() {
-console.log("label data render ",this.props.labelvalue);
+    const { classes } = this.props;
+    const { open } = this.state;
 
     return (
-      <div>
-        <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-          Open alert dialog
-      </Button>
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-
-        >
-          <DialogTitle id="alert-dialog-title">edit Labels</DialogTitle>
-          <DialogContent>
-            <ClearOutlinedIcon />
-            <TextField placeholder="create label" />
-            <CheckIcon />
-            <Labeldata />
-           <br/>
-
-          </DialogContent>
-          <DialogActions>
-
-            <Button onClick={this.handleClose} color="primary" autoFocus>
-              Done
-          </Button>
-          </DialogActions>
-        </Dialog>
+      <div className={classes.root}>
+        <div>
+          {/* <Button
+            buttonRef={node => {
+              this.anchorEl = node;
+            }}
+            aria-owns={open ? 'menu-list-grow' : undefined}
+            aria-haspopup="true"
+            onClick={this.handleToggle}
+          >
+            Toggle Menu Grow
+          </Button> */}
+          <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                id="menu-list-grow"
+                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={this.handleClose}>
+                    <MenuList>
+                      <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                      <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                      <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+        </div>
+        
+        <div>
+      
+        </div>
       </div>
     );
   }
 }
+
+Demo.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Demo);

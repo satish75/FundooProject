@@ -26,6 +26,10 @@ import Badge from '@material-ui/core/Badge';
 import Tooltip from '@material-ui/core/Tooltip';
 
 
+import MenuList from '@material-ui/core/MenuList';
+import MenuItem from '@material-ui/core/MenuItem';
+
+
 var getnotes = new UserService;
 
 export default class NotesOnLabel extends Component
@@ -69,9 +73,7 @@ export default class NotesOnLabel extends Component
             this.setState({
                 getAllLabel: array
             })
-
         });
-
     }
 
     DisplayCPopper = ()=>{
@@ -111,13 +113,8 @@ export default class NotesOnLabel extends Component
       {popupState => (
         <div>
         
-          <Tooltip title="Color" enterDelay={250} leaveDelay={100}>
-             <IconButton  size="small" color="black" {...bindToggle(popupState)} >
-             <Badge color="secondary">
-             <Button> Add Label</Button>
-            </Badge>
-           </IconButton>
-           </Tooltip>
+        
+             <MenuItem {...bindToggle(popupState)} >Add Label </MenuItem>
 
           <Popper {...bindPopper(popupState)} transition>
             {({ TransitionProps }) => (

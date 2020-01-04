@@ -37,9 +37,10 @@ import Dialog from "@material-ui/core/Dialog";
 import EditLocationOutlinedIcon from "@material-ui/icons/EditLocationOutlined";
 import { MuiThemeProvider } from "@material-ui/core";
 import Update from './Update'
+import Image from './Image'
 import UserService from '../Services/UserService/UserService'
 
-import '../images/pic1.jpg'
+
 var axioxUpdate = new UserService();
 const theme = createMuiTheme({
   overrides: {
@@ -75,7 +76,7 @@ export default class DisplayNotes extends React.Component {
   }
   operation = (item) => {
     this.setState({
-      showCard: true,
+      showCard: !this.state.showCard,
       noteTitle: item.title,
       noteDescription: item.description,
       userId:item.userId,
@@ -123,8 +124,15 @@ export default class DisplayNotes extends React.Component {
         <div className="card">
 
           <Card id="cardIdAllNotes" style={{ backgroundColor: item.color }} >
-
+        
             <CardContent>
+              <div className="imageDiv">
+               {
+                 item.image !== null && item.image !=="" ?
+                 <img src={item.image} alt="" style={{width:"100%", height:"30%"}}/>
+                 : null
+               }
+              </div>
               <div>
                 <InputBase id="titlefield"
                   // style={{ backgroundColor: item.color }}
@@ -160,6 +168,7 @@ export default class DisplayNotes extends React.Component {
                     <Reminder />
                     <Collaborator idItem={item.id} />
                     <ArchiveIconComponent noteid={item.id} />
+                    <Image noteId={item.id} refresh={this.handleSave}/>
                     <ChangeColor idItem={item.id} colorBack={item.color} save={this.handleSave} />
                     <AllIconList noteId={item}/>
                     
@@ -179,11 +188,13 @@ export default class DisplayNotes extends React.Component {
         {printNoteList}
         {this.state.showCard === true ?
           <div>
-              <Update title={this.state.noteTitle} 
+              <Update 
+               save2={this.handleSave}
+              title={this.state.noteTitle} 
               desc={this.state.noteDescription} 
               noteId={this.state.noteId}
               userId={this.state.userId}            
-              save2={this.handleSave}
+             
               />
           </div>
           :null}

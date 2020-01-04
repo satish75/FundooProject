@@ -20,7 +20,9 @@ export default class GetAllNotes extends Component
     }
 
     componentDidMount(){
-     
+     this.setState({
+        AllNotes:this.state.getAllNotes
+     })
         this.getNotesUser()
         console.log("this is data")
        
@@ -41,13 +43,13 @@ export default class GetAllNotes extends Component
             })
            
         });
-        console.log('state notes array ',this.state.getAllNotes);
+      
     }
 
   onchange(e)
   {
     this.setState({[e.target.name]: e.target.value});
-    console.log(this.state);
+   
   }
 render()
     {
