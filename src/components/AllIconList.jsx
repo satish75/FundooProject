@@ -34,13 +34,11 @@ class AllIconList extends React.Component {
       
       return;
     }
-
-    this.setState({ open: false });
   };
   openNewCom = () => {
    this.setState({
     demoOpen: !this.state.demoOpen,
-    open: false
+   // open: !this.state.open
    })
   }
 
@@ -61,6 +59,30 @@ class AllIconList extends React.Component {
           >
             Toggle Menu Grow
           </Button>
+          {
+          this.state.demoOpen === true ? 
+
+          <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              id="menu-list-grow"
+              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={this.handleClose}>
+                  <MenuList>
+                    <MenuItem >add</MenuItem>
+                    <MenuItem >delete</MenuItem>
+                    <MenuItem onClick={this.openNewCom}>Logout</MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+
+          :    
           <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
             {({ TransitionProps, placement }) => (
               <Grow
@@ -80,12 +102,11 @@ class AllIconList extends React.Component {
               </Grow>
             )}
           </Popper>
+        }
         </div>
+            
         <div>
-          {
-          this.state.demoOpen === true ? <Demo />
-          : null
-          }
+        
         
         </div>
       </div>

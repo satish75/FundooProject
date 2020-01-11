@@ -11,7 +11,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh'
 import Settings from '@material-ui/icons/Settings'
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
-import { Button, Label, Divider } from '@material-ui/core';
+import { Button, Label, Divider, Avatar } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import NoteOutlinedIcon from '@material-ui/icons/NoteOutlined';
 import AddAlertOutlinedIcon from '@material-ui/icons/AddAlertOutlined';
@@ -36,8 +36,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { TextField } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import EditIcon from '@material-ui/icons/Edit';
-
+import DisplaySearch from './DisplaySearch'
 var labelObjService = new UserService;
+
+
+
+var profile = localStorage.getItem('profile')
 
 
 class DashBoard extends Component {
@@ -49,7 +53,10 @@ class DashBoard extends Component {
       left: false,
       editlabel:false,
       createlabel:'',
-      text:''
+      text:'',     
+ searchword:'',
+ SearchNotes:[]
+
 
     }
     this.onchangeTextField=this.onchangeTextField.bind(this)
@@ -61,6 +68,35 @@ class DashBoard extends Component {
   console.log(this.state);
   
 }
+
+Searchtext= event =>
+    {
+       
+              var  searchword= event.target.value
+              labelObjService.GetAllSearchNotes(searchword).then(response => {
+                        console.log('Searchhhhh response',response);
+                        let array = [];
+                        response.data.data.map((data) => {
+                        array.push(data);
+                });
+            this.setState({
+                SearchNotes: array
+            })
+            
+        });
+        console.log('searchh notes array ',this.state.SearchNotes);
+    }
+
+ jumptoSearch =() =>
+    {
+          this.props.history.push('/dashboard') 
+    }
+
+
+
+
+
+
 
 getAllTrashNotes = () =>
 {
@@ -83,11 +119,13 @@ handleClickOpen = () => {
 handleClose = () => {
   this.setState({ editlabel: false })
 };
-
-AddLabelWithoutId() {
-  var data = {               
-    EditLabel: this.state.createlabel,                             
-  }
+refreshDash = () => {
+  this.props.history.push('/dashboard')
+}
+ AddLabelWithoutId() {
+   var data = {               
+     EditLabel: this.state.text,                             
+    }
 
   labelObjService.AddLabelWithoutNoteService(data).then(response=>{
       console.log(" response in ",response);
@@ -97,7 +135,7 @@ AddLabelWithoutId() {
 onchangeTextField(e)
 {
   this.setState({text: e.target.value});
-  console.log("onchange method ",this.state.createlabel);
+ 
 }
 onchangeClearTextField(e)
 {
@@ -109,7 +147,6 @@ onchangeClearTextField(e)
 
 
   render() {
-
     const sideList =
       (
 
@@ -202,13 +239,16 @@ onchangeClearTextField(e)
 
            <div className="Search-icon-div">
                         <SearchIcon  id="search-icon"/>  
-            <InputBase className="Search"
+            <InputBase className="Search" onChange={this.Searchtext}
+            onClick={this.jumptoSearch}
               placeholder="Search…"
                />
                </div>
 
         <div >
-            <IconButton color="black" className="left-icon-setting">
+            <IconButton color="black" className="left-icon-setting"
+            onClick={this.refreshDash}
+            >
               <Badge color="secondary">
                 <RefreshIcon />
               </Badge>
@@ -217,6 +257,12 @@ onchangeClearTextField(e)
             <IconButton color="black" className="left-icon-setting">
               <Badge color="secondary">
                 <Settings />
+              </Badge>
+            </IconButton>
+           
+            <IconButton color="black" className="left-icon-setting">
+              <Badge color="secondary">
+                <Avatar src={profile}/>
               </Badge>
             </IconButton>
 
@@ -243,6 +289,9 @@ onchangeClearTextField(e)
 
         </div>
 
+<div>
+  <DisplaySearch notesSearchArr={this.state.SearchNotes} />
+</div>
       </div>
     );
   }

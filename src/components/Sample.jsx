@@ -61,6 +61,7 @@ class Sample extends React.Component {
           >
             Toggle Menu Grow
           </Button>
+         
           <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
             {({ TransitionProps, placement }) => (
               <Grow
@@ -75,11 +76,12 @@ class Sample extends React.Component {
                       <MenuItem onClick={this.handleClose}>My account</MenuItem>
                       <MenuItem onClick={this.openNewCom}>Logout</MenuItem>
                     </MenuList>                   
-                  </ClickAwayListener>
+                  </ClickAwayListener>    
                 </Paper>
               </Grow>
             )}
           </Popper>
+          
         </div>
         <div>
           {

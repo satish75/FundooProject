@@ -261,6 +261,20 @@ export default class UserService
                 Authorization: `bearer ${JwtToken}`
             }})
     }
-
+    
+    
+    GetAllSearchNotes(searchWord)
+    {
+        console.log("user label service");
+       
+        var JwtToken = localStorage.getItem('token')
+       console.log("This is get notes Search ", searchWord);
+        return axios.get("https://localhost:44338/api/Notes/"+searchWord+"/Search", {
+            headers:{
+                'Content-Type': 'application/json',
+                'Accept': '*',
+                Authorization: `bearer ${JwtToken}`
+            }})
+    }
 
 }

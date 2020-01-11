@@ -53,7 +53,7 @@ const theme = createMuiTheme({
 });
 
 
-export default class DisplayNotes extends React.Component {
+export default class DisplaySearch extends React.Component {
 
   constructor(props) {
     super(props);
@@ -117,9 +117,9 @@ export default class DisplayNotes extends React.Component {
   }
 
   render() {
-    console.log(" print all  Title colorrrrr ", this.state.noteTitle);
-    console.log(" print all  Description colorrrrr ", this.state.noteDescription);
-    var printNoteList = this.props.notes.map((item, index) => {
+    console.log(" print all  Title colorrrrr ", this.props.notesSearchArr);
+  
+    var printNoteList = this.props.notesSearchArr.map((item, index) => {
       return (
         <div className="card">
 

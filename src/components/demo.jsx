@@ -1,86 +1,70 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
 import { withStyles } from '@material-ui/core/styles';
-
+import Chip from '@material-ui/core/Chip';
+import Paper from '@material-ui/core/Paper';
+import TagFacesIcon from '@material-ui/icons/TagFaces';
 
 const styles = theme => ({
   root: {
     display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    padding: theme.spacing.unit / 2,
   },
-  paper: {
-    marginRight: theme.spacing.unit * 2,
+  chip: {
+    margin: theme.spacing.unit / 2,
   },
 });
 
 class Demo extends React.Component {
   state = {
-    open: true,
+    chipData: [
+       'Angular',
+      'jQuery' ,
+      'Polymer' ,
+      'React' ,
+       'Vue.js' ,
+    ],
   };
-
-  handleToggle = () => {
-    this.setState(state => ({ open: !state.open }));
-  };
-
-  handleClose = event => {
-    if (this.anchorEl.contains(event.target)) {
+  handleDelete = data => () => {
+    if (data.label === 'React') {
+      alert('Why would you want to delete React?! :)'); // eslint-disable-line no-alert
       return;
     }
 
-    this.setState({ open: false });
-  };
-  openNewCom = () => {
+    this.setState(state => {
       
-  }
+      const chipData = [...state.chipData];
+      const chipToDelete = chipData.indexOf(data);
+      chipData.splice(chipToDelete, 1);
+      return { chipData };
+    });
+  };
 
   render() {
     const { classes } = this.props;
-    const { open } = this.state;
 
     return (
-      <div className={classes.root}>
-        <div>
-          {/* <Button
-            buttonRef={node => {
-              this.anchorEl = node;
-            }}
-            aria-owns={open ? 'menu-list-grow' : undefined}
-            aria-haspopup="true"
-            onClick={this.handleToggle}
-          >
-            Toggle Menu Grow
-          </Button> */}
-          <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
-            {({ TransitionProps, placement }) => (
-              <Grow
-                {...TransitionProps}
-                id="menu-list-grow"
-                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-              >
-                <Paper>
-                  <ClickAwayListener onClickAway={this.handleClose}>
-                    <MenuList>
-                      <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                      <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                      <MenuItem onClick={this.handleClose}>Logout</MenuItem>
-                    </MenuList>
-                  </ClickAwayListener>
-                </Paper>
-              </Grow>
-            )}
-          </Popper>
-        </div>
-        
-        <div>
-      
-        </div>
-      </div>
+      <Paper className={classes.root}>
+        {this.state.chipData.map(data => {
+          let icon = null;
+
+          if (data.label === 'React') {
+            icon = <TagFacesIcon />;
+          }
+
+          return (
+            <Chip
+              key={data.key}
+              icon={icon}
+              label={data}
+              onDelete={this.handleDelete(data)}
+              className={classes.chip}
+            />
+          );
+        })}
+      </Paper>
     );
   }
 }

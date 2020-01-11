@@ -20,7 +20,6 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Tooltip from '@material-ui/core/Tooltip';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import IconButton from '@material-ui/core/IconButton';
-
 import UserService from '../Services/UserService/UserService'
 import CheckIcon from '@material-ui/icons/Check';
 import PaletteIcon from '@material-ui/icons/Palette';
@@ -34,6 +33,7 @@ import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
 var JwtToken = localStorage.getItem('token')
 var decoded = jwt_decode(JwtToken)
 var emailOwner = decoded.Email + "      (Owner)"
+localStorage.setItem("profile",decoded.ProfileImage)
 
 var axiosUser = new UserService()
 

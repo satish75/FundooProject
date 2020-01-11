@@ -34,6 +34,7 @@ import ChangeColor from './ChangeColor';
 import Collaborator from './Collaborator'
 import Reminder from './Reminder'
 import ArchiveIconComponent from './ArchiveIconComponent'
+import NotesOnLabel from './NotesOnLabel'
 var axiosAddnote = new UserService;
 
 export default class Notes extends Component {
@@ -118,7 +119,8 @@ export default class Notes extends Component {
                         <Collaborator />
                         <ChangeColor />
                         <ArchiveIconComponent />
-                        <AllIconList />
+                      
+                        <NotesOnLabel />
                         <Button className="close-btn-note" onClick={this.noteAdd}>CLOSE</Button>
 
 

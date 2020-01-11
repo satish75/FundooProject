@@ -24,114 +24,157 @@ import UserService from '../Services/UserService/UserService'
 
 import Badge from '@material-ui/core/Badge';
 import Tooltip from '@material-ui/core/Tooltip';
+import { InputBase } from '@material-ui/core';
 
-
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import CheckIcon from '@material-ui/icons/Check';
 
 var getnotes = new UserService;
 
-export default class NotesOnLabel extends Component
-{
-    constructor(props)
-    {
-        super(props);
-        this.state={
-            checkedA: false,
-            checkedItems: new Map(),
-            AllLabel: [],
-            getAllLabel: []
-        }
-        this.getLabelsNotes=this.getLabelsNotes.bind(this)
-        this.handleChange = this.handleChange.bind(this);
-      
+export default class NotesOnLabel extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      checkedA: false,
+      checkedItems: new Map(),
+      AllLabel: [],
+      moreIcon: true,
+      checked: false,
+      name: '',
+      getAllLabel: []
     }
+    this.getLabelsNotes = this.getLabelsNotes.bind(this)
+    this.handleChange = this.handleChange.bind(this);
+    this.openFirstMenu = this.openFirstMenu.bind(this);
 
-    handleChange(e) {
-        const item = e.target.name;
-        const isChecked = e.target.checked;
-        this.setState(prevState => ({ checkedItems: prevState.checkedItems.set(item, isChecked) }));
-      }
-    
-    componentWillMount()
-    {
-        this.getLabelsNotes() 
-    }
+  }
 
-    getLabelsNotes() {
-        console.log("This is funtion")
+  handleChange(e) {
+    const item = e.target.name;
+    const isChecked = e.target.checked;
+    this.setState(({ checkedItems: this.state.checkedItems.set(item, isChecked) }));
 
-        getnotes.GetLabelService().then(response => {
-            console.log(response);
-            let array = [];
-            console.log(" log ", response);
+  }
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.value });
+  };
+  componentWillMount() {
+    this.getLabelsNotes()
+  }
 
-            response.data.data.map((data) => {
-                array.push(data);
-            });
-            this.setState({
-                getAllLabel: array
-            })
-        });
-    }
+  openFirstMenu() {
+    this.setState({
+      moreIcon: !this.state.moreIcon
+    })
+  }
+  getLabelsNotes() {
+    console.log("This is funtion")
 
-    DisplayCPopper = ()=>{
+    getnotes.GetLabelService().then(response => {
+      console.log(response);
+      let array = [];
+      console.log(" log ", response);
+
+      response.data.data.map((data) => {
+        array.push(data);
+      });
       this.setState({
-        showPopper: !this.state.showPopper
+        getAllLabel: array
       })
-    }
+    });
+  }
 
-    render(){
-    
-        var printNoteList = this.state.getAllLabel.map((item, index) => {
-            const datalabel = item.label
-            console.log('data label value Id ');
-            console.log("render in new label ",item.label);
-            return (
-                <div>
-          
-          <FormControlLabel
-           control={
-          <Checkbox
-            checked={this.state.checkedItems.get(item.label)} 
-            onChange={this.handleChange} 
-            value={item.label}
-            color="primary"
-          />
-        }
-        label={item.label}
-      />  
-              </div>        
-              
-            )
-        })
-        return(
-            <div>
+  DisplayCPopper = () => {
+    this.setState({
+      showPopper: !this.state.showPopper
+    })
+  }
 
-     <PopupState variant="popper" popupId="demo-popup-popper">
-      {popupState => (
+  render() {
+
+    console.log("render in Checked value  ", this.state.checkedItems);
+
+    var printNoteList = this.state.getAllLabel.map((item, index) => {
+      const datalabel = item.label
+      console.log('data label value Id ');
+
+      return (
         <div>
-        
-        
-             <MenuItem {...bindToggle(popupState)} >Add Label </MenuItem>
-
-          <Popper {...bindPopper(popupState)} transition>
-            {({ TransitionProps }) => (
-              <Fade {...TransitionProps} timeout={350}>
-                <Paper id="paper-component">
-                <div >
-               {printNoteList}               
-              </div>
-                </Paper>
-              </Fade>
-            )}
-          </Popper>
+          <FormControlLabel
+            control={
+              <Checkbox
+               checked={this.state.checkedItems.get(item.label)} 
+                onChange={this.handleChange}
+                value="primary"
+                inputProps={{ 'aria-label': 'primary checkbox' }}
+              />
+            }
+            label={item.label}
+          />
         </div>
-      )}
-    </PopupState>
-                   
-        </div> 
-        )
-    }
+      )
+    })
+    return (
+      <div>
+        {this.state.moreIcon === true ?
+          <Tooltip title="Color" enterDelay={250} leaveDelay={100}>
+            <IconButton size="small" color="black" onClick={this.openFirstMenu}>
+              <Badge color="secondary">
+                <MoreVertIcon fontSize="inherit" />
+              </Badge>
+            </IconButton>
+          </Tooltip>
+          :
+          <PopupState variant="popper" popupId="demo-popup-popper">
+            {popupState => (
+              <div>
+                <MenuItem {...bindToggle(popupState)} >Add Label </MenuItem>
+                <MenuItem {...bindToggle(popupState)} >Note Delete </MenuItem>
+                <Popper {...bindPopper(popupState)} transition>
+                  {({ TransitionProps }) => (
+                    <Fade {...TransitionProps} timeout={350}>
+                      <Paper id="paper-component">
+                        <div >
+                          {printNoteList}
+                        </div>
+                      </Paper>
+                    </Fade>
+                  )}
+                </Popper>
+
+                <Popper {...bindPopper(popupState)} transition>
+                  {({ TransitionProps }) => (
+                    <Fade {...TransitionProps} timeout={350}>
+                      <Paper id="paper-component">
+                        <div>
+                          <label>Label Note</label>
+                          <br />
+                          <InputBase
+                            id="standard-name"
+                            value={this.state.name}
+                            placeholder="create new label"
+                            onChange={this.handleChange('name')}
+                            margin="normal"
+                          />
+                          <Button onClick={this.openFirstMenu}>
+                            <CheckIcon />
+                          </Button>
+                        </div>
+                        <div >
+                          {printNoteList}
+                        </div>
+
+                      </Paper>
+                    </Fade>
+                  )}
+                </Popper>
+              </div>
+            )}
+          </PopupState>
+        }
+      </div>
+    )
+  }
 }
